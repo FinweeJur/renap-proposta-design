@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Novo site da RENAP — proposta</title>
-<meta name="description" content="Proposta do novo site da RENAP, feita pelo GT de Comunicação. Vinte e quatro telas, linguagem simples." />
+<meta name="description" content="Proposta do novo site da RENAP, feita pelo GT de Comunicação. Trinta e uma telas, linguagem simples." />
 <link rel="icon" href="data:," />
 
 <!--
@@ -30,10 +30,10 @@
 :root {
   --t-capa: clamp(2rem, 6.6vw, 4rem);
   --t-titulo: clamp(1.45rem, 4.2vw, 2.4rem);
-  --t-olho: clamp(.75rem, 1.8vw, .82rem);
-  --t-corpo: clamp(1rem, 2.3vw, 1.14rem);
-  --t-peq: clamp(.82rem, 1.9vw, .9rem);
-  --t-min: .75rem;                 /* 12 px: piso do design system */
+  --t-olho: clamp(.8rem, 1.9vw, .88rem);
+  --t-corpo: clamp(1.06rem, 2.4vw, 1.2rem);
+  --t-peq: clamp(.88rem, 2vw, .98rem);
+  --t-min: .8rem;                  /* 12,8 px: acima do piso de 12 px */
   --t-numero: clamp(2.4rem, 9vw, 4.6rem);
 
   --e1: 4px; --e2: 8px; --e3: 12px; --e4: 20px; --e5: 32px; --e6: 56px;
@@ -375,6 +375,25 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   }
 }
 
+/* Referências: print grande, legenda curta embaixo. */
+.refs { display: grid; gap: var(--e3); margin-top: var(--e3); }
+@media (min-width: 680px) { .refs { grid-template-columns: 1fr 1fr; } }
+.refs figure { margin: 0; }
+.refs img {
+  display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover;
+  border: 1px solid var(--cp-border); border-radius: 10px; background: var(--cp-surface-2);
+}
+.refs figcaption { margin-top: 6px; font-size: var(--t-min); color: var(--cp-text-soft); line-height: 1.4; }
+.refs figcaption b { color: var(--cp-text); font-size: var(--t-peq); }
+.refs figcaption a { color: var(--cp-text-soft); }
+.refs figcaption a:hover { color: var(--cp-primary); }
+
+/* No celular o print ocupa a largura toda e mantém a proporção do original:
+   recortar cortaria justamente o que se quer comparar. */
+@media (max-width: 679px) {
+  .refs img { aspect-ratio: 16 / 10; }
+}
+
 /* ═══ 7. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
 .nav {
   position: fixed; left: var(--faixa); right: 0; bottom: 0; z-index: 30;
@@ -460,7 +479,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <option value="pantanal">Pantanal</option>
     </select>
   </div>
-  <p class="contador" id="contador">1 / 24</p>
+  <p class="contador" id="contador">1 / 31</p>
 </header>
 
 <main class="deck" id="deck">
@@ -473,14 +492,106 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="olho sobe" style="--i:0">Articulação Nacional · 19 de novembro de 2026</p>
       <h1 class="sobe" style="--i:1; font-size: var(--t-capa); font-family: var(--font-display)">Novo site da RENAP</h1>
       <p class="resumo sobe" style="--i:2">
-        Uma proposta em linguagem simples. Vinte e quatro telas, cinco minutos.
+        Uma proposta em linguagem simples. Trinta e uma telas, cinco minutos.
       </p>
       <p class="credito">Proposta do GT de Comunicação da RENAP</p>
       <p class="folha"><b>Use as setas</b> ou deslize o dedo.</p>
     </div>
   </section>
 
-  <!-- 2 · EM UMA FRASE -->
+  <!-- 2 · ANTES DE DECIDIR -->
+  <section class="tela" aria-label="Perguntas para decidir">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Para esta reunião</p>
+      <h2 class="titulo sobe" style="--i:1">Quatro perguntas antes de decidir.</h2>
+      <p class="resumo sobe" style="--i:2">
+        A resposta de cada uma muda o resto da proposta. Vale debater em voz alta.
+      </p>
+      <div class="cartoes duas" style="margin-top:var(--e4)">
+        <div class="cartao"><span class="etiqueta">1</span><h3>Achado ou admirado?</h3><p>O site é para achar documento rápido, ou para impressionar quem chega?</p></div>
+        <div class="cartao"><span class="etiqueta">2</span><h3>Quem publica?</h3><p>Uma pessoa no dia a dia ou dez pessoas espalhadas pelo país?</p></div>
+        <div class="cartao"><span class="etiqueta">3</span><h3>Sigilo entra na busca?</h3><p>Quem não tem permissão pode nem saber que o documento existe?</p></div>
+        <div class="cartao"><span class="etiqueta">4</span><h3>Internet ruim?</h3><p>O site precisa abrir em celular fraco, no 3G, sem travar?</p></div>
+      </div>
+      <p class="folha"><b>Regra:</b> quatro respostas definem estilo, custo e prazo.</p>
+    </div>
+  </section>
+
+  <!-- 3 · O QUE OS PORTAIS TÊM EM COMUM -->
+  <section class="tela" aria-label="O que os portais de referência têm em comum">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">O que os 12 portais ensinam</p>
+      <h2 class="titulo sobe" style="--i:1">Quase todos fazem a mesma coisa.</h2>
+      <div class="cartoes duas" style="margin-top:var(--e4)">
+        <div class="cartao">
+          <span class="etiqueta">Padrão que funciona</span>
+          <ul class="linhas" style="margin-top:var(--e2)">
+            <li>Capa com <b>uma</b> manchete e foto forte.</li>
+            <li>Acervo com nome próprio: biblioteca, banco de peças.</li>
+            <li>Menu curto, de cinco a sete itens.</li>
+            <li>Campanha no topo, com data visível.</li>
+            <li>Contato e quem assina, à vista.</li>
+          </ul>
+        </div>
+        <div class="cartao">
+          <span class="etiqueta">O que quase nenhum tem</span>
+          <ul class="linhas" style="margin-top:var(--e2)">
+            <li>Busca com filtro por tipo, órgão e data.</li>
+            <li>Leitura em voz.</li>
+            <li>Tema escuro e alto contraste.</li>
+            <li>Glossário para leigo.</li>
+            <li>Endereço antigo que continua abrindo.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="folha"><b>Ou seja:</b> copiar a capa é fácil. A diferença está no acervo.</p>
+    </div>
+  </section>
+
+  <!-- 4 · SÓBRIO OU COM EFEITOS -->
+  <section class="tela" aria-label="Sóbrio ou com efeitos">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">A decisão de estilo</p>
+      <h2 class="titulo sobe" style="--i:1">Sóbrio no corpo. Enfeite na borda.</h2>
+      <div class="cartoes duas" style="margin-top:var(--e4)">
+        <div class="cartao" style="border-color:var(--cp-primary);box-shadow:inset 0 0 0 1px var(--cp-primary)">
+          <span class="etiqueta">Recomendado · cabe nos R$ 3.440</span>
+          <h3>Limpo e fácil de achar</h3>
+          <p>Texto grande, contraste medido, pouca animação. Abre rápido no 3G.</p>
+        </div>
+        <div class="cartao">
+          <span class="etiqueta">Opcional · custa mais</span>
+          <h3>Requintado e com efeito</h3>
+          <p>Fundo em movimento, 3D, som. Bonito na vitrine, pesado na leitura.</p>
+        </div>
+      </div>
+      <ul class="linhas" style="margin-top:var(--e4)">
+        <li>Efeito só na capa e em campanha. Nunca na página de documento.</li>
+        <li>Quem usa leitor de tela ou celular fraco não pode perder nada.</li>
+        <li>Movimento é escolha: existe botão de parar.</li>
+      </ul>
+      <p class="folha"><b>Não é 8 ou 80:</b> o mesmo site pode ter as duas camadas.</p>
+    </div>
+  </section>
+
+  <!-- 5 · GRÁTIS E FÁCIL -->
+  <section class="tela" aria-label="Grátis e fácil de integrar">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">O que já vem pronto</p>
+      <h2 class="titulo sobe" style="--i:1">De graça, sem licença e sem fornecedor.</h2>
+      <div class="grade-demo">
+        <div class="demo"><h3>Fonte e ícone</h3><p>Clash Display e General Sans (Fontshare), Lucide (ISC). Zero custo.</p></div>
+        <div class="demo"><h3>Sanfona e tema</h3><p><code>&lt;details&gt;</code> nativo e tema por CSS. Já estão nesta apresentação.</p></div>
+        <div class="demo"><h3>Busca</h3><p>Meilisearch (MIT): tolera acento e erra menos que a busca do site.</p></div>
+        <div class="demo"><h3>Leitura em voz</h3><p>Web Speech do navegador (grátis) e Piper (MIT) para uso sem internet.</p></div>
+        <div class="demo"><h3>Peso de imagem</h3><p>Converter foto para WebP corta 60% do tamanho, sem programa novo.</p></div>
+        <div class="demo"><h3>Cópia de segurança</h3><p>Script e agendador do próprio servidor (MIT). Testar restauração uma vez por mês.</p></div>
+      </div>
+      <p class="folha"><b>Esforço:</b> cada item acima é uma tarefa, não um projeto. Dá para entrar na fase 2.</p>
+    </div>
+  </section>
+
+  <!-- 6 · EM UMA FRASE -->
   <section class="tela" aria-label="O que queremos">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">O que queremos</p>
@@ -495,7 +606,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 3 · A CARA DO SITE -->
+  <!-- 7 · A CARA DO SITE -->
   <section class="tela" aria-label="A cara do site">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">A cara do site</p>
@@ -516,7 +627,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 4 · VERBA -->
+  <!-- 8 · VERBA -->
   <section class="tela" aria-label="Quanto temos">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Quanto temos para começar</p>
@@ -530,7 +641,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 5 · FASE 1 -->
+  <!-- 9 · FASE 1 -->
   <section class="tela" aria-label="Fase 1">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Fase 1 · o que entra</p>
@@ -546,7 +657,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 6 · MIGRAÇÃO -->
+  <!-- 10 · MIGRAÇÃO -->
   <section class="tela" aria-label="Migração">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Migração</p>
@@ -561,7 +672,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 7 · DOCUMENTOS E MÍDIA -->
+  <!-- 11 · DOCUMENTOS E MÍDIA -->
   <section class="tela" aria-label="Documentos e mídia">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Documentos, notícias e arquivos</p>
@@ -576,7 +687,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 8 · CADASTRO -->
+  <!-- 12 · CADASTRO -->
   <section class="tela" aria-label="Cadastro e administrador">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Cadastro e administração</p>
@@ -591,7 +702,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 9 · TEMAS -->
+  <!-- 13 · TEMAS -->
   <section class="tela" aria-label="Temas">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Temas de cor</p>
@@ -619,7 +730,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 10 · SIGILO -->
+  <!-- 14 · SIGILO -->
   <section class="tela" aria-label="Sigilo">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Sigilo · fase 2</p>
@@ -634,7 +745,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 11 · PEDIDOS A ORÇAR -->
+  <!-- 15 · PEDIDOS A ORÇAR -->
   <section class="tela" aria-label="Pedidos que gostaríamos de orçar">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Fase 2 · se couber</p>
@@ -652,7 +763,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 12 · API -->
+  <!-- 16 · API -->
   <section class="tela" aria-label="Conexão para publicar, API">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Conexão para publicar · API</p>
@@ -678,7 +789,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 13 · PROTEÇÕES -->
+  <!-- 17 · PROTEÇÕES -->
   <section class="tela" aria-label="Proteções">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Cuidado com quem lê e com quem administra</p>
@@ -692,7 +803,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 14 · VOZ E ROBÔ -->
+  <!-- 18 · VOZ E ROBÔ -->
   <section class="tela" aria-label="Leitura em voz e robô">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Leitura em voz e robô de conversa</p>
@@ -708,7 +819,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 15 · CÓDIGO ABERTO -->
+  <!-- 19 · CÓDIGO ABERTO -->
   <section class="tela" aria-label="Exemplos de código aberto">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Cardápio, não promessa</p>
@@ -726,7 +837,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 16 · COMO AVALIAR -->
+  <!-- 20 · COMO AVALIAR -->
   <section class="tela" aria-label="Como avaliar a proposta">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Como avaliar</p>
@@ -744,7 +855,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 17 · CINCO DECISÕES -->
+  <!-- 21 · CINCO DECISÕES -->
   <section class="tela" aria-label="Cinco decisões">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">O que precisamos decidir</p>
@@ -760,7 +871,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 18 · GLOSSÁRIO -->
+  <!-- 22 · GLOSSÁRIO -->
   <section class="tela" aria-label="Glossário">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Glossário da reunião</p>
@@ -776,7 +887,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 19 · FECHAMENTO -->
+  <!-- 23 · FECHAMENTO -->
   <section class="tela" aria-label="Fechamento">
     <div class="miolo estreito">
       <p class="olho sobe" style="--i:0">Próximo passo</p>
@@ -787,7 +898,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       </p>
       <p class="credito">GT de Comunicação da RENAP</p>
       <p class="folha">
-        <b>Anexos:</b> A efeitos · B sanfona · C busca, robô e rádio · D fontes · E hospedagem.
+        <b>Anexos:</b> A efeitos · B sanfona · C busca, robô e rádio · D fontes · E hospedagem · F a H referências.
         Versão do briefing: 19/11/2026.
       </p>
     </div>
@@ -795,7 +906,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 
   <!-- ═════════════════════ ANEXOS ═════════════════════ -->
 
-  <!-- 20 · ANEXO A: EFEITOS -->
+  <!-- 24 · ANEXO A: EFEITOS -->
   <section class="tela" aria-label="Anexo A, efeitos">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Anexo A · efeitos</p>
@@ -833,7 +944,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 21 · ANEXO B: SANFONA -->
+  <!-- 25 · ANEXO B: SANFONA -->
   <section class="tela" aria-label="Anexo B, sanfona">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Anexo B · sanfona</p>
@@ -886,7 +997,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 22 · ANEXO C: BUSCA, ROBÔ E RÁDIO -->
+  <!-- 26 · ANEXO C: BUSCA, ROBÔ E RÁDIO -->
   <section class="tela" aria-label="Anexo C, busca, robô e rádio">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Anexo C · busca, robô e rádio</p>
@@ -943,7 +1054,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 23 · ANEXO D: FONTES -->
+  <!-- 27 · ANEXO D: FONTES -->
   <section class="tela" aria-label="Anexo D, fontes">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Anexo D · fontes</p>
@@ -1001,7 +1112,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 24 · ANEXO E: HOSPEDAGEM -->
+  <!-- 28 · ANEXO E: HOSPEDAGEM -->
   <section class="tela" aria-label="Anexo E, hospedagem e domínio">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Anexo E · custos de manter</p>
@@ -1032,6 +1143,95 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
         confirme o valor no painel e eu atualizo aqui.
       </p>
       <p class="folha"><b>Recomendação:</b> começar com hospedagem estática gratuita e guardar dinheiro para o domínio.</p>
+    </div>
+  </section>
+
+  <!-- 29 · ANEXO F: PORTAIS DE MOVIMENTO -->
+  <section class="tela" aria-label="Anexo F, portais de movimento">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Anexo F · referências</p>
+      <h2 class="titulo sobe" style="--i:1">Como movimentos resolvem a capa.</h2>
+      <p class="resumo sobe" style="--i:2">Quatro portais de movimento popular. Prints de 19/11/2026.</p>
+      <div class="refs">
+        <figure>
+          <img src="assets/ref/mst.jpg" alt="Página inicial do MST" loading="lazy" />
+          <figcaption><b>MST</b> — manchete grande, foto forte, menu curto. <a href="https://mst.org.br/" target="_blank" rel="noopener">mst.org.br</a></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/ref/mab.jpg" alt="Página inicial do MAB" loading="lazy" />
+          <figcaption><b>MAB</b> — campanha no topo e material de formação à mão. <a href="https://mab.org.br/" target="_blank" rel="noopener">mab.org.br</a></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/ref/cpt.jpg" alt="Página inicial da CPT" loading="lazy" />
+          <figcaption><b>CPT</b> — relatório e mapa como entrada, e índice por estado. <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener">cptnacional.org.br</a></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/ref/cimi.jpg" alt="Página inicial do CIMI" loading="lazy" />
+          <figcaption><b>CIMI</b> — acervo por povo e por tema; busca ainda antiga. <a href="https://cimi.org.br/" target="_blank" rel="noopener">cimi.org.br</a></figcaption>
+        </figure>
+      </div>
+      <p class="folha"><b>O que copiar:</b> capa com uma notícia, não com dez.</p>
+    </div>
+  </section>
+
+  <!-- 30 · ANEXO G: JURÍDICO E DIREITOS -->
+  <section class="tela" aria-label="Anexo G, jurídico e direitos">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Anexo G · referências</p>
+      <h2 class="titulo sobe" style="--i:1">Quem fala de direito, como fala.</h2>
+      <p class="resumo sobe" style="--i:2">Instituições jurídicas, do coletivo ao órgão público.</p>
+      <div class="refs">
+        <figure>
+          <img src="assets/ref/abjd.jpg" alt="Página inicial da ABJD" loading="lazy" />
+          <figcaption><b>ABJD</b> — nota curta, assinatura do coletivo, chamada para agir. <a href="https://www.abjd.org.br/" target="_blank" rel="noopener">abjd.org.br</a></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/ref/margarida.jpg" alt="Página do Coletivo Margarida Alves" loading="lazy" />
+          <figcaption><b>Coletivo Margarida Alves</b> — texto em primeiro lugar, site enxuto. <a href="http://coletivomargaridaalves.org/" target="_blank" rel="noopener">coletivomargaridaalves.org</a></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/ref/dpu.jpg" alt="Página inicial da DPU" loading="lazy" />
+          <figcaption><b>DPU</b> — serviço ao cidadão antes da notícia. <a href="https://www.dpu.def.br/" target="_blank" rel="noopener">dpu.def.br</a></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/ref/mpf.jpg" alt="Página inicial do MPF" loading="lazy" />
+          <figcaption><b>MPF</b> — busca forte, mas pesada e formal demais para leigo. <a href="https://www.mpf.mp.br/" target="_blank" rel="noopener">mpf.mp.br</a></figcaption>
+        </figure>
+      </div>
+      <p class="folha"><b>O que copiar:</b> a DPU põe o serviço na frente. O resto põe a instituição.</p>
+    </div>
+  </section>
+
+  <!-- 31 · ANEXO H: ACERVO E PEÇAS -->
+  <section class="tela" aria-label="Anexo H, acervo e peças">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Anexo H · referências</p>
+      <h2 class="titulo sobe" style="--i:1">Como guardar e achar documento.</h2>
+      <p class="resumo sobe" style="--i:2">
+        Os melhores modelos para o acervo da RENAP: banco de peças e biblioteca.
+      </p>
+      <div class="refs">
+        <figure>
+          <img src="assets/ref/terradedireitos.jpg" alt="Banco de Petições do Terra de Direitos" loading="lazy" />
+          <figcaption><b>Terra de Direitos</b> — filtro por tipo, órgão e ação. <a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener">banco de petições</a></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/ref/mam.jpg" alt="Biblioteca do MAM Nacional" loading="lazy" />
+          <figcaption><b>MAM · biblioteca</b> — três portas: cartilha, livro, artigo. <a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/ref/veredas.jpg" alt="Página do Coletivo Veredas" loading="lazy" />
+          <figcaption><b>Coletivo Veredas</b> — conteúdo enxuto, ar de pesquisa. <a href="https://coletivoveredas.org/" target="_blank" rel="noopener">coletivoveredas.org</a></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/ref/renap.jpg" alt="Site atual da RENAP" loading="lazy" />
+          <figcaption><b>RENAP hoje</b> — o que existe e o que a proposta muda. <a href="https://www.renap.org.br/" target="_blank" rel="noopener">renap.org.br</a></figcaption>
+        </figure>
+      </div>
+      <p class="folha">
+        <b>O que copiar:</b> banco de peças com filtro, biblioteca com três portas.
+        ⚠️ O Observatório de Protocolos não tinha site próprio localizável em 19/11/2026.
+      </p>
     </div>
   </section>
 

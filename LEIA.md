@@ -1,6 +1,6 @@
 # Apresentação — novo site da RENAP
 
-Página única, sem build, sem instalação. **24 telas** para apresentar o briefing
+Página única, sem build, sem instalação. **31 telas** para apresentar o briefing
 à Articulação Nacional em linguagem simples.
 
 - Conteúdo: `Briefing-novo-site-RENAP.docx`, de 19/11/2026.
@@ -29,15 +29,18 @@ e abra <http://127.0.0.1:4323>.
 
 O tema escolhido fica guardado no navegador.
 
-## As 24 telas
+## As 31 telas
 
-1 capa · 2 o que queremos · 3 a cara · 4 verba · 5 fase 1 · 6 migração ·
-7 documentos · 8 cadastro · 9 temas · 10 sigilo · 11 pedidos a orçar ·
-12 API · 13 proteções · 14 voz e robô · 15 código aberto · 16 como avaliar ·
-17 cinco decisões · 18 glossário · 19 fechamento
+**Decisão (2 a 5):** quatro perguntas · o que os portais têm em comum ·
+sóbrio ou com efeitos · o que é grátis e fácil.
 
-**Anexos** (20 a 24): efeitos · sanfona · busca, robô e rádio · fontes ·
-hospedagem e domínio.
+**Proposta (6 a 23):** o que queremos · a cara · verba · fase 1 · migração ·
+documentos · cadastro · temas · sigilo · pedidos a orçar · API · proteções ·
+voz e robô · código aberto · como avaliar · cinco decisões · glossário ·
+fechamento.
+
+**Anexos (24 a 31):** efeitos · sanfona · busca, robô e rádio · fontes ·
+hospedagem · referências (movimentos, jurídico, acervo).
 
 ## O que é de quem
 
