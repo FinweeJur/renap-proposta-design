@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Novo site da RENAP — proposta</title>
+<meta name="description" content="Apresentação da proposta do novo site da RENAP para a Articulação Nacional. Dezenove telas, linguagem simples." />
+<link rel="icon" href="data:," />
+
+<!--
+  APRESENTAÇÃO — PROPOSTA DO NOVO SITE DA RENAP
+  Fonte do conteúdo: "Briefing-novo-site-RENAP.docx", versão de 19/11/2026.
+  Base visual: design system do Controle Popular (github.com/FinweeJur/controle-popular-design),
+  MIT. Os tokens --cp-* são o contrato: o valor muda por tema, o nome não muda.
+
+  Direção de arte: "editorial cívico". Papel de documento oficial, título em
+  Clash Display, corpo em General Sans, uma faixa de bioma na borda esquerda.
+  Por que assim: quem assiste decide sob estresse; precisa de ar de ata, não de SaaS.
+
+  A própria apresentação troca de tema — ela demonstra o que está prometendo.
+-->
+<link rel="stylesheet" href="fontes/fontshare.css" />
+<link rel="stylesheet" href="temas/temas.css" />
+<link rel="stylesheet" href="componentes/select.css" />
+
+<style>
+/* ═══ 1. ESCALA E RITMO ════════════════════════════════════════════════════
+   Celular primeiro: tudo em clamp, piso de 12 px (regra do design system). */
+:root {
+  --t-capa: clamp(2.1rem, 7vw, 4.2rem);
+  --t-titulo: clamp(1.5rem, 4.4vw, 2.5rem);
+  --t-olho: clamp(.75rem, 1.8vw, .82rem);
+  --t-corpo: clamp(1rem, 2.3vw, 1.15rem);
+  --t-peq: clamp(.82rem, 1.9vw, .9rem);
+  --t-min: .75rem;              /* 12 px: nada abaixo disto */
+  --t-numero: clamp(2.5rem, 10vw, 4.8rem);
+
+  --e1: 4px; --e2: 8px; --e3: 12px; --e4: 20px; --e5: 32px; --e6: 56px;
+
+  /* Movimento: personagem "corporativo premium" — rápido, sem quique. */
+  --dur-rapida: 160ms;
+  --dur-padrao: 320ms;
+  --dur-tela: 420ms;
+  --curva: cubic-bezier(.2, 0, 0, 1);
+
+  /* Raia dos quatro biomas. Cor decorativa: o nome do tema é o sinal real. */
+  --bioma-1: #f2701d;  /* pequi */
+  --bioma-2: #ffc300;  /* cerrado */
+  --bioma-3: #3a6b35;  /* mata atlântica */
+  --bioma-4: #d97724;  /* caatinga */
+}
+
+/* ═══ 2. BASE ═════════════════════════════════════════════════════════════ */
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-size: var(--t-corpo);
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  overflow: hidden;
+  transition: background var(--dur-padrao) var(--curva), color var(--dur-padrao) var(--curva);
+}
+h1, h2, h3 { margin: 0; line-height: 1.08; letter-spacing: -.015em; font-weight: 600; }
+p { margin: 0; }
+b, strong { font-weight: 600; }
+:focus-visible { outline: 3px solid var(--cp-focus); outline-offset: 3px; border-radius: 4px; }
+::selection { background: var(--cp-primary); color: var(--cp-primary-ink); }
+
+/* ═══ 3. CASCA: raia, barra, progresso ════════════════════════════════════ */
+.raia { position: fixed; left: 0; top: 0; bottom: 0; width: 10px; z-index: 40; display: flex; flex-direction: column; }
+.raia i { flex: 1; }
+.raia .b1 { background: var(--bioma-1); }
+.raia .b2 { background: var(--bioma-2); }
+.raia .b3 { background: var(--bioma-3); }
+.raia .b4 { background: var(--bioma-4); }
+
+.barra {
+  position: fixed; inset: 0 0 auto 10px; z-index: 30;
+  display: flex; align-items: center; gap: var(--e3);
+  padding: var(--e3) var(--e4);
+  background: color-mix(in srgb, var(--cp-bg) 88%, transparent);
+  border-bottom: 1px solid var(--cp-border);
+  backdrop-filter: blur(8px);
+}
+.marca { font-family: var(--font-display); font-weight: 600; font-size: 1rem; letter-spacing: .01em; }
+.marca span { color: var(--cp-text-soft); font-weight: 400; font-family: var(--font-body); font-size: var(--t-peq); }
+.barra .vao { flex: 1; }
+.contador { font-size: var(--t-peq); color: var(--cp-text-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.campo-tema { display: flex; align-items: center; gap: var(--e2); }
+.campo-tema label { font-size: var(--t-peq); color: var(--cp-text-soft); }
+.campo-tema select {
+  font: inherit; font-family: var(--font-body); font-size: var(--t-peq);
+  min-height: 36px; max-width: 12rem;
+  padding: .4rem 2.25rem .4rem .6rem;
+  color: var(--cp-text); background-color: var(--cp-surface);
+  border: 1px solid var(--cp-border); border-radius: 8px;
+}
+
+.progresso { position: fixed; left: 10px; right: 0; top: 0; height: 3px; z-index: 35; }
+.progresso b { display: block; height: 100%; width: 0; background: var(--cp-primary); transition: width var(--dur-tela) var(--curva); }
+
+/* ═══ 4. TELAS ════════════════════════════════════════════════════════════ */
+.deck { position: fixed; inset: 0; }
+.tela {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: calc(64px + var(--e5)) 0 var(--e6) 10px;
+  opacity: 0; visibility: hidden; transform: translateX(26px);
+  transition: opacity var(--dur-tela) var(--curva), transform var(--dur-tela) var(--curva),
+              visibility 0s linear var(--dur-tela);
+  overflow-y: auto; overflow-x: hidden;
+}
+.tela[data-ativa="true"] {
+  opacity: 1; visibility: visible; transform: none;
+  transition: opacity var(--dur-tela) var(--curva), transform var(--dur-tela) var(--curva);
+}
+.miolo { width: 100%; max-width: 62rem; margin: 0 auto; padding: 0 var(--e4); }
+.estreito { max-width: 42rem; }
+
+/* Entrada em cascata: três elementos no máximo, 70 ms entre eles. */
+.tela[data-ativa="true"] .sobe {
+  animation: sobe var(--dur-tela) var(--curva) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+@keyframes sobe { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+/* Olho da seção: quadrado colorido + texto legível.
+   Cor nunca é o único sinal: o texto existe sempre. */
+.olho {
+  display: flex; align-items: center; gap: var(--e2);
+  font-size: var(--t-olho); font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--cp-text-soft); margin-bottom: var(--e3);
+}
+.olho::before {
+  content: ""; width: 10px; height: 10px; flex: 0 0 auto;
+  background: var(--cp-accent); border-radius: 2px;
+}
+
+h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
+.resumo { margin-top: var(--e4); color: var(--cp-text-soft); max-width: 48ch; }
+.linhas { list-style: none; margin: var(--e4) 0 0; padding: 0; display: grid; gap: var(--e3); }
+.linhas li { display: flex; gap: var(--e3); align-items: flex-start; }
+.linhas li::before {
+  content: ""; flex: 0 0 auto; width: 6px; height: 6px; margin-top: .62em;
+  background: var(--cp-primary); border-radius: 50%;
+}
+
+.folha {
+  margin-top: var(--e5); padding-top: var(--e3);
+  border-top: 1px solid var(--cp-border);
+  font-size: var(--t-peq); color: var(--cp-text-soft);
+}
+.folha b { color: var(--cp-text); }
+
+/* ═══ 5. PEÇAS ════════════════════════════════════════════════════════════ */
+.grande {
+  font-family: var(--font-display); font-size: var(--t-numero); font-weight: 700;
+  line-height: .92; letter-spacing: -.03em; font-variant-numeric: tabular-nums;
+}
+.grande em { font-style: normal; font-size: .3em; letter-spacing: 0; color: var(--cp-text-soft); font-family: var(--font-body); font-weight: 600; }
+
+.fichas { display: flex; flex-wrap: wrap; gap: var(--e2); margin: var(--e4) 0 0; padding: 0; list-style: none; }
+.fichas li {
+  font-size: var(--t-peq); font-weight: 600;
+  padding: .45rem .75rem; border-radius: 999px;
+  background: var(--cp-surface-2); color: var(--cp-text);
+  border: 1px solid var(--cp-border);
+}
+
+.cartoes { display: grid; gap: var(--e3); margin-top: var(--e4); }
+@media (min-width: 640px) { .cartoes.duas { grid-template-columns: 1fr 1fr; } }
+.cartao {
+  background: var(--cp-surface); border: 1px solid var(--cp-border);
+  border-radius: 12px; padding: var(--e4);
+}
+.cartao h3 { font-size: 1.05rem; margin-bottom: .35rem; }
+.cartao p { font-size: var(--t-peq); color: var(--cp-text-soft); }
+.cartao .etiqueta {
+  display: inline-block; font-size: var(--t-min); font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--cp-text-soft); margin-bottom: .4rem;
+}
+.cartao .num { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; font-variant-numeric: tabular-nums; }
+
+/* Botão com rótulo grande (>= 18,7 px em negrito) de propósito: no tema
+   Pantanal a tinta sobre a primária dá 4,10:1, abaixo do piso de 4,5:1 para
+   texto pequeno. Em corpo grande o piso do WCAG cai para 3:1 e passa.
+   Medido em docs/medir-contraste.py. */
+.botao {
+  font: inherit; font-family: var(--font-body); font-size: 1.2rem; font-weight: 700;
+  min-height: 44px; padding: .6rem 1.2rem;
+  background: var(--cp-primary); color: var(--cp-primary-ink);
+  border: 0; border-radius: 999px; cursor: pointer;
+}
+.botao:hover { filter: brightness(1.06); }
+.botao.secundario { background: var(--cp-surface); color: var(--cp-text); border: 1px solid var(--cp-border); }
+
+/* Amostras do sistema */
+.amostras { display: flex; flex-wrap: wrap; gap: var(--e3); margin-top: var(--e4); }
+.amostra { width: 84px; }
+.amostra i { display: block; height: 44px; border-radius: 8px; border: 1px solid var(--cp-border); }
+.amostra small { display: block; font-size: var(--t-min); color: var(--cp-text-soft); margin-top: 4px; }
+
+.interruptor { display: flex; align-items: center; gap: var(--e2); font-size: var(--t-peq); color: var(--cp-text-soft); margin-top: var(--e3); }
+.interruptor input { width: 20px; height: 20px; accent-color: var(--cp-primary); }
+
+/* ═══ 6. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
+.nav {
+  position: fixed; left: 10px; right: 0; bottom: 0; z-index: 30;
+  display: flex; align-items: center; gap: var(--e2);
+  padding: var(--e2) var(--e4) calc(var(--e2) + env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--cp-bg) 90%, transparent);
+  border-top: 1px solid var(--cp-border);
+  backdrop-filter: blur(8px);
+}
+.nav button {
+  font: inherit; font-family: var(--font-body); font-size: var(--t-peq); font-weight: 600;
+  min-height: 44px; padding: 0 1rem;
+  background: var(--cp-surface); color: var(--cp-text);
+  border: 1px solid var(--cp-border); border-radius: 999px; cursor: pointer;
+}
+.nav button:disabled { opacity: .4; cursor: default; }
+.nav .dica { flex: 1; text-align: center; font-size: var(--t-min); color: var(--cp-text-soft); }
+.nav .dica kbd {
+  font: inherit; font-size: var(--t-min); padding: .1rem .35rem;
+  border: 1px solid var(--cp-border); border-radius: 4px; background: var(--cp-surface-2);
+}
+
+/* ═══ 7. AJUSTES ══════════════════════════════════════════════════════════ */
+@media (max-width: 560px) {
+  .barra { gap: var(--e2); padding: var(--e2) var(--e3); }
+  .marca span { display: none; }
+  .campo-tema label { display: none; }
+  .campo-tema select { max-width: 9rem; }
+  .nav .dica { display: none; }
+  .tela { padding: calc(58px + var(--e4)) 0 var(--e6) 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 1ms !important; animation-delay: 0ms !important; transition-duration: 1ms !important; }
+}
+
+/* ═══ 8. IMPRESSÃO: Ctrl+P vira PDF claro, uma tela por página ════════════ */
+@media print {
+  html {
+    --cp-bg: #fff; --cp-surface: #fff; --cp-surface-2: #f4f4f4;
+    --cp-text: #000; --cp-text-soft: #333; --cp-border: #999;
+    --cp-primary: #0000cc; --cp-primary-ink: #fff; --cp-accent: #006644;
+  }
+  body { overflow: visible; }
+  .raia, .barra, .nav, .progresso { display: none !important; }
+  .deck { position: static; }
+  .tela {
+    position: static; opacity: 1 !important; visibility: visible !important; transform: none !important;
+    page-break-after: always; break-after: page; padding: 20px 0; min-height: auto;
+  }
+  .tela:last-child { page-break-after: auto; }
+  .miolo { max-width: 100%; }
+  .cartao { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div class="progresso"><b id="barra-progresso"></b></div>
+<div class="raia" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i></div>
+
+<header class="barra">
+  <p class="marca">RENAP <span>· proposta do site</span></p>
+  <div class="vao"></div>
+  <div class="campo-tema">
+    <label for="tema">Tema</label>
+    <select id="tema">
+      <option value="light">Claro</option>
+      <option value="dark">Escuro</option>
+      <option value="high-contrast">Alto contraste</option>
+      <option value="pequi">Pequi</option>
+      <option value="cerrado">Cerrado</option>
+      <option value="mata-atlantica">Mata Atlântica</option>
+      <option value="caatinga">Caatinga</option>
+      <option value="pantanal">Pantanal</option>
+    </select>
+  </div>
+  <p class="contador" id="contador">1 / 19</p>
+</header>
+
+<main class="deck" id="deck">
+
+  <!-- 1 · CAPA -->
+  <section class="tela" data-ativa="true" aria-label="Capa">
+    <div class="miolo estreito">
+      <p class="olho sobe" style="--i:0">Articulação Nacional · 19 de novembro de 2026</p>
+      <h1 class="sobe" style="--i:1; font-size: var(--t-capa); font-family: var(--font-display)">Novo site<br />da RENAP</h1>
+      <p class="resumo sobe" style="--i:2">
+        Uma proposta em linguagem simples.
+        Dezenove telas, cinco minutos.
+      </p>
+      <p class="folha"><b>Use as setas</b> ou deslize o dedo.</p>
+    </div>
+  </section>
+
+  <!-- 2 · EM UMA FRASE -->
+  <section class="tela" aria-label="O que queremos">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">O que queremos</p>
+      <h2 class="titulo sobe" style="--i:1">Um site novo, bonito e fácil de usar.</h2>
+      <p class="resumo sobe" style="--i:2">
+        Num lugar só: documentos públicos, banco de peças, notícias, fotos, vídeos e áudios.
+        E uma área de administração para a Articulação.
+      </p>
+      <ul class="fichas">
+        <li>Documentos</li><li>Peças</li><li>Notícias</li><li>Fotos</li><li>Vídeos</li><li>Áudios</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3 · A CARA DO SITE -->
+  <section class="tela" aria-label="A cara do site">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">A cara do site</p>
+      <h2 class="titulo sobe" style="--i:1">Sério no conteúdo. Leve na leitura.</h2>
+      <p class="resumo sobe" style="--i:2">
+        Título curto, texto curto, espaço em branco.
+        A cor vem do território. O nome do tema aparece escrito.
+      </p>
+      <div class="amostras">
+        <div class="amostra"><i style="background:var(--cp-primary)"></i><small>primária</small></div>
+        <div class="amostra"><i style="background:var(--cp-accent)"></i><small>acento</small></div>
+        <div class="amostra"><i style="background:var(--cp-text)"></i><small>texto</small></div>
+        <div class="amostra"><i style="background:var(--cp-surface)"></i><small>cartão</small></div>
+      </div>
+      <p style="margin-top:var(--e4);font-family:var(--font-display);font-size:1.5rem">Título em Clash Display</p>
+      <p style="color:var(--cp-text-soft);font-size:var(--t-peq)">Corpo em General Sans, 1,5 de entrelinha.</p>
+      <p style="margin-top:var(--e3)"><button class="botao" type="button" id="modelo-botao">Botão de exemplo</button></p>
+    </div>
+  </section>
+
+  <!-- 4 · VERBA -->
+  <section class="tela" aria-label="Quanto temos">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Quanto temos para começar</p>
+      <h2 class="grande sobe" style="--i:1">R$ 3.440<em>,00</em></h2>
+      <p class="resumo sobe" style="--i:2">Verba do projeto Fundo Casa. A primeira entrega cabe nesse valor.</p>
+      <div class="cartoes duas">
+        <div class="cartao"><h3>Entra agora</h3><p>O site novo, a migração e o conteúdo.</p></div>
+        <div class="cartao"><h3>Fica para depois</h3><p>O que não couber vira fase 2, com preço separado.</p></div>
+      </div>
+      <p class="folha"><b>Depois da entrega:</b> hospedagem e domínio passam a ser custo da RENAP.</p>
+    </div>
+  </section>
+
+  <!-- 5 · FASE 1 -->
+  <section class="tela" aria-label="Fase 1">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Fase 1 · o que entra</p>
+      <h2 class="titulo sobe" style="--i:1">Seis entregas.</h2>
+      <ul class="linhas sobe" style="--i:2">
+        <li>Site público com cara nova: início, contato, publicações e encontro.</li>
+        <li>Migração das 36 publicações, 6 categorias e 6 páginas.</li>
+        <li>Notícias, fotos e arquivos: PDF, áudio e vídeo curto.</li>
+        <li>Documentos públicos com busca, filtro, data e endereço.</li>
+        <li>Cadastro aberto, com aprovação do administrador.</li>
+        <li>Temas de cor e linguagem simples com glossário.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6 · MIGRAÇÃO -->
+  <section class="tela" aria-label="Migração">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Migração</p>
+      <h2 class="titulo sobe" style="--i:1">Nada se perde. Nem o endereço.</h2>
+      <div class="cartoes duas" style="margin-top:var(--e4)">
+        <div class="cartao"><p class="num">36</p><p>publicações</p></div>
+        <div class="cartao"><p class="num">6</p><p>categorias</p></div>
+        <div class="cartao"><p class="num">6</p><p>páginas</p></div>
+        <div class="cartao"><p class="num">0</p><p>link quebrado</p></div>
+      </div>
+      <p class="folha"><b>Como se confere:</b> todo endereço antigo abre ou redireciona. Nada dá 404.</p>
+    </div>
+  </section>
+
+  <!-- 7 · DOCUMENTOS E MÍDIA -->
+  <section class="tela" aria-label="Documentos e mídia">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Documentos, notícias e arquivos</p>
+      <h2 class="titulo sobe" style="--i:1">Achar em dois cliques.</h2>
+      <ul class="linhas sobe" style="--i:2">
+        <li>Busca, filtro e data em cada documento.</li>
+        <li>A fonte aparece junto do arquivo.</li>
+        <li>A equipe publica sozinha, sem programador.</li>
+        <li>Foto, PDF, áudio e vídeo curto, em versão leve.</li>
+      </ul>
+      <p class="folha"><b>Como se confere:</b> achei o documento em dois cliques e vi a fonte.</p>
+    </div>
+  </section>
+
+  <!-- 8 · CADASTRO -->
+  <section class="tela" aria-label="Cadastro e administrador">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Cadastro e administração</p>
+      <h2 class="titulo sobe" style="--i:1">Cadastro aberto. Entrada, não.</h2>
+      <ul class="linhas sobe" style="--i:2">
+        <li>A pessoa se cadastra sozinha.</li>
+        <li>Só entra quem o administrador aprova.</li>
+        <li>Administrador é pessoa física, indicada pela RENAP.</li>
+        <li>Todo administrador entra com senha e código.</li>
+      </ul>
+      <p class="folha"><b>Proteção:</b> um administrador pode promover outro, com confirmação e registro.</p>
+    </div>
+  </section>
+
+  <!-- 9 · TEMAS (demonstração viva) -->
+  <section class="tela" aria-label="Temas">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Temas de cor</p>
+      <h2 class="titulo sobe" style="--i:1">Oito jeitos de ver o mesmo site.</h2>
+      <p class="resumo sobe" style="--i:2">
+        Esta apresentação muda de tema agora. Claro, escuro e alto contraste vêm primeiro.
+        Depois, os biomas.
+      </p>
+      <ul class="fichas">
+        <li>Pequi</li><li>Cerrado</li><li>Mata Atlântica</li><li>Caatinga</li><li>Pantanal</li>
+      </ul>
+      <p style="margin-top:var(--e4);display:flex;gap:var(--e2);flex-wrap:wrap">
+        <button class="botao" type="button" id="proximo-tema">Trocar o tema daqui</button>
+        <button class="botao secundario" type="button" id="alternar-bioma">Ver um bioma</button>
+      </p>
+      <label class="interruptor">
+        <input type="checkbox" id="daltonismo" />
+        Testar modo daltonismo (troca as cores de apoio)
+      </label>
+      <p class="folha"><b>Regra:</b> cor nunca é o único sinal. Contraste é medido, nunca estimado.</p>
+    </div>
+  </section>
+
+  <!-- 10 · SIGILO -->
+  <section class="tela" aria-label="Sigilo">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Sigilo · fase 2</p>
+      <h2 class="titulo sobe" style="--i:1">Quatro níveis. Cada documento no seu.</h2>
+      <div class="cartoes duas">
+        <div class="cartao"><span class="etiqueta">Público</span><p>Qualquer pessoa vê, sem entrar.</p></div>
+        <div class="cartao"><span class="etiqueta">Interno</span><p>Só pessoa logada e aprovada.</p></div>
+        <div class="cartao"><span class="etiqueta">Restrito</span><p>Só o grupo indicado. Exemplo: Articulação Nacional.</p></div>
+        <div class="cartao"><span class="etiqueta">Sigiloso</span><p>Só o administrador e quem ele autorizar.</p></div>
+      </div>
+      <p class="folha"><b>O administrador</b> classifica cada documento e pode mudar depois.</p>
+    </div>
+  </section>
+
+  <!-- 11 · FASE 2 -->
+  <section class="tela" aria-label="Fase 2">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Fase 2 · se couber</p>
+      <h2 class="titulo sobe" style="--i:1">O que fica para a segunda conversa.</h2>
+      <ul class="fichas">
+        <li>Área restrita</li><li>Formulários</li><li>Eventos</li><li>Busca unificada</li>
+        <li>Permissões</li><li>Fórum temático</li><li>Moderação</li>
+      </ul>
+      <p class="resumo">
+        Cada item extra é respondido em três colunas: faz, está incluso e, se não, quanto custa e em quantas semanas.
+      </p>
+      <p class="folha"><b>Regra da casa:</b> item sem resposta é tratado como “não faz”.</p>
+    </div>
+  </section>
+
+  <!-- 12 · API -->
+  <section class="tela" aria-label="Conexão para publicar notícias">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Conexão para publicar</p>
+      <h2 class="titulo sobe" style="--i:1">Duas chaves. Tudo registrado.</h2>
+      <ul class="linhas sobe" style="--i:2">
+        <li>Chave geral: cria, edita e apaga qualquer publicação.</li>
+        <li>Chave de notícias: só mexe em notícia.</li>
+        <li>Toda ação fica registrada: quem, quando e o quê.</li>
+        <li>A chave pode ser revogada a qualquer momento.</li>
+      </ul>
+      <p class="folha"><b>Em português claro:</b> é uma porta entre programas, como ChatGPT, Claude ou OpenCode.</p>
+    </div>
+  </section>
+
+  <!-- 13 · PROTEÇÕES -->
+  <section class="tela" aria-label="Proteções">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Cuidado com quem lê e com quem administra</p>
+      <h2 class="titulo sobe" style="--i:1">Quatro garantias.</h2>
+      <div class="cartoes duas">
+        <div class="cartao"><h3>Cópia diária</h3><p>Com restauração testada. Sem isso, um erro apaga história.</p></div>
+        <div class="cartao"><h3>Restrito fora da busca</h3><p>Não aparece no Google nem na busca do site.</p></div>
+        <div class="cartao"><h3>Registro de acesso</h3><p>Quem viu e quem baixou. Permite responder a um vazamento.</p></div>
+        <div class="cartao"><h3>Sem rastreamento</h3><p>Sem autoplay na área restrita. A audiência só é medida no público.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 · VOZ E ROBÔ -->
+  <section class="tela" aria-label="Leitura em voz e robô">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Leitura em voz e robô de conversa</p>
+      <h2 class="titulo sobe" style="--i:1">O navegador já lê em português.</h2>
+      <ul class="linhas sobe" style="--i:2">
+        <li>Leitura em voz sai de graça: já vem no navegador.</li>
+        <li>Para funcionar sem internet, existe leitor de código aberto.</li>
+        <li>O robô só responde com endereço da fonte.</li>
+        <li>Não recebe documento restrito nem dado de pessoa.</li>
+        <li>Se não souber, diz que não sabe e indica o canal humano.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 15 · CÓDIGO ABERTO -->
+  <section class="tela" aria-label="Código aberto">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Código aberto</p>
+      <h2 class="titulo sobe" style="--i:1">A RENAP não fica presa a um fornecedor.</h2>
+      <p class="resumo sobe" style="--i:2">Programas livres, sem licença paga, que já resolvem cada parte.</p>
+      <ul class="fichas">
+        <li>Voz: Web Speech</li><li>Voz offline: Piper</li><li>Robô: Open WebUI</li>
+        <li>Busca: Meilisearch</li><li>Painel: Directus</li><li>Fotos: Immich</li>
+        <li>Audiência: Matomo</li><li>Teste: axe-core</li>
+      </ul>
+      <p class="folha"><b>Regra:</b> código e conteúdo exportáveis. Os dados são da RENAP.</p>
+    </div>
+  </section>
+
+  <!-- 16 · COMO AVALIAR -->
+  <section class="tela" aria-label="Como avaliar a proposta">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Como avaliar</p>
+      <h2 class="titulo sobe" style="--i:1">Oito perguntas para qualquer proposta.</h2>
+      <ul class="linhas sobe" style="--i:2">
+        <li><b>Prazo:</b> data realista, com marcos.</li>
+        <li><b>Custo:</b> total fechado e o que fica fora.</li>
+        <li><b>Tecnologia:</b> código aberto e fornecedor brasileiro.</li>
+        <li><b>Segurança:</b> dois passos, permissão, cópia e registro.</li>
+        <li><b>Acessibilidade:</b> contraste, teclado, celular e leitor de tela.</li>
+        <li><b>Migração:</b> redirecionamento permanente e teste de endereços.</li>
+        <li><b>Suporte:</b> quem responde depois e em quanto tempo.</li>
+        <li><b>Saída:</b> como levamos código, conteúdo e dados embora.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 17 · CINCO DECISÕES -->
+  <section class="tela" aria-label="Cinco decisões">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">O que precisamos decidir</p>
+      <h2 class="titulo sobe" style="--i:1">Cinco respostas destravam o começo.</h2>
+      <div class="cartoes duas">
+        <div class="cartao"><span class="etiqueta">1</span><h3>Orçamento</h3><p>O que entra nos R$ 3.440 e o que fica para a fase 2.</p></div>
+        <div class="cartao"><span class="etiqueta">2</span><h3>Prazo</h3><p>Data de cada entrega.</p></div>
+        <div class="cartao"><span class="etiqueta">3</span><h3>Aprovação</h3><p>Uma pessoa responde pelo projeto.</p></div>
+        <div class="cartao"><span class="etiqueta">4</span><h3>Sigilo</h3><p>Exemplos de público, interno, restrito e sigiloso.</p></div>
+        <div class="cartao"><span class="etiqueta">5</span><h3>Conteúdo</h3><p>Textos, fotos, PDFs e direito de uso.</p></div>
+      </div>
+      <p class="folha"><b>Se der para responder só cinco:</b> orçamento, prazo, aprovação, sigilo e conteúdo.</p>
+    </div>
+  </section>
+
+  <!-- 18 · GLOSSÁRIO -->
+  <section class="tela" aria-label="Glossário">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Glossário da reunião</p>
+      <h2 class="titulo sobe" style="--i:1">Palavra difícil, explicada.</h2>
+      <div class="cartoes duas">
+        <div class="cartao"><h3>API</h3><p>Porta de um programa para outro.</p></div>
+        <div class="cartao"><h3>Chave de acesso</h3><p>Como uma senha de máquina.</p></div>
+        <div class="cartao"><h3>Dois passos</h3><p>Senha mais um código do celular.</p></div>
+        <div class="cartao"><h3>Sigilo</h3><p>Quem pode ver cada documento.</p></div>
+        <div class="cartao"><h3>Endereço antigo (301)</h3><p>Aponta para o novo, para sempre.</p></div>
+        <div class="cartao"><h3>Código aberto</h3><p>Programa que podemos manter sem licença.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19 · FECHAMENTO -->
+  <section class="tela" aria-label="Fechamento">
+    <div class="miolo estreito">
+      <p class="olho sobe" style="--i:0">Próximo passo</p>
+      <h2 class="titulo sobe" style="--i:1">Uma reunião para fechar as cinco.</h2>
+      <p class="resumo sobe" style="--i:2">
+        Com as respostas, a proposta vira plano de trabalho:
+        o que entra, quando fica pronto e quanto custa.
+      </p>
+      <p class="folha"><b>Versão do briefing:</b> 19 de novembro de 2026.</p>
+    </div>
+  </section>
+
+</main>
+
+<nav class="nav" aria-label="Navegação das telas">
+  <button type="button" id="anterior">← Anterior</button>
+  <p class="dica"><kbd>←</kbd> <kbd>→</kbd> para andar · <kbd>Ctrl</kbd>+<kbd>P</kbd> vira PDF</p>
+  <button type="button" id="seguinte">Seguinte →</button>
+</nav>
+
+<script>
+/* Deck de tela única, sem biblioteca.
+   Por que sem biblioteca: precisa abrir no celular e no notebook, offline,
+   sem build. Teclado, toque e endereço (#5) resolvem a navegação. */
+(function () {
+  'use strict';
+
+  var telas = Array.prototype.slice.call(document.querySelectorAll('.tela'));
+  var contador = document.getElementById('contador');
+  var barra = document.getElementById('barra-progresso');
+  var btnAnterior = document.getElementById('anterior');
+  var btnSeguinte = document.getElementById('seguinte');
+  var seletor = document.getElementById('tema');
+  var atual = 0;
+
+  function limitar(n) { return Math.max(0, Math.min(telas.length - 1, n)); }
+
+  function mostra(indice, semEndereco) {
+    var novo = limitar(indice);
+    telas.forEach(function (t, i) {
+      var ativo = i === novo;
+      t.dataset.ativa = ativo ? 'true' : 'false';
+      if (ativo) { t.removeAttribute('aria-hidden'); } else { t.setAttribute('aria-hidden', 'true'); }
+      if ('inert' in t) { t.inert = !ativo; }   // tira do Tab quem está fora da tela
+    });
+    atual = novo;
+    contador.textContent = (atual + 1) + ' / ' + telas.length;
+    barra.style.width = (atual / (telas.length - 1) * 100) + '%';
+    btnAnterior.disabled = atual === 0;
+    btnSeguinte.disabled = atual === telas.length - 1;
+    telas[atual].scrollTop = 0;
+    if (!semEndereco) { history.replaceState(null, '', '#' + (atual + 1)); }
+  }
+
+  btnAnterior.addEventListener('click', function () { mostra(atual - 1); });
+  btnSeguinte.addEventListener('click', function () { mostra(atual + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) { return; }
+    var alvo = e.target;
+    if (alvo && /^(INPUT|SELECT|TEXTAREA)$/.test(alvo.tagName)) { return; }
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); mostra(atual + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); mostra(atual - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); mostra(0); }
+    else if (e.key === 'End') { e.preventDefault(); mostra(telas.length - 1); }
+  });
+
+  /* Deslizar o dedo: 54 px de folga, e só se o movimento for mais horizontal
+     que vertical — senão rolar o texto trocaria de tela sem querer. */
+  var x0 = null, y0 = null;
+  document.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { return; }
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (x0 === null) { return; }
+    var t = e.changedTouches[0];
+    var dx = t.clientX - x0, dy = t.clientY - y0;
+    x0 = null;
+    if (Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.6) { mostra(atual + (dx < 0 ? 1 : -1)); }
+  }, { passive: true });
+
+  /* Temas: a apresentação faz o que o site vai fazer. */
+  var temas = ['light', 'dark', 'high-contrast', 'pequi', 'cerrado', 'mata-atlantica', 'caatinga', 'pantanal'];
+  var biomas = ['pequi', 'cerrado', 'mata-atlantica', 'caatinga', 'pantanal'];
+  var temaAtual = 'light';
+
+  function aplicaTema(nome) {
+    temaAtual = nome;
+    document.documentElement.setAttribute('data-theme', nome);
+    seletor.value = nome;
+    try { localStorage.setItem('renap-tema', nome); } catch (err) { /* modo privado */ }
+  }
+
+  seletor.addEventListener('change', function () { aplicaTema(seletor.value); });
+
+  document.getElementById('proximo-tema').addEventListener('click', function () {
+    var i = temas.indexOf(temaAtual);
+    aplicaTema(temas[(i + 1) % temas.length]);
+  });
+
+  document.getElementById('alternar-bioma').addEventListener('click', function () {
+    var i = biomas.indexOf(temaAtual);
+    aplicaTema(biomas[(i + 1) % biomas.length]);
+  });
+
+  var cvd = document.getElementById('daltonismo');
+  cvd.addEventListener('change', function () {
+    document.documentElement.setAttribute('data-cvd', cvd.checked ? 'on' : 'off');
+    try { localStorage.setItem('renap-cvd', cvd.checked ? 'on' : 'off'); } catch (err) { /* modo privado */ }
+  });
+
+  try {
+    var guardado = localStorage.getItem('renap-tema');
+    if (guardado && temas.indexOf(guardado) > -1) { aplicaTema(guardado); }
+    if (localStorage.getItem('renap-cvd') === 'on') {
+      cvd.checked = true;
+      document.documentElement.setAttribute('data-cvd', 'on');
+    }
+  } catch (err) { /* modo privado: segue no claro */ }
+
+  /* Prova de toque e de foco: o botão responde e volta. */
+  document.getElementById('modelo-botao').addEventListener('click', function (e) {
+    var b = e.currentTarget;
+    b.textContent = 'Funciona assim';
+    setTimeout(function () { b.textContent = 'Botão de exemplo'; }, 1400);
+  });
+
+  var inicial = parseInt((location.hash || '').replace('#', ''), 10);
+  mostra(isNaN(inicial) ? 0 : inicial - 1, true);
+})();
+</script>
+</body>
+</html>

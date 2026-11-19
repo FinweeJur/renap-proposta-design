@@ -1,0 +1,67 @@
+[
+  {
+    "id": "pequi",
+    "nome": "Pequi",
+    "emoji": "🌰",
+    "cor": "#f2701d",
+    "cor2": "#0d0b08",
+    "descricao": "Laranja & preto",
+    "padrao": true
+  },
+  {
+    "id": "cerrado",
+    "nome": "Cerrado",
+    "emoji": "🌾",
+    "cor": "#c97b5a",
+    "cor2": "#ffc300",
+    "descricao": "Terracota & ipê"
+  },
+  {
+    "id": "mata-atlantica",
+    "nome": "Mata Atlântica",
+    "emoji": "🌿",
+    "cor": "#3a6b35",
+    "cor2": "#ffd700",
+    "descricao": "Verde-serra & dourado"
+  },
+  {
+    "id": "caatinga",
+    "nome": "Caatinga",
+    "emoji": "🌵",
+    "cor": "#d97724",
+    "cor2": "#eab308",
+    "descricao": "Âmbar & sol do sertão"
+  },
+  {
+    "id": "pantanal",
+    "nome": "Pantanal",
+    "emoji": "🦜",
+    "cor": "#0284c7",
+    "cor2": "#f59e0b",
+    "descricao": "Azul-águas & tuiuiú"
+  },
+  {
+    "id": "light",
+    "nome": "Claro",
+    "emoji": "☀️",
+    "cor": "#12467b",
+    "cor2": "#f7f8fa",
+    "descricao": "Azul & branco"
+  },
+  {
+    "id": "dark",
+    "nome": "Escuro",
+    "emoji": "🌙",
+    "cor": "#4a90d9",
+    "cor2": "#0b1220",
+    "descricao": "Azul-noite & grafite"
+  },
+  {
+    "id": "high-contrast",
+    "nome": "Alto contraste",
+    "emoji": "◐",
+    "cor": "#000000",
+    "cor2": "#ffffff",
+    "descricao": "Preto & branco puro"
+  }
+]

@@ -1,0 +1,47 @@
+/* ═══ FONTES — FONTSHARE ══════════════════════════════════════════════════
+   O portal usa Clash Display (títulos) e General Sans (texto), as duas do
+   Fontshare. Aqui a referência é a API pública, para o design system abrir
+   sem baixar arquivo:
+
+     https://www.fontshare.com/fonts/clash-display
+     https://www.fontshare.com/fonts/general-sans
+
+   Em produção, prefira AUTO-HOSPEDAR os .woff2 (o portal faz isso): some uma
+   dependência de CDN e o layout não muda se a API trocar de versão.
+
+   Ordem de carregamento: este arquivo antes de `temas/temas.css`, para o
+   `body` já nascer com a fonte certa.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@import url("https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=general-sans@400,500,600,700&display=swap");
+
+:root {
+  --font-display: "Clash Display", "General Sans", system-ui, sans-serif;
+  --font-body: "General Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Números de tabela: mesma família, com algarismos tabulares. */
+  --font-tabular: "General Sans", ui-monospace, "SFMono-Regular", monospace;
+}
+
+body {
+  font-family: var(--font-body);
+  font-feature-settings: "ss01" 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-display,
+.topo__marca,
+.numero .valor {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+code,
+pre,
+.tabela td,
+.tabela th,
+.contador {
+  font-variant-numeric: tabular-nums;
+}
