@@ -1,6 +1,5 @@
 # Design system da apresentação
 
-> Menos é mais: este documento explica **por que** cada escolha existe.
 > Se um número aparecer aqui, ele foi medido. Rodar: `python docs/medir-contraste.py`.
 
 ## 1. Direção de arte
@@ -9,45 +8,45 @@
 
 | Elemento | Escolha | Por quê |
 |---|---|---|
-| Título | Clash Display | geométrica, ocupa pouco, aguenta corpo grande |
-| Corpo | General Sans | leitura confortável em 1,5 de entrelinha |
-| Ritmo | 4 · 8 · 12 · 20 · 32 · 56 px | escala curta, fácil de manter |
-| Raia de bioma | 4 faixas de 10 px à esquerda | dá território à página sem pesar |
-| Marca do olho | quadrado de 10 px | cor nunca é o único sinal: o texto existe |
+| Título | Clash Display | geométrica, aguenta corpo grande |
+| Corpo | General Sans | leitura confortável em 1,5 |
+| Primária | vermelho da RENAP | a marca manda; o tom muda por fundo |
+| Acento | cor do bioma | território, não enfeite |
+| Raia esquerda | 4 faixas de 10 px | dá território sem pesar |
+| Logo | canto em todas as telas, grande na capa | reconhecimento imediato |
 
-**Âncora de diferenciação:** a própria apresentação troca de tema, ao vivo,
-na tela 9. Quem assiste vê o recurso funcionando, não lê que ele existe.
+**Âncora:** a apresentação demonstra o que promete — troca de tema, sanfona,
+busca, robô e rádio funcionam de verdade (anexos A a C).
 
-## 2. Tokens
+## 2. Marca RENAP sobre o design system
 
-Nada de cor solta no CSS. Tudo vem de `temas/temas.css`:
+O design system manda trocar o **valor** do token, nunca o nome. É o que
+`temas/renap.css` faz, e só com `--cp-primary`, `--cp-primary-ink` e `--cp-focus`:
 
-| Token | Uso nesta apresentação |
-|---|---|
-| `--cp-bg` | fundo da tela |
-| `--cp-surface` | cartão, botão secundário, `<select>` |
-| `--cp-surface-2` | ficha arredondada, tecla `kbd` |
-| `--cp-text` | texto principal e título |
-| `--cp-text-soft` | resumo, olho, legenda, rodapé da tela |
-| `--cp-primary` | barra de progresso, marcador da lista, botão |
-| `--cp-primary-ink` | texto dentro do botão |
-| `--cp-accent` | quadrado do olho (muda no modo daltonismo) |
-| `--cp-border` | toda borda |
-| `--cp-focus` | anel de foco |
+| Fundo | Primária | Tinta sobre ela | Por quê |
+|---|---|---|---|
+| claro | `#b00020` | `#ffffff` | 7,33:1 |
+| escuro e biomas | `#f2666a` | `#1a0505` | 5,02:1 |
+| alto contraste | `#990000` | `#ffffff` | 8,92:1 |
 
-Regra herdada: **o nome do token é o contrato; o valor muda por tema.**
+O vermelho escuro reprovava no fundo escuro (4,36:1). Por isso o tom claro
+nos temas escuros — medido, não escolhido no olho.
 
 ## 3. Tipografia
 
-Tudo em `clamp`, celular primeiro. Piso absoluto de 12 px.
+Tudo em `clamp`, celular primeiro, piso de **12 px**.
 
 | Papel | Tamanho |
 |---|---|
-| Capa | `clamp(2.1rem, 7vw, 4.2rem)` |
-| Título de tela | `clamp(1.5rem, 4.4vw, 2.5rem)` |
-| Corpo | `clamp(1rem, 2.3vw, 1.15rem)` |
-| Olho da seção | `clamp(.75rem, 1.8vw, .82rem)` |
+| Capa | `clamp(2rem, 6.6vw, 4rem)` |
+| Título de tela | `clamp(1.45rem, 4.2vw, 2.4rem)` |
+| Título longo (tela 11) | `clamp(1.25rem, 3.5vw, 1.9rem)` |
+| Corpo | `clamp(1rem, 2.3vw, 1.14rem)` |
 | Menor texto aceito | `.75rem` = 12 px |
+
+Troca de fonte ao vivo na tela 23: botão carrega o CSS do Fontshare só quando
+tocado e reescreve `--font-display`. Seis opções gratuitas; a lista brasileira
+(Plau) é só link, porque a licença é paga.
 
 ## 4. Movimento
 
@@ -57,49 +56,46 @@ Personagem **corporativo premium**: entra rápido, assenta sem quique.
 |---|---|---|
 | Troca de tela | 420 ms | `cubic-bezier(.2, 0, 0, 1)` |
 | Entrada de conteúdo | 420 ms, 70 ms entre itens | a mesma |
-| Hover e toque | 160–320 ms | a mesma |
+| Hover, pulso, ímã | 160–320 ms | do design system |
 
-Regras:
+Regras: no máximo três elementos se movem juntos; nada atravessa a tela;
+`prefers-reduced-motion` zera tudo; movimento nunca é o único sinal.
 
-1. Entrada desacelera; saída acelera. Nunca `linear` para deslocamento.
-2. No máximo **três** elementos se movem juntos.
-3. Deslocamento curto: 20 px. Nada atravessa a tela.
-4. `prefers-reduced-motion` zera tudo (1 ms).
-5. Movimento nunca é o único sinal de estado.
+## 5. Contraste medido (19/11/2026)
 
-## 5. Contraste medido
-
-Rode `python docs/medir-contraste.py`. Resultado de 19/11/2026:
-
-| Tema | Texto | Texto suave | Botão | Situação |
+| Tema | Texto | Suave | Botão | Situação |
 |---|---|---|---|---|
-| Claro | 16,9:1 | 7,1:1 | 9,6:1 | ok |
-| Escuro | 15,5:1 | 8,3:1 | 5,7:1 | ok |
-| Alto contraste | 21:1 | 21:1 | 11,2:1 | ok |
-| Pequi | 17,4:1 | 10,7:1 | 6,5:1 | ok |
-| Cerrado | 15,1:1 | 8,2:1 | 5,8:1 | ok |
-| Mata Atlântica | 16,3:1 | 10,0:1 | 6,3:1 | ok |
-| Caatinga | 16,3:1 | 9,6:1 | 6,0:1 | ok |
-| Pantanal | 16,4:1 | 10,4:1 | **4,1:1** | ver nota |
+| Claro | 16,9 | 7,1 | 7,3 | ok |
+| Escuro | 15,5 | 8,3 | 5,0 | ok |
+| Alto contraste | 21,0 | 21,0 | 8,9 | ok |
+| Pequi | 17,4 | 10,7 | 5,0 | ok |
+| Cerrado | 15,1 | 8,2 | 5,0 | ok |
+| Mata Atlântica | 16,3 | 10,0 | 5,0 | ok |
+| Caatinga | 16,3 | 9,6 | 5,0 | ok |
+| Pantanal | 16,4 | 10,4 | 5,0 | ok |
 
-> **Nota Pantanal.** Branco sobre `#0284c7` dá 4,10:1 — abaixo do piso de
-> 4,5:1 para texto pequeno. Por isso o rótulo do botão é grande (19,2 px em
-> negrito), faixa em que o piso do WCAG é 3:1. Se o site for usar botão pequeno
-> nesse tema, escureça `--cp-primary` para `#0369a1` (5,8:1) ou troque a tinta.
-> Isso é uma decisão de token, não de CSS solto.
+Uma falha conhecida e assumida: o acento do Cerrado (`#3a6b35`) dá 2,94:1
+sobre o fundo. É decorativo — o texto do olho é quem informa.
 
-## 6. O que o deck não faz, de propósito
+## 6. Componentes emprestados
 
-- Não usa biblioteca de animação: 19 telas não justificam 17 KB de JS.
-- Não usa carrossel automático: quem lê no celular decide o ritmo.
-- Não usa imagem de fundo: peso e contraste pagam a conta.
-- Não esconde a barra de navegação no celular: toque grande ganha de gesto secreto.
+| Peça | Onde aparece | Arquivo |
+|---|---|---|
+| Sanfona (`<details>`) | anexo B | `componentes/sanfona.css` |
+| Pulso, brilho, ímã, contador | anexo A | `efeitos/` |
+| Robô de conversa | anexo C | `componentes/shell.js` |
+| Tabela | anexo E | `componentes/shell.css` |
+| Select com respiro na seta | barra do topo | `componentes/select.css` |
+
+O robô do design system nasce flutuante. Aqui ele entra na tela: a classe
+`robo--tela` desfaz o `position: fixed`. É a única adaptação feita.
 
 ## 7. Checklist para tela nova
 
-1. Cabe em 390 × 700 sem rolagem lateral?
+1. Cabe em 390 px sem rolagem lateral?
 2. O olho tem texto, não só cor?
-3. O texto mais fraco passa de 4,5:1 no tema mais claro e no mais escuro?
+3. O texto mais fraco passa de 4,5:1 no tema claro e no escuro?
 4. Funciona com `Tab`, `Enter` e `Escape`?
 5. Alvo de toque com 36 px ou mais?
 6. Sem `prefers-reduced-motion`, ainda faz sentido?
+7. Com o zoom de 200%, o texto não é cortado?

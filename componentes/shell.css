@@ -1,0 +1,660 @@
+/* ═══ CASCA DA PÁGINA — NAVBAR, SUMÁRIO, TABELA, ROBÔ E RODAPÉ ═══════════
+   Peças da casca do portal, no mesmo contrato de tokens `--cp-*` dos temas.
+   Todas usam `fontes/fontshare.css` (Clash Display + General Sans) e
+   `componentes/shell.js` (scrollspy, ordenação, robô, barra de progresso).
+
+   Regras:
+   - alvo de toque ≥ 36 px;
+   - texto de interface ≥ 12 px;
+   - foco visível em tudo que é clicável;
+   - no celular, o sumário vira bloco recolhível e a navbar vira menu.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Link de pular (acessibilidade) ─────────────────────────────────────── */
+.pular {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 100;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--cp-primary);
+  color: var(--cp-primary-ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+.pular:focus { left: 8px; }
+
+/* ── Navbar ─────────────────────────────────────────────────────────────── */
+.topo {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--cp-bg) 82%, transparent);
+  border-bottom: 1px solid var(--cp-border);
+  backdrop-filter: blur(10px);
+}
+.topo__interno {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 10px 16px;
+}
+.topo__marca {
+  display: inline-flex;
+  white-space: nowrap;
+  align-items: center;
+  gap: 10px;
+  color: var(--cp-text);
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.topo__marca .ponto {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: var(--cp-primary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--cp-primary) 22%, transparent);
+}
+.topo__links { display: none; gap: 4px; margin-left: auto; }
+@media (min-width: 860px) { .topo__links { display: flex; } }
+.topo__link {
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: var(--cp-text-soft);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.topo__link:hover,
+.topo__link[aria-current="true"] {
+  color: var(--cp-primary);
+  background: color-mix(in srgb, var(--cp-primary) 12%, transparent);
+}
+.topo__acoes { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+@media (min-width: 860px) { .topo__acoes { margin-left: 0; } }
+.topo__busca {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+  color: var(--cp-text-soft);
+  font-size: 13px;
+}
+@media (min-width: 640px) { .topo__busca { display: inline-flex; } }
+.topo__busca input {
+  width: 9rem;
+  border: 0;
+  background: transparent;
+  color: var(--cp-text);
+  font: inherit;
+  outline: none;
+}
+.topo__tema {
+  min-height: 36px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ── Menu de temas (bolinhas + emoji + nome) ──────────────────────────────
+   <select> não mostra cor: as opções nativas são texto. Aqui um botão abre
+   uma lista com os dois swatches do bioma, o emoji e a descrição, para a
+   identidade de cada tema ficar visível antes de escolher. */
+.temas { position: relative; }
+.temas__botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.temas__botao:hover { border-color: var(--cp-primary); color: var(--cp-primary); }
+.temas__botao:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: 2px; }
+.temas__bolinhas { display: inline-flex; gap: 3px; }
+.temas__bolinha {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 1px var(--cp-border);
+}
+.temas__lista {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 50;
+  width: min(20rem, calc(100vw - 1rem));
+  max-height: min(70vh, 24rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid var(--cp-border);
+  border-radius: 12px;
+  background: var(--cp-surface);
+  box-shadow: 0 20px 48px rgb(0 0 0 / 0.35);
+}
+.temas__lista[hidden] { display: none; }
+
+/* No celular o seletor mostra só as cores e o emoji: o nome do tema roubaria
+   a largura e faria a marca quebrar em duas linhas (medido 18/11/2026). */
+@media (max-width: 720px) {
+  .temas__botao { gap: 6px; padding: 6px 8px; }
+  .temas__botao [data-temas-nome] { display: none; }
+  .temas__lista { width: min(17rem, calc(100vw - 1rem)); max-height: min(60vh, 22rem); }
+}
+.temas__opcao {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--cp-text);
+  text-align: left;
+  cursor: pointer;
+}
+.temas__opcao:hover { background: var(--cp-surface-2); }
+.temas__opcao[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--cp-primary) 12%, transparent);
+  box-shadow: inset 2px 0 0 var(--cp-primary);
+}
+.temas__opcao:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: -2px; }
+.temas__opcao .emoji { font-size: 16px; line-height: 1; }
+.temas__opcao .nome { font-size: 13px; font-weight: 600; }
+.temas__opcao .desc { font-size: 12px; color: var(--cp-text-soft); }
+
+/* ── Caixa de prompt copiável ──────────────────────────────────────────── */
+.prompt { border: 1px solid var(--cp-border); border-radius: 14px; background: var(--cp-surface); overflow: hidden; }
+.prompt__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--cp-border);
+  background: var(--cp-surface-2);
+}
+.prompt__topo strong { font-size: 13px; }
+.prompt__acoes { display: inline-flex; align-items: center; gap: 8px; }
+.prompt__dica { font-size: 12px; color: var(--cp-text-soft); }
+.prompt__copiar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 0;
+  background: var(--cp-primary);
+  color: var(--cp-primary-ink);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s ease, background-color 0.15s ease;
+}
+.prompt__copiar:hover { filter: brightness(1.08); }
+.prompt__copiar:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: 2px; }
+.prompt__copiar.copiado { background: var(--cp-accent, var(--cp-primary)); }
+.prompt__codigo {
+  margin: 0;
+  padding: 14px;
+  max-height: 22rem;
+  overflow: auto;
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.topo__menu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  cursor: pointer;
+}
+@media (min-width: 860px) { .topo__menu { display: none; } }
+/* Botão do GitHub na navbar: alvo de 36 px, ícone com o rótulo acessível. */
+.topo__github {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+.topo__github svg { width: 18px; height: 18px; flex: none; }
+.topo__github:hover {
+  border-color: var(--cp-primary);
+  color: var(--cp-primary);
+  background: color-mix(in srgb, var(--cp-primary) 10%, transparent);
+}
+.topo__github:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: 2px; }
+.topo__gaveta {
+  display: none;
+  border-top: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+}
+.topo__gaveta[data-aberta="true"] { display: block; }
+.topo__gaveta a {
+  display: block;
+  padding: 12px 16px;
+  color: var(--cp-text);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--cp-border) 60%, transparent);
+}
+.topo__gaveta a:hover { color: var(--cp-primary); }
+.topo__progresso {
+  height: 2px;
+  background: var(--cp-primary);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.1s linear;
+}
+
+/* ── Sumário lateral ────────────────────────────────────────────────────── */
+.pagina-grade {
+  display: grid;
+  gap: 24px;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+/* Item de grid nasce com `min-width: auto`: uma tabela larga dentro de
+   `overflow-x` esticaria a PÁGINA e criaria rolagem lateral no celular.
+   `min-width: 0` devolve o encolhimento ao item. Medido em 18/11/2026. */
+.pagina-grade > * {
+  min-width: 0;
+}
+@media (min-width: 1080px) {
+  .pagina-grade { grid-template-columns: minmax(0, 1fr) 260px; gap: 40px; }
+}
+.sumario {
+  position: static;
+  order: -1;
+  border: 1px solid var(--cp-border);
+  border-radius: 14px;
+  background: var(--cp-surface);
+  padding: 12px;
+}
+@media (min-width: 1080px) {
+  .sumario {
+    order: 0;
+    position: sticky;
+    top: 84px;
+    align-self: start;
+    max-height: calc(100vh - 104px);
+    overflow-y: auto;
+  }
+}
+.sumario__titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: var(--cp-text);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+.sumario__lista {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+@media (max-width: 1079px) {
+  .sumario__lista[hidden] { display: none; }
+}
+.sumario__lista a {
+  display: block;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border-left: 2px solid transparent;
+  color: var(--cp-text-soft);
+  font-size: 13px;
+  line-height: 1.35;
+  text-decoration: none;
+}
+.sumario__lista a:hover { color: var(--cp-text); background: var(--cp-surface-2); }
+.sumario__lista a.is-ativo {
+  color: var(--cp-primary);
+  border-left-color: var(--cp-primary);
+  background: color-mix(in srgb, var(--cp-primary) 10%, transparent);
+  font-weight: 600;
+}
+.sumario__acoes {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--cp-border);
+}
+.sumario__botao {
+  flex: 1;
+  min-height: 36px;
+  padding: 6px 4px;
+  border-radius: 8px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface-2);
+  color: var(--cp-text);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.sumario__botao:hover { border-color: var(--cp-primary); color: var(--cp-primary); }
+.sumario__botao:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: 2px; }
+
+/* ── Tabela ordenável ───────────────────────────────────────────────────── */
+.tabela {
+  overflow-x: auto;
+  border: 1px solid var(--cp-border);
+  border-radius: 12px;
+}
+.tabela table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.tabela caption {
+  padding: 10px 12px;
+  text-align: left;
+  color: var(--cp-text-soft);
+  font-size: 12px;
+}
+.tabela th,
+.tabela td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--cp-border);
+}
+.tabela thead th {
+  position: sticky;
+  top: 0;
+  background: var(--cp-surface-2);
+  color: var(--cp-text);
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 1;
+}
+.tabela th button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.tabela th button:hover { color: var(--cp-primary); }
+.tabela th button:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: 2px; }
+.tabela .seta { color: var(--cp-text-soft); font-size: 11px; }
+.tabela th[aria-sort="ascending"] .seta,
+.tabela th[aria-sort="descending"] .seta { color: var(--cp-primary); }
+.tabela td { color: var(--cp-text-soft); }
+.tabela tbody tr:hover { background: color-mix(in srgb, var(--cp-surface-2) 60%, transparent); }
+.tabela tbody tr:last-child td { border-bottom: 0; }
+
+/* ── Robô (chatbot) ─────────────────────────────────────────────────────── */
+.robo {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+.robo__botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--cp-border);
+  border-radius: 9999px;
+  background: var(--cp-primary);
+  color: var(--cp-primary-ink);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 0.3);
+}
+.robo__botao:hover { filter: brightness(1.06); }
+.robo__painel {
+  display: none;
+  width: min(22rem, calc(100vw - 32px));
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  background: var(--cp-surface);
+  box-shadow: 0 20px 48px rgb(0 0 0 / 0.35);
+  overflow: hidden;
+}
+.robo__painel[data-aberto="true"] { display: block; }
+.robo__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--cp-border);
+  background: var(--cp-surface-2);
+}
+.robo__cabecalho strong { font-size: 14px; }
+.robo__fechar {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--cp-text-soft);
+  font-size: 18px;
+  cursor: pointer;
+}
+.robo__fechar:hover { color: var(--cp-text); }
+.robo__mensagens {
+  display: grid;
+  gap: 8px;
+  max-height: 18rem;
+  overflow-y: auto;
+  padding: 12px;
+}
+.robo__bolha {
+  max-width: 90%;
+  padding: 8px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.robo__bolha--robo {
+  justify-self: start;
+  background: var(--cp-surface-2);
+  color: var(--cp-text);
+  border-bottom-left-radius: 4px;
+}
+.robo__bolha--pessoa {
+  justify-self: end;
+  background: var(--cp-primary);
+  color: var(--cp-primary-ink);
+  border-bottom-right-radius: 4px;
+}
+.robo__form {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid var(--cp-border);
+}
+.robo__form input {
+  flex: 1;
+  min-height: 36px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-size: 14px;
+}
+.robo__form button {
+  min-height: 36px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 0;
+  background: var(--cp-primary);
+  color: var(--cp-primary-ink);
+  font-weight: 700;
+  cursor: pointer;
+}
+.robo__nota {
+  padding: 0 12px 10px;
+  color: var(--cp-text-soft);
+  font-size: 11px;
+}
+
+/* ── Rodapé ─────────────────────────────────────────────────────────────── */
+.rodape {
+  border-top: 1px solid var(--cp-border);
+  background: var(--cp-surface);
+  margin-top: 48px;
+}
+.rodape__interno {
+  display: grid;
+  gap: 24px;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+@media (min-width: 720px) { .rodape__interno { grid-template-columns: 1.4fr 1fr 1fr; } }
+.rodape__marca { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; }
+.rodape__marca .ponto {
+  width: 10px; height: 10px; border-radius: 9999px; background: var(--cp-primary);
+}
+.rodape p { margin: 8px 0 0; color: var(--cp-text-soft); font-size: 13px; line-height: 1.6; }
+.rodape h3 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cp-text-soft);
+}
+.rodape ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.rodape a { color: var(--cp-text); font-size: 13px; text-decoration: none; }
+.rodape a:hover { color: var(--cp-primary); text-decoration: underline; }
+.rodape__base {
+  border-top: 1px solid var(--cp-border);
+  padding: 14px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 72rem;
+  margin: 0 auto;
+  color: var(--cp-text-soft);
+  font-size: 12px;
+}
+.rodape__topo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface-2);
+  color: var(--cp-text);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.rodape__topo:hover { border-color: var(--cp-primary); color: var(--cp-primary); }
+/* Link principal do repositório: botão com ícone, não um link perdido. */
+.rodape__github {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  margin-top: 14px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-surface-2);
+  color: var(--cp-text);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+.rodape__github svg { width: 18px; height: 18px; flex: none; }
+.rodape__github:hover {
+  border-color: var(--cp-primary);
+  color: var(--cp-primary);
+  background: color-mix(in srgb, var(--cp-primary) 10%, transparent);
+}
+.rodape__github:focus-visible { outline: 2px solid var(--cp-focus); outline-offset: 2px; }
+
+/* ── Revelar ao rolar ───────────────────────────────────────────────────── */
+.revelar {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.revelar[data-visivel="true"] { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .revelar { opacity: 1; transform: none; transition: none; }
+  .topo__progresso { transition: none; }
+}

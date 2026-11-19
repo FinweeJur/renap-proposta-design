@@ -1,0 +1,35 @@
+﻿/* â•â•â• MARCA RENAP â€” CAMADA SOBRE O DESIGN SYSTEM â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   O design system do Controle Popular (temas/temas.css) Ã© a base. Aqui sÃ³
+   trocamos o VALOR de dois tokens, como o prÃ³prio sistema manda: o nome do
+   token Ã© o contrato, o valor muda por marca.
+
+   A cor primÃ¡ria da RENAP Ã© vermelha. O vermelho muda de tom conforme o
+   fundo, senÃ£o reprova no contraste:
+     - fundos claros:  #b00020  (6,5:1 sobre #f7f8fa; branco sobre ele 7,3:1)
+     - fundos escuros: #f2666a  (4,8:1 sobre #0d0b08; tinta escura 5,3:1)
+     - alto contraste: #990000  (8,9:1 sobre branco, o piso de 7:1 do tema)
+   Medido em docs/medir-contraste.py. NÃ£o troque sem remedir.
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+
+:root,
+[data-theme="light"] {
+  --cp-primary: #b00020;
+  --cp-primary-ink: #ffffff;
+  --cp-focus: #b00020;
+}
+
+[data-theme="dark"],
+[data-theme="pequi"],
+[data-theme="cerrado"],
+[data-theme="mata-atlantica"],
+[data-theme="caatinga"],
+[data-theme="pantanal"] {
+  --cp-primary: #f2666a;
+  --cp-primary-ink: #1a0505;
+}
+
+[data-theme="high-contrast"] {
+  --cp-primary: #990000;
+  --cp-primary-ink: #ffffff;
+  --cp-focus: #990000;
+}

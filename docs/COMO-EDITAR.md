@@ -2,11 +2,11 @@
 
 ## Trocar o texto de uma tela
 
-Abra `index.html`, procure o comentário da tela:
+Abra `index.html` e procure o comentário da tela:
 
 ```html
-<!-- 7 · DOCUMENTOS E MÍDIA -->
-<section class="tela" aria-label="Documentos e mídia">
+<!-- 11 · PEDIDOS A ORÇAR -->
+<section class="tela" aria-label="Pedidos que gostaríamos de orçar">
 ```
 
 Cada tela tem três partes:
@@ -14,17 +14,16 @@ Cada tela tem três partes:
 | Parte | O que é | Classe |
 |---|---|---|
 | Olho | etiqueta pequena em cima | `olho` |
-| Título | a frase grande | `titulo` |
-| Corpo | resumo, lista ou fichas | `resumo`, `linhas`, `fichas` |
+| Título | a frase grande | `titulo` (ou `titulo--longo`) |
+| Corpo | resumo, lista, fichas, cartões | `resumo`, `linhas`, `fichas`, `cartoes` |
 
 Regra de ouro: **uma ideia por tela, uma frase por linha.**
 Se a lista passar de cinco itens, vire duas telas.
 
 ## Criar uma tela
 
-Copie um bloco `<section>` inteiro e cole no lugar certo. Depois ajuste o
-número do comentário. O contador e a barra de progresso se ajustam sozinhos —
-o JavaScript lê quantas telas existem.
+Copie um `<section>` inteiro e cole no lugar certo. O contador, a barra de
+progresso e os botões de início/fim se ajustam sozinhos.
 
 ```html
 <section class="tela" aria-label="Assunto">
@@ -42,41 +41,51 @@ o JavaScript lê quantas telas existem.
 
 `--i` é a ordem da entrada: 0, 1, 2. Mais que três, o texto demora a aparecer.
 
-## Apagar uma tela
-
-Apague o `<section>` inteiro, do `<section` ao `</section>`.
-Atualize o número nos comentários, se quiser manter a ordem bonita.
-
 ## Mudar o tema padrão
 
-No começo do arquivo:
-
-```html
-<html lang="pt-BR" data-theme="light">
-```
-
+No começo do arquivo: `<html lang="pt-BR" data-theme="light">`.
 Valores: `light`, `dark`, `high-contrast`, `pequi`, `cerrado`,
 `mata-atlantica`, `caatinga`, `pantanal`.
 
-## Mudar uma cor
+## Mudar a cor primária
 
-Não escreva hexadecimal no meio do CSS. Abra `temas/temas.css` e mude o token
-do tema. Depois **remeça**:
+Não escreva hexadecimal no CSS do `index.html`. Abra `temas/renap.css`, mude o
+token do tema e **remeça**:
 
 ```
 python docs/medir-contraste.py
 ```
 
-Se aparecer `ABAIXO`, a cor nova reprovou. Volte uma casa.
+Se aparecer `ABAIXO`, a cor nova reprovou em algum tema.
+
+## Trocar ou acrescentar fonte
+
+Na tela 23, cada botão tem `data-fonte` (nome da família no Fontshare) e
+`data-css` (endereço do CSS). Para acrescentar outra:
+
+1. copie um `div class="fonte-item"` inteiro;
+2. troque o nome e o `data-css` pelo da fonte nova;
+3. atualize o link de `abrir`.
+
+O CSS da fonte só é baixado quando alguém toca no botão — a página nasce leve.
+
+Fontes brasileiras: a lista da Plau é só link, porque a licença é paga.
+Para trocar a fonte de verdade no site, licencie e auto-hospede o `.woff2`.
+
+## Atualizar os preços do anexo E
+
+A tabela está na tela 24. Ao refazer a consulta, mude **três coisas juntas**:
+o preço, a data na legenda (`consulta feita em ...`) e a fonte no `LEIA.md`.
+
+Promoção de hospedagem muda toda semana. Preço sem data é boato.
 
 ## Gerar PDF para enviar
 
-`Ctrl`+`P` no navegador → destino "Salvar como PDF".
-O CSS de impressão já deixa uma tela por página, fundo branco e sem a barra.
+`Ctrl`+`P` → destino "Salvar como PDF".
+O CSS de impressão já deixa uma tela por página, fundo branco e sem as barras.
 
 ## Publicar
 
-O site é só um HTML e três CSS. Qualquer hospedagem estática serve:
-GitHub Pages, Cloudflare Pages, Netlify. Não há build.
-
-No GitHub Pages, o caminho é: Settings → Pages → branch `main` → pasta `/`.
+Só HTML e CSS: qualquer hospedagem estática serve (Cloudflare Pages, GitHub
+Pages, Netlify). Não há build. No GitHub Pages: Settings → Pages → branch
+`main` → pasta `/`.

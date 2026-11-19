@@ -1,0 +1,190 @@
+/* ═══ EFEITOS DO DESIGN SYSTEM ════════════════════════════════════════════
+   Movimento decorativo com regras duras:
+   - nada aqui é informação; o conteúdo é legível sem efeito nenhum;
+   - tudo para em `prefers-reduced-motion: reduce`;
+   - as cores saem dos tokens `--cp-*` do tema;
+   - efeito de ponteiro só vale em mouse (`@media (hover: hover) and
+     (pointer: fine)`), nunca no dedo.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Pulso ───────────────────────────────────────────────────────────────
+   Anel que respira em volta de um selo/botão, chamando o clique. Usado na
+   sanfona (selo da seta) e em botões de destaque. */
+@keyframes cp-pulso-anel {
+  0% { transform: scale(0.9); opacity: 0.45; }
+  70%, 100% { transform: scale(1.35); opacity: 0; }
+}
+.pulso { position: relative; }
+.pulso::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 2px solid var(--cp-primary);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  animation: cp-pulso-anel 2.6s ease-out infinite;
+}
+
+/* ── Elevação (hover) ────────────────────────────────────────────────────
+   Card ou botão que sobe 2 px e ganha sombra. Sem glow: o brilho é outro
+   componente e competiria com ele. */
+.eleva {
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .eleva:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgb(0 0 0 / 0.28);
+    border-color: color-mix(in srgb, var(--cp-primary) 55%, transparent);
+  }
+}
+
+/* ── Brilho que segue o ponteiro (glow/spotlight) ────────────────────────
+   A posição vem de `--mx`/`--my`, escritas por magnet.js em coordenadas
+   locais do elemento (%). Sem JS, o brilho fica no centro. */
+.brilho {
+  position: relative;
+  overflow: hidden;
+}
+.brilho::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: radial-gradient(
+    220px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--cp-primary) 22%, transparent),
+    transparent 65%
+  );
+}
+@media (hover: hover) and (pointer: fine) {
+  .brilho:hover::before { opacity: 1; }
+}
+.brilho > * { position: relative; z-index: 1; }
+
+/* ── Borda elétrica (electric card, padrão Lightswind) ───────────────────
+   Um gradiente cônico gira atrás do miolo e aparece como borda viva.
+   O miolo é opaco; a borda é o padding de 1 px do contêiner. */
+@property --angulo {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes cp-eletrico-gira {
+  to { --angulo: 360deg; }
+}
+.eletrico {
+  position: relative;
+  border-radius: 14px;
+  padding: 1px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.eletrico::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  z-index: 0;
+  background: conic-gradient(
+    from var(--angulo),
+    transparent 0deg,
+    var(--cp-primary) 40deg,
+    transparent 90deg,
+    transparent 200deg,
+    var(--cp-accent, var(--cp-primary)) 250deg,
+    transparent 300deg
+  );
+  animation: cp-eletrico-gira 4.5s linear infinite;
+}
+.eletrico__miolo {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  border-radius: 13px;
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  padding: 16px;
+}
+
+/* ── Ímã (magnet) ───────────────────────────────────────────────────────
+   O deslocamento é escrito em `transform` por magnet.js; aqui só a
+   transição de volta. */
+.magnet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.magnet--ativo { transition: transform 0.08s linear; }
+
+/* ── Contador e barra ───────────────────────────────────────────────────
+   O HTML já traz o valor final (robô e leitor de tela leem certo). O JS
+   anima de 0 até ele. A barra usa `--valor`, que o HTML também já traz. */
+.barra {
+  position: relative;
+  height: 10px;
+  border-radius: 9999px;
+  background: var(--cp-surface-2);
+  overflow: hidden;
+}
+.barra__preenchida {
+  height: 100%;
+  width: var(--valor, 0%);
+  border-radius: inherit;
+  background: var(--cp-primary);
+  transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.contador {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+/* ── Orbe de pensamento (indicador de IA) ───────────────────────────────
+   Inspirado no padrão "thinking orbs": três pontos em órbita para dizer
+   "estou consultando". É decoração com função de espera — o texto da
+   resposta é que informa. Para em `prefers-reduced-motion` e no alto
+   contraste (onde a cor não deve ser o sinal). */
+.orbe {
+  position: relative;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  animation: cp-orbe-gira 2.4s linear infinite;
+}
+.orbe span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 9999px;
+  background: var(--cp-primary);
+  transform-origin: 0 0;
+}
+.orbe span:nth-child(1) { transform: rotate(0deg) translateX(9px); opacity: 0.95; }
+.orbe span:nth-child(2) { transform: rotate(120deg) translateX(9px); opacity: 0.65; }
+.orbe span:nth-child(3) { transform: rotate(240deg) translateX(9px); opacity: 0.4; }
+@keyframes cp-orbe-gira {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Guarda geral ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .pulso::after,
+  .eletrico::before,
+  .orbe {
+    animation: none;
+  }
+  .eleva,
+  .magnet,
+  .barra__preenchida {
+    transition: none;
+  }
+}

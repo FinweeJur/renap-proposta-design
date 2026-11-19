@@ -4,56 +4,51 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Novo site da RENAP — proposta</title>
-<meta name="description" content="Apresentação da proposta do novo site da RENAP para a Articulação Nacional. Dezenove telas, linguagem simples." />
+<meta name="description" content="Proposta do novo site da RENAP, feita pelo GT de Comunicação. Vinte e quatro telas, linguagem simples." />
 <link rel="icon" href="data:," />
 
 <!--
   APRESENTAÇÃO — PROPOSTA DO NOVO SITE DA RENAP
-  Fonte do conteúdo: "Briefing-novo-site-RENAP.docx", versão de 19/11/2026.
-  Base visual: design system do Controle Popular (github.com/FinweeJur/controle-popular-design),
-  MIT. Os tokens --cp-* são o contrato: o valor muda por tema, o nome não muda.
+  Conteúdo: "Briefing-novo-site-RENAP.docx", versão de 19/11/2026, do GT de Comunicação.
+  Base visual: design system do Controle Popular (MIT) — tokens --cp-*, sanfona,
+  efeitos e robô. A marca RENAP entra em temas/renap.css, só trocando valores.
 
-  Direção de arte: "editorial cívico". Papel de documento oficial, título em
-  Clash Display, corpo em General Sans, uma faixa de bioma na borda esquerda.
-  Por que assim: quem assiste decide sob estresse; precisa de ar de ata, não de SaaS.
-
-  A própria apresentação troca de tema — ela demonstra o que está prometendo.
+  DIRECÃO DE ARTE: "editorial cívico". Papel de ata, título em Clash Display,
+  corpo em General Sans, logo no canto, raia de bioma na borda.
+  A própria apresentação demonstra o que promete: tema, sanfona, busca, robô.
 -->
 <link rel="stylesheet" href="fontes/fontshare.css" />
 <link rel="stylesheet" href="temas/temas.css" />
+<link rel="stylesheet" href="temas/renap.css" />
 <link rel="stylesheet" href="componentes/select.css" />
+<link rel="stylesheet" href="componentes/sanfona.css" />
+<link rel="stylesheet" href="componentes/shell.css" />
+<link rel="stylesheet" href="efeitos/efeitos.css" />
 
 <style>
-/* ═══ 1. ESCALA E RITMO ════════════════════════════════════════════════════
-   Celular primeiro: tudo em clamp, piso de 12 px (regra do design system). */
+/* ═══ 1. ESCALA, RITMO E MARCA ════════════════════════════════════════════ */
 :root {
-  --t-capa: clamp(2.1rem, 7vw, 4.2rem);
-  --t-titulo: clamp(1.5rem, 4.4vw, 2.5rem);
+  --t-capa: clamp(2rem, 6.6vw, 4rem);
+  --t-titulo: clamp(1.45rem, 4.2vw, 2.4rem);
   --t-olho: clamp(.75rem, 1.8vw, .82rem);
-  --t-corpo: clamp(1rem, 2.3vw, 1.15rem);
+  --t-corpo: clamp(1rem, 2.3vw, 1.14rem);
   --t-peq: clamp(.82rem, 1.9vw, .9rem);
-  --t-min: .75rem;              /* 12 px: nada abaixo disto */
-  --t-numero: clamp(2.5rem, 10vw, 4.8rem);
+  --t-min: .75rem;                 /* 12 px: piso do design system */
+  --t-numero: clamp(2.4rem, 9vw, 4.6rem);
 
   --e1: 4px; --e2: 8px; --e3: 12px; --e4: 20px; --e5: 32px; --e6: 56px;
 
-  /* Movimento: personagem "corporativo premium" — rápido, sem quique. */
   --dur-rapida: 160ms;
   --dur-padrao: 320ms;
   --dur-tela: 420ms;
   --curva: cubic-bezier(.2, 0, 0, 1);
 
-  /* Raia dos quatro biomas. Cor decorativa: o nome do tema é o sinal real.
-     Largura em variável: no alto contraste a raia sai e o conteúdo encosta. */
   --faixa: 10px;
-  --bioma-1: #f2701d;  /* pequi */
-  --bioma-2: #ffc300;  /* cerrado */
-  --bioma-3: #3a6b35;  /* mata atlântica */
-  --bioma-4: #d97724;  /* caatinga */
+  --bioma-1: #f2701d;
+  --bioma-2: #ffc300;
+  --bioma-3: #3a6b35;
+  --bioma-4: #d97724;
 }
-
-/* Alto contraste não tem enfeite: o design system pede que nada decorativo
-   sobreviva aqui. A raia sai e a faixa vira zero. */
 [data-theme="high-contrast"] { --faixa: 0px; }
 
 /* ═══ 2. BASE ═════════════════════════════════════════════════════════════ */
@@ -70,11 +65,11 @@ body {
 }
 h1, h2, h3 { margin: 0; line-height: 1.08; letter-spacing: -.015em; font-weight: 600; }
 p { margin: 0; }
-b, strong { font-weight: 600; }
+img { max-width: 100%; }
+a { color: var(--cp-primary); }
 :focus-visible { outline: 3px solid var(--cp-focus); outline-offset: 3px; border-radius: 4px; }
-::selection { background: var(--cp-primary); color: var(--cp-primary-ink); }
 
-/* ═══ 3. CASCA: raia, barra, progresso ════════════════════════════════════ */
+/* ═══ 3. CASCA ════════════════════════════════════════════════════════════ */
 .raia { position: fixed; left: 0; top: 0; bottom: 0; width: var(--faixa); z-index: 40; display: flex; flex-direction: column; }
 [data-theme="high-contrast"] .raia { display: none; }
 .raia i { flex: 1; }
@@ -83,24 +78,40 @@ b, strong { font-weight: 600; }
 .raia .b3 { background: var(--bioma-3); }
 .raia .b4 { background: var(--bioma-4); }
 
-.barra {
+.casca {
   position: fixed; inset: 0 0 auto var(--faixa); z-index: 30;
   display: flex; align-items: center; gap: var(--e3);
-  padding: var(--e3) var(--e4);
-  background: color-mix(in srgb, var(--cp-bg) 88%, transparent);
+  padding: var(--e2) var(--e4);
+  background: color-mix(in srgb, var(--cp-bg) 90%, transparent);
   border-bottom: 1px solid var(--cp-border);
   backdrop-filter: blur(8px);
 }
-.marca { font-family: var(--font-display); font-weight: 600; font-size: 1rem; letter-spacing: .01em; }
-.marca span { color: var(--cp-text-soft); font-weight: 400; font-family: var(--font-body); font-size: var(--t-peq); }
-.barra .vao { flex: 1; }
-.contador { font-size: var(--t-peq); color: var(--cp-text-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.logo-topo { height: 36px; width: auto; display: block; }
+.logo-topo--branco { display: none; }
+[data-theme="dark"] .logo-topo--claro,
+[data-theme="pequi"] .logo-topo--claro,
+[data-theme="cerrado"] .logo-topo--claro,
+[data-theme="mata-atlantica"] .logo-topo--claro,
+[data-theme="caatinga"] .logo-topo--claro,
+[data-theme="pantanal"] .logo-topo--claro { display: none; }
+[data-theme="dark"] .logo-topo--branco,
+[data-theme="pequi"] .logo-topo--branco,
+[data-theme="cerrado"] .logo-topo--branco,
+[data-theme="mata-atlantica"] .logo-topo--branco,
+[data-theme="caatinga"] .logo-topo--branco,
+[data-theme="pantanal"] .logo-topo--branco { display: block; }
+/* Na capa o logo grande faz o papel; o do canto sai. */
+body[data-tela="1"] .logo-topo { display: none; }
 
+.casca .vao { flex: 1; }
+.casca__nome { font-family: var(--font-display); font-size: .95rem; font-weight: 600; display: none; }
+@media (min-width: 1000px) { .casca__nome { display: block; } }
+.contador { font-size: var(--t-peq); color: var(--cp-text-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .campo-tema { display: flex; align-items: center; gap: var(--e2); }
 .campo-tema label { font-size: var(--t-peq); color: var(--cp-text-soft); }
 .campo-tema select {
   font: inherit; font-family: var(--font-body); font-size: var(--t-peq);
-  min-height: 36px; max-width: 12rem;
+  min-height: 36px; max-width: 11rem;
   padding: .4rem 2.25rem .4rem .6rem;
   color: var(--cp-text); background-color: var(--cp-surface);
   border: 1px solid var(--cp-border); border-radius: 8px;
@@ -113,8 +124,8 @@ b, strong { font-weight: 600; }
 .deck { position: fixed; inset: 0; }
 .tela {
   position: absolute; inset: 0;
-  display: flex; flex-direction: column; justify-content: center;
-  padding: calc(64px + var(--e5)) 0 var(--e6) var(--faixa);
+  display: flex; flex-direction: column; justify-content: flex-start;
+  padding: calc(58px + var(--e4)) 0 var(--e6) var(--faixa);
   opacity: 0; visibility: hidden; transform: translateX(26px);
   transition: opacity var(--dur-tela) var(--curva), transform var(--dur-tela) var(--curva),
               visibility 0s linear var(--dur-tela);
@@ -124,18 +135,17 @@ b, strong { font-weight: 600; }
   opacity: 1; visibility: visible; transform: none;
   transition: opacity var(--dur-tela) var(--curva), transform var(--dur-tela) var(--curva);
 }
-.miolo { width: 100%; max-width: 62rem; margin: 0 auto; padding: 0 var(--e4); }
-.estreito { max-width: 42rem; }
+/* `margin: auto` centra quando sobra espaço e encosta no topo quando a tela
+   é mais alta que a janela — sem cortar o título. */
+.miolo { width: 100%; max-width: 62rem; margin: auto; padding: 0 var(--e4); }
+.estreito { max-width: 44rem; }
 
-/* Entrada em cascata: três elementos no máximo, 70 ms entre eles. */
 .tela[data-ativa="true"] .sobe {
   animation: sobe var(--dur-tela) var(--curva) both;
   animation-delay: calc(var(--i, 0) * 70ms);
 }
 @keyframes sobe { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
 
-/* Olho da seção: quadrado colorido + texto legível.
-   Cor nunca é o único sinal: o texto existe sempre. */
 .olho {
   display: flex; align-items: center; gap: var(--e2);
   font-size: var(--t-olho); font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
@@ -145,16 +155,15 @@ b, strong { font-weight: 600; }
   content: ""; width: 10px; height: 10px; flex: 0 0 auto;
   background: var(--cp-accent); border-radius: 2px;
 }
-
 h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
-.resumo { margin-top: var(--e4); color: var(--cp-text-soft); max-width: 48ch; }
+h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; line-height: 1.16; }
+.resumo { margin-top: var(--e4); color: var(--cp-text-soft); max-width: 50ch; }
 .linhas { list-style: none; margin: var(--e4) 0 0; padding: 0; display: grid; gap: var(--e3); }
 .linhas li { display: flex; gap: var(--e3); align-items: flex-start; }
 .linhas li::before {
   content: ""; flex: 0 0 auto; width: 6px; height: 6px; margin-top: .62em;
   background: var(--cp-primary); border-radius: 50%;
 }
-
 .folha {
   margin-top: var(--e5); padding-top: var(--e3);
   border-top: 1px solid var(--cp-border);
@@ -163,6 +172,27 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
 .folha b { color: var(--cp-text); }
 
 /* ═══ 5. PEÇAS ════════════════════════════════════════════════════════════ */
+.capa-logo { height: clamp(112px, 22vw, 190px); width: auto; display: block; margin-bottom: var(--e4); }
+.capa-logo--branco { display: none; }
+[data-theme="dark"] .capa-logo--claro,
+[data-theme="pequi"] .capa-logo--claro,
+[data-theme="cerrado"] .capa-logo--claro,
+[data-theme="mata-atlantica"] .capa-logo--claro,
+[data-theme="caatinga"] .capa-logo--claro,
+[data-theme="pantanal"] .capa-logo--claro { display: none; }
+[data-theme="dark"] .capa-logo--branco,
+[data-theme="pequi"] .capa-logo--branco,
+[data-theme="cerrado"] .capa-logo--branco,
+[data-theme="mata-atlantica"] .capa-logo--branco,
+[data-theme="caatinga"] .capa-logo--branco,
+[data-theme="pantanal"] .capa-logo--branco { display: block; }
+
+.credito {
+  margin-top: var(--e4); display: inline-flex; align-items: center; gap: var(--e2);
+  font-size: var(--t-peq); color: var(--cp-text-soft);
+}
+.credito::before { content: ""; width: 22px; height: 2px; background: var(--cp-primary); }
+
 .grande {
   font-family: var(--font-display); font-size: var(--t-numero); font-weight: 700;
   line-height: .92; letter-spacing: -.03em; font-variant-numeric: tabular-nums;
@@ -173,47 +203,179 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
 .fichas li {
   font-size: var(--t-peq); font-weight: 600;
   padding: .45rem .75rem; border-radius: 999px;
-  background: var(--cp-surface-2); color: var(--cp-text);
-  border: 1px solid var(--cp-border);
+  background: var(--cp-surface-2); color: var(--cp-text); border: 1px solid var(--cp-border);
 }
-
 .cartoes { display: grid; gap: var(--e3); margin-top: var(--e4); }
 @media (min-width: 640px) { .cartoes.duas { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .cartoes.tres { grid-template-columns: repeat(3, 1fr); } }
 .cartao {
   background: var(--cp-surface); border: 1px solid var(--cp-border);
   border-radius: 12px; padding: var(--e4);
 }
-.cartao h3 { font-size: 1.05rem; margin-bottom: .35rem; }
+.cartao h3 { font-size: 1.02rem; margin-bottom: .35rem; }
 .cartao p { font-size: var(--t-peq); color: var(--cp-text-soft); }
 .cartao .etiqueta {
   display: inline-block; font-size: var(--t-min); font-weight: 700; letter-spacing: .1em;
   text-transform: uppercase; color: var(--cp-text-soft); margin-bottom: .4rem;
 }
-.cartao .num { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.cartao .num { font-family: var(--font-display); font-size: 2.3rem; line-height: 1; font-variant-numeric: tabular-nums; }
 
-/* Botão com rótulo grande (>= 18,7 px em negrito) de propósito: no tema
-   Pantanal a tinta sobre a primária dá 4,10:1, abaixo do piso de 4,5:1 para
-   texto pequeno. Em corpo grande o piso do WCAG cai para 3:1 e passa.
-   Medido em docs/medir-contraste.py. */
 .botao {
-  font: inherit; font-family: var(--font-body); font-size: 1.2rem; font-weight: 700;
-  min-height: 44px; padding: .6rem 1.2rem;
+  font: inherit; font-family: var(--font-body); font-size: 1.05rem; font-weight: 700;
+  min-height: 44px; padding: .55rem 1.1rem;
   background: var(--cp-primary); color: var(--cp-primary-ink);
   border: 0; border-radius: 999px; cursor: pointer;
 }
 .botao:hover { filter: brightness(1.06); }
 .botao.secundario { background: var(--cp-surface); color: var(--cp-text); border: 1px solid var(--cp-border); }
+.botao[aria-pressed="true"] { outline: 2px solid var(--cp-text); outline-offset: 2px; }
 
-/* Amostras do sistema */
+/* Chips de tema: cada um troca direto, sem adivinhar o próximo. */
+.temas-grade { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--e2); margin-top: var(--e4); }
+@media (min-width: 620px) { .temas-grade { grid-template-columns: repeat(4, 1fr); } }
+.chip-tema {
+  font: inherit; font-size: var(--t-peq); font-weight: 600; text-align: left;
+  display: flex; align-items: center; gap: var(--e2);
+  min-height: 44px; padding: .5rem .7rem;
+  background: var(--cp-surface); color: var(--cp-text);
+  border: 1px solid var(--cp-border); border-radius: 10px; cursor: pointer;
+}
+.chip-tema:hover { border-color: var(--cp-primary); }
+.chip-tema[aria-pressed="true"] { border-color: var(--cp-primary); box-shadow: inset 0 0 0 1px var(--cp-primary); }
+.chip-tema i { width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; }
+.aviso-tema { margin-top: var(--e3); font-size: var(--t-peq); color: var(--cp-text-soft); }
+.aviso-tema b { color: var(--cp-text); }
+
 .amostras { display: flex; flex-wrap: wrap; gap: var(--e3); margin-top: var(--e4); }
-.amostra { width: 84px; }
-.amostra i { display: block; height: 44px; border-radius: 8px; border: 1px solid var(--cp-border); }
+.amostra { width: 82px; }
+.amostra i { display: block; height: 42px; border-radius: 8px; border: 1px solid var(--cp-border); }
 .amostra small { display: block; font-size: var(--t-min); color: var(--cp-text-soft); margin-top: 4px; }
 
 .interruptor { display: flex; align-items: center; gap: var(--e2); font-size: var(--t-peq); color: var(--cp-text-soft); margin-top: var(--e3); }
 .interruptor input { width: 20px; height: 20px; accent-color: var(--cp-primary); }
 
-/* ═══ 6. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
+/* ═══ 6. DEMONSTRAÇÕES (anexos) ═══════════════════════════════════════════ */
+.grade-demo { display: grid; gap: var(--e3); margin-top: var(--e4); }
+@media (min-width: 780px) { .grade-demo { grid-template-columns: 1fr 1fr; } }
+.demo {
+  background: var(--cp-surface); border: 1px solid var(--cp-border);
+  border-radius: 12px; padding: var(--e4);
+  display: flex; flex-direction: column; gap: var(--e2);
+}
+.demo h3 { font-size: .98rem; }
+.demo p { font-size: var(--t-min); color: var(--cp-text-soft); }
+.demo__palco { display: flex; align-items: center; gap: var(--e2); flex-wrap: wrap; margin-top: var(--e1); }
+.demo__botao {
+  font: inherit; font-size: var(--t-peq); font-weight: 600;
+  min-height: 40px; padding: .45rem 1rem; border-radius: 999px;
+  background: var(--cp-primary); color: var(--cp-primary-ink); border: 0; cursor: pointer;
+}
+.demo__caixa {
+  border: 1px solid var(--cp-border); border-radius: 10px;
+  background: var(--cp-surface-2); padding: var(--e3); font-size: var(--t-peq);
+  color: var(--cp-text);
+}
+.status-dica { font-size: var(--t-min); color: var(--cp-text-soft); min-height: 1.1em; }
+
+/* Busca */
+.busca { display: flex; gap: var(--e2); margin-top: var(--e1); }
+.busca input {
+  flex: 1; min-height: 40px; padding: .45rem .7rem;
+  font: inherit; font-size: var(--t-peq);
+  color: var(--cp-text); background-color: var(--cp-bg);
+  border: 1px solid var(--cp-border); border-radius: 8px;
+}
+.busca-lista { list-style: none; margin: var(--e2) 0 0; padding: 0; display: grid; gap: 6px; }
+.busca-lista li {
+  font-size: var(--t-peq); padding: .4rem .6rem; border-radius: 8px;
+  background: var(--cp-surface-2); color: var(--cp-text);
+  display: flex; justify-content: space-between; gap: var(--e2);
+}
+.busca-lista li span { color: var(--cp-text-soft); font-size: var(--t-min); white-space: nowrap; }
+.busca-lista li[hidden] { display: none; }
+
+/* Rádio */
+.radio {
+  display: flex; align-items: center; gap: var(--e3);
+  border: 1px solid var(--cp-border); border-radius: 12px;
+  background: var(--cp-surface-2); padding: var(--e3);
+}
+.radio__botao {
+  width: 44px; height: 44px; flex: 0 0 auto; border-radius: 50%;
+  border: 0; background: var(--cp-primary); color: var(--cp-primary-ink);
+  font-size: 1rem; cursor: pointer; display: grid; place-items: center;
+}
+.radio__info { display: grid; gap: 2px; min-width: 0; }
+.radio__info strong { font-size: var(--t-peq); }
+.radio__info span { font-size: var(--t-min); color: var(--cp-text-soft); }
+.radio__onda { display: flex; align-items: flex-end; gap: 3px; height: 26px; margin-left: auto; }
+.radio__onda i { width: 3px; height: 6px; background: var(--cp-primary); border-radius: 2px; opacity: .5; }
+.radio--tocando .radio__onda i { animation: onda .9s ease-in-out infinite alternate; opacity: 1; }
+.radio--tocando .radio__onda i:nth-child(2) { animation-delay: .12s; }
+.radio--tocando .radio__onda i:nth-child(3) { animation-delay: .24s; }
+.radio--tocando .radio__onda i:nth-child(4) { animation-delay: .36s; }
+.radio--tocando .radio__onda i:nth-child(5) { animation-delay: .48s; }
+@keyframes onda { from { height: 5px; } to { height: 24px; } }
+@media (prefers-reduced-motion: reduce) { .radio--tocando .radio__onda i { animation: none; height: 14px; } }
+
+/* Robô dentro da tela (o padrão do design system é flutuante) */
+.robo--tela { position: static; align-items: stretch; }
+.robo--tela .robo__painel { display: block; width: 100%; box-shadow: none; }
+.robo--tela .robo__mensagens { max-height: 13rem; }
+.robo--tela .robo__botao { display: none; }
+
+/* Fontes */
+.fonte-grade { display: grid; gap: var(--e2); margin-top: var(--e3); }
+@media (min-width: 700px) { .fonte-grade { grid-template-columns: 1fr 1fr; } }
+.fonte-item { display: flex; align-items: center; gap: var(--e2); }
+.fonte-item button {
+  font: inherit; font-size: var(--t-peq); font-weight: 600;
+  flex: 1; text-align: left; min-height: 40px; padding: .4rem .7rem;
+  background: var(--cp-surface); color: var(--cp-text);
+  border: 1px solid var(--cp-border); border-radius: 8px; cursor: pointer;
+}
+.fonte-item button:hover { border-color: var(--cp-primary); }
+.fonte-item button[aria-pressed="true"] { border-color: var(--cp-primary); box-shadow: inset 0 0 0 1px var(--cp-primary); }
+.fonte-item a { font-size: var(--t-min); }
+.amostra-fonte {
+  margin-top: var(--e4); padding: var(--e4);
+  background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 12px;
+}
+.amostra-fonte p:first-child {
+  font-family: var(--font-display); font-size: clamp(1.3rem, 4vw, 1.9rem); line-height: 1.1;
+}
+.amostra-fonte p:last-child { font-size: var(--t-peq); color: var(--cp-text-soft); margin-top: var(--e2); }
+
+/* Tabela de custos */
+.nota-custo { font-size: var(--t-min); color: var(--cp-text-soft); margin-top: var(--e3); }
+.nota-custo b { color: var(--cp-text); }
+.marca-custo { background: var(--cp-surface); }
+.marca-custo td:first-child { color: var(--cp-text); font-weight: 600; }
+.marca-custo .barato { color: var(--cp-primary); font-weight: 700; }
+
+/* No celular a tabela vira uma lista de cartões: nenhuma coluna some, e não
+   existe rolagem lateral dentro da tela. */
+@media (max-width: 640px) {
+  .marca-custo { overflow: visible; border: 0; background: transparent; }
+  .marca-custo table { min-width: 0; font-size: var(--t-peq); }
+  .marca-custo thead {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%);
+  }
+  .marca-custo tbody, .marca-custo tr, .marca-custo td { display: block; width: 100%; }
+  .marca-custo tr {
+    border: 1px solid var(--cp-border); border-radius: 12px;
+    background: var(--cp-surface); margin-bottom: var(--e2); overflow: hidden;
+  }
+  .marca-custo td { border: 0; padding: 2px var(--e3); }
+  .marca-custo td:first-child { padding-top: var(--e3); font-size: 1rem; }
+  .marca-custo td:last-child { padding-bottom: var(--e3); }
+  .marca-custo td[data-rotulo]::before {
+    content: attr(data-rotulo) ": ";
+    font-size: var(--t-min); color: var(--cp-text-soft);
+  }
+}
+
+/* ═══ 7. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
 .nav {
   position: fixed; left: var(--faixa); right: 0; bottom: 0; z-index: 30;
   display: flex; align-items: center; gap: var(--e2);
@@ -229,34 +391,40 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
   border: 1px solid var(--cp-border); border-radius: 999px; cursor: pointer;
 }
 .nav button:disabled { opacity: .4; cursor: default; }
+.nav #primeira, .nav #ultima { padding: 0 .75rem; font-size: 1rem; }
+@media (max-width: 640px) {
+  .nav .rotulo { display: none; }
+  .nav button { padding: 0 .8rem; }
+}
 .nav .dica { flex: 1; text-align: center; font-size: var(--t-min); color: var(--cp-text-soft); }
 .nav .dica kbd {
   font: inherit; font-size: var(--t-min); padding: .1rem .35rem;
   border: 1px solid var(--cp-border); border-radius: 4px; background: var(--cp-surface-2);
 }
 
-/* ═══ 7. AJUSTES ══════════════════════════════════════════════════════════ */
+/* ═══ 8. AJUSTES ══════════════════════════════════════════════════════════ */
 @media (max-width: 560px) {
-  .barra { gap: var(--e2); padding: var(--e2) var(--e3); }
-  .marca span { display: none; }
+  .casca { gap: var(--e2); padding: var(--e2) var(--e3); }
+  .casca__nome { display: none; }
   .campo-tema label { display: none; }
-  .campo-tema select { max-width: 9rem; }
+  .campo-tema select { max-width: 8.4rem; }
   .nav .dica { display: none; }
-  .tela { padding: calc(58px + var(--e4)) 0 var(--e6) var(--faixa); }
+  .logo-topo { height: 26px; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 1ms !important; animation-delay: 0ms !important; transition-duration: 1ms !important; }
 }
 
-/* ═══ 8. IMPRESSÃO: Ctrl+P vira PDF claro, uma tela por página ════════════ */
+/* ═══ 9. IMPRESSÃO ════════════════════════════════════════════════════════ */
 @media print {
   html {
     --cp-bg: #fff; --cp-surface: #fff; --cp-surface-2: #f4f4f4;
     --cp-text: #000; --cp-text-soft: #333; --cp-border: #999;
-    --cp-primary: #0000cc; --cp-primary-ink: #fff; --cp-accent: #006644;
+    --cp-primary: #b00020; --cp-primary-ink: #fff; --cp-accent: #006644;
+    --faixa: 0px;
   }
   body { overflow: visible; }
-  .raia, .barra, .nav, .progresso { display: none !important; }
+  .raia, .casca, .nav, .progresso { display: none !important; }
   .deck { position: static; }
   .tela {
     position: static; opacity: 1 !important; visibility: visible !important; transform: none !important;
@@ -264,17 +432,20 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
   }
   .tela:last-child { page-break-after: auto; }
   .miolo { max-width: 100%; }
-  .cartao { break-inside: avoid; }
+  .cartao, .demo { break-inside: avoid; }
+  .logo-topo { display: none !important; }
 }
 </style>
 </head>
-<body>
+<body data-tela="1">
 
 <div class="progresso"><b id="barra-progresso"></b></div>
 <div class="raia" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i></div>
 
-<header class="barra">
-  <p class="marca">RENAP <span>· proposta do site</span></p>
+<header class="casca">
+  <img class="logo-topo logo-topo--claro" src="assets/logo-renap-claro.png" alt="RENAP" />
+  <img class="logo-topo logo-topo--branco" src="assets/logo-renap-escuro.png" alt="RENAP" />
+  <span class="casca__nome">Proposta do site</span>
   <div class="vao"></div>
   <div class="campo-tema">
     <label for="tema">Tema</label>
@@ -289,7 +460,7 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
       <option value="pantanal">Pantanal</option>
     </select>
   </div>
-  <p class="contador" id="contador">1 / 19</p>
+  <p class="contador" id="contador">1 / 24</p>
 </header>
 
 <main class="deck" id="deck">
@@ -297,12 +468,14 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
   <!-- 1 · CAPA -->
   <section class="tela" data-ativa="true" aria-label="Capa">
     <div class="miolo estreito">
+      <img class="capa-logo capa-logo--claro" src="assets/logo-renap-claro.png" alt="RENAP — Rede Nacional de Advogados e Advogadas Populares" />
+      <img class="capa-logo capa-logo--branco" src="assets/logo-renap-escuro.png" alt="" aria-hidden="true" />
       <p class="olho sobe" style="--i:0">Articulação Nacional · 19 de novembro de 2026</p>
-      <h1 class="sobe" style="--i:1; font-size: var(--t-capa); font-family: var(--font-display)">Novo site<br />da RENAP</h1>
+      <h1 class="sobe" style="--i:1; font-size: var(--t-capa); font-family: var(--font-display)">Novo site da RENAP</h1>
       <p class="resumo sobe" style="--i:2">
-        Uma proposta em linguagem simples.
-        Dezenove telas, cinco minutos.
+        Uma proposta em linguagem simples. Vinte e quatro telas, cinco minutos.
       </p>
+      <p class="credito">Proposta do GT de Comunicação da RENAP</p>
       <p class="folha"><b>Use as setas</b> ou deslize o dedo.</p>
     </div>
   </section>
@@ -328,8 +501,8 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
       <p class="olho sobe" style="--i:0">A cara do site</p>
       <h2 class="titulo sobe" style="--i:1">Sério no conteúdo. Leve na leitura.</h2>
       <p class="resumo sobe" style="--i:2">
-        Título curto, texto curto, espaço em branco.
-        A cor vem do território. O nome do tema aparece escrito.
+        Título curto, texto curto, espaço em branco. A cor vem do território.
+        O nome do tema aparece escrito.
       </p>
       <div class="amostras">
         <div class="amostra"><i style="background:var(--cp-primary)"></i><small>primária</small></div>
@@ -353,7 +526,7 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
         <div class="cartao"><h3>Entra agora</h3><p>O site novo, a migração e o conteúdo.</p></div>
         <div class="cartao"><h3>Fica para depois</h3><p>O que não couber vira fase 2, com preço separado.</p></div>
       </div>
-      <p class="folha"><b>Depois da entrega:</b> hospedagem e domínio passam a ser custo da RENAP.</p>
+      <p class="folha"><b>Depois da entrega:</b> hospedagem e domínio passam a ser custo da RENAP. Números no anexo E.</p>
     </div>
   </section>
 
@@ -418,22 +591,26 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
     </div>
   </section>
 
-  <!-- 9 · TEMAS (demonstração viva) -->
+  <!-- 9 · TEMAS -->
   <section class="tela" aria-label="Temas">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Temas de cor</p>
       <h2 class="titulo sobe" style="--i:1">Oito jeitos de ver o mesmo site.</h2>
       <p class="resumo sobe" style="--i:2">
-        Esta apresentação muda de tema agora. Claro, escuro e alto contraste vêm primeiro.
-        Depois, os biomas.
+        Toque num nome e esta apresentação troca na hora. Claro, escuro e alto contraste
+        primeiro; depois, os biomas.
       </p>
-      <ul class="fichas">
-        <li>Pequi</li><li>Cerrado</li><li>Mata Atlântica</li><li>Caatinga</li><li>Pantanal</li>
-      </ul>
-      <p style="margin-top:var(--e4);display:flex;gap:var(--e2);flex-wrap:wrap">
-        <button class="botao" type="button" id="proximo-tema">Trocar o tema daqui</button>
-        <button class="botao secundario" type="button" id="alternar-bioma">Ver um bioma</button>
-      </p>
+      <div class="temas-grade" role="group" aria-label="Escolher tema">
+        <button class="chip-tema" type="button" data-tema-btn="light"><i style="background:#b00020"></i>Claro</button>
+        <button class="chip-tema" type="button" data-tema-btn="dark"><i style="background:#4a90d9"></i>Escuro</button>
+        <button class="chip-tema" type="button" data-tema-btn="high-contrast"><i style="background:#000"></i>Alto contraste</button>
+        <button class="chip-tema" type="button" data-tema-btn="pequi"><i style="background:#f2701d"></i>Pequi</button>
+        <button class="chip-tema" type="button" data-tema-btn="cerrado"><i style="background:#ffc300"></i>Cerrado</button>
+        <button class="chip-tema" type="button" data-tema-btn="mata-atlantica"><i style="background:#3a6b35"></i>Mata Atlântica</button>
+        <button class="chip-tema" type="button" data-tema-btn="caatinga"><i style="background:#d97724"></i>Caatinga</button>
+        <button class="chip-tema" type="button" data-tema-btn="pantanal"><i style="background:#0284c7"></i>Pantanal</button>
+      </div>
+      <p class="aviso-tema">Tema em uso: <b id="nome-tema">Claro</b></p>
       <label class="interruptor">
         <input type="checkbox" id="daltonismo" />
         Testar modo daltonismo (troca as cores de apoio)
@@ -457,11 +634,13 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
     </div>
   </section>
 
-  <!-- 11 · FASE 2 -->
-  <section class="tela" aria-label="Fase 2">
+  <!-- 11 · PEDIDOS A ORÇAR -->
+  <section class="tela" aria-label="Pedidos que gostaríamos de orçar">
     <div class="miolo">
       <p class="olho sobe" style="--i:0">Fase 2 · se couber</p>
-      <h2 class="titulo sobe" style="--i:1">O que fica para a segunda conversa.</h2>
+      <h2 class="titulo titulo--longo sobe" style="--i:1">
+        Pedidos que gostaríamos de orçar se são viáveis pra vocês nessa reunião
+      </h2>
       <ul class="fichas">
         <li>Área restrita</li><li>Formulários</li><li>Eventos</li><li>Busca unificada</li>
         <li>Permissões</li><li>Fórum temático</li><li>Moderação</li>
@@ -474,17 +653,28 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
   </section>
 
   <!-- 12 · API -->
-  <section class="tela" aria-label="Conexão para publicar notícias">
+  <section class="tela" aria-label="Conexão para publicar, API">
     <div class="miolo">
-      <p class="olho sobe" style="--i:0">Conexão para publicar</p>
-      <h2 class="titulo sobe" style="--i:1">Duas chaves. Tudo registrado.</h2>
-      <ul class="linhas sobe" style="--i:2">
-        <li>Chave geral: cria, edita e apaga qualquer publicação.</li>
-        <li>Chave de notícias: só mexe em notícia.</li>
-        <li>Toda ação fica registrada: quem, quando e o quê.</li>
-        <li>A chave pode ser revogada a qualquer momento.</li>
+      <p class="olho sobe" style="--i:0">Conexão para publicar · API</p>
+      <h2 class="titulo sobe" style="--i:1">A API é uma porta. E ela tem duas chaves.</h2>
+      <p class="resumo sobe" style="--i:2">
+        API é a porta entre dois programas: o site e outro programa, como ChatGPT ou Claude.
+      </p>
+      <div class="cartoes duas">
+        <div class="cartao">
+          <h3>Chave geral</h3>
+          <p>Abre a casa inteira: cria, edita e apaga qualquer publicação.</p>
+        </div>
+        <div class="cartao">
+          <h3>Chave de notícias</h3>
+          <p>Abre uma gaveta só: mexe em notícia e em mais nada.</p>
+        </div>
+      </div>
+      <ul class="linhas" style="margin-top:var(--e4)">
+        <li>Cada vez que uma chave é usada, fica registrado: quem, quando e o quê.</li>
+        <li>Qualquer chave pode ser cancelada a qualquer momento.</li>
+        <li>A chave geral fica com a RENAP. O fornecedor usa só na entrega.</li>
       </ul>
-      <p class="folha"><b>Em português claro:</b> é uma porta entre programas, como ChatGPT, Claude ou OpenCode.</p>
     </div>
   </section>
 
@@ -514,15 +704,19 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
         <li>Não recebe documento restrito nem dado de pessoa.</li>
         <li>Se não souber, diz que não sabe e indica o canal humano.</li>
       </ul>
+      <p class="folha">Quer ver o robô funcionando? <b>Anexo C.</b></p>
     </div>
   </section>
 
   <!-- 15 · CÓDIGO ABERTO -->
-  <section class="tela" aria-label="Código aberto">
+  <section class="tela" aria-label="Exemplos de código aberto">
     <div class="miolo">
-      <p class="olho sobe" style="--i:0">Código aberto</p>
-      <h2 class="titulo sobe" style="--i:1">A RENAP não fica presa a um fornecedor.</h2>
-      <p class="resumo sobe" style="--i:2">Programas livres, sem licença paga, que já resolvem cada parte.</p>
+      <p class="olho sobe" style="--i:0">Cardápio, não promessa</p>
+      <h2 class="titulo sobe" style="--i:1">Exemplos de aplicativos de código aberto.</h2>
+      <p class="resumo sobe" style="--i:2">
+        Programas livres, sem licença paga, que resolvem cada parte.
+        São exemplos: cada um entra só se a RENAP quiser.
+      </p>
       <ul class="fichas">
         <li>Voz: Web Speech</li><li>Voz offline: Piper</li><li>Robô: Open WebUI</li>
         <li>Busca: Meilisearch</li><li>Painel: Directus</li><li>Fotos: Immich</li>
@@ -591,22 +785,271 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
         Com as respostas, a proposta vira plano de trabalho:
         o que entra, quando fica pronto e quanto custa.
       </p>
-      <p class="folha"><b>Versão do briefing:</b> 19 de novembro de 2026.</p>
+      <p class="credito">GT de Comunicação da RENAP</p>
+      <p class="folha">
+        <b>Anexos:</b> A efeitos · B sanfona · C busca, robô e rádio · D fontes · E hospedagem.
+        Versão do briefing: 19/11/2026.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═════════════════════ ANEXOS ═════════════════════ -->
+
+  <!-- 20 · ANEXO A: EFEITOS -->
+  <section class="tela" aria-label="Anexo A, efeitos">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Anexo A · efeitos</p>
+      <h2 class="titulo sobe" style="--i:1">Enfeite que não atrapalha.</h2>
+      <p class="resumo sobe" style="--i:2">Passe o mouse e toque. Nada aqui carrega informação sozinho.</p>
+      <div class="grade-demo">
+        <div class="demo eleva brilho" data-brilho>
+          <h3>Sombra e brilho</h3>
+          <p>Sobe 2 px no mouse; o brilho segue o ponteiro.</p>
+          <div class="demo__palco"><span class="demo__caixa">Passe o mouse aqui</span></div>
+        </div>
+        <div class="demo">
+          <h3>Pulso</h3>
+          <p>Anel que respira. Chama o clique sem piscar.</p>
+          <div class="demo__palco">
+            <button class="demo__botao pulso" type="button" id="botao-pulso">Toque aqui</button>
+          </div>
+          <p class="status-dica" id="status-pulso" aria-live="polite"></p>
+        </div>
+        <div class="demo">
+          <h3>Ímã</h3>
+          <p>O botão se aproxima do ponteiro. No dedo, não se move.</p>
+          <div class="demo__palco">
+            <button class="demo__botao magnet" type="button" data-magnet data-forca="0.3" data-afastamento="60">Me puxe</button>
+          </div>
+        </div>
+        <div class="demo">
+          <h3>Contador</h3>
+          <p>O número sobe quando aparece na tela. O valor final está no HTML.</p>
+          <div class="demo__palco"><p class="num contador" data-contador="3440" data-prefixo="R$ ">R$ 3.440</p></div>
+          <div class="barra"><div class="barra__preenchida" style="--valor:100%"></div></div>
+        </div>
+      </div>
+      <p class="folha"><b>Regra:</b> tudo para em <code>prefers-reduced-motion</code> e nada é o único sinal de estado.</p>
+    </div>
+  </section>
+
+  <!-- 21 · ANEXO B: SANFONA -->
+  <section class="tela" aria-label="Anexo B, sanfona">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Anexo B · sanfona</p>
+      <h2 class="titulo sobe" style="--i:1">Abre e fecha sem JavaScript.</h2>
+      <p class="resumo sobe" style="--i:2">A linha inteira é o alvo. A seta gira e o texto diz “Abrir”.</p>
+      <div style="display:grid;gap:12px;margin-top:var(--e4)">
+        <details class="sanfona">
+          <summary>
+            <span class="sanfona__titulo">O que é sigilo de documento?</span>
+            <span class="sanfona__dica sanfona__dica--abrir">Abrir</span>
+            <span class="sanfona__dica sanfona__dica--fechar">Fechar</span>
+            <span class="sanfona__seta" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <div class="sanfona__corpo">
+            São quatro níveis: público, interno, restrito e sigiloso.
+            Quem classifica é o administrador, e ele pode mudar depois.
+          </div>
+        </details>
+        <details class="sanfona">
+          <summary>
+            <span class="sanfona__titulo">Como funciona a chave de publicação?</span>
+            <span class="sanfona__dica sanfona__dica--abrir">Abrir</span>
+            <span class="sanfona__dica sanfona__dica--fechar">Fechar</span>
+            <span class="sanfona__seta" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <div class="sanfona__corpo">
+            Duas chaves: uma geral, que mexe em tudo, e uma só de notícias.
+            Toda ação fica registrada e a chave pode ser revogada.
+          </div>
+        </details>
+        <details class="sanfona">
+          <summary>
+            <span class="sanfona__titulo">E se o site sair do fornecedor?</span>
+            <span class="sanfona__dica sanfona__dica--abrir">Abrir</span>
+            <span class="sanfona__dica sanfona__dica--fechar">Fechar</span>
+            <span class="sanfona__seta" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </summary>
+          <div class="sanfona__corpo">
+            Código e conteúdo são exportáveis. A RENAP leva o acervo embora sem pedir licença.
+          </div>
+        </details>
+      </div>
+      <p class="folha">Componente do design system do Controle Popular, com os tokens da RENAP.</p>
+    </div>
+  </section>
+
+  <!-- 22 · ANEXO C: BUSCA, ROBÔ E RÁDIO -->
+  <section class="tela" aria-label="Anexo C, busca, robô e rádio">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Anexo C · busca, robô e rádio</p>
+      <h2 class="titulo sobe" style="--i:1">Três coisas que a pessoa usa.</h2>
+      <div class="grade-demo">
+        <div class="demo">
+          <h3>Busca</h3>
+          <p>Digite “mineração” ou “encontro”.</p>
+          <div class="busca">
+            <label class="sr" for="campo-busca" style="position:absolute;left:-9999px">Buscar documento</label>
+            <input id="campo-busca" type="search" placeholder="Buscar documento…" autocomplete="off" />
+          </div>
+          <ul class="busca-lista" id="lista-busca">
+            <li data-chave="mineração paráopeba barragem">Relatório da barragem de Paraopeba <span>PDF</span></li>
+            <li data-chave="encontro nacional articulação 2026">Chamada do Encontro Nacional <span>notícia</span></li>
+            <li data-chave="mineração royalties cfem">Nota sobre royalties da mineração <span>PDF</span></li>
+            <li data-chave="peças jurídicas modelo petição">Banco de peças jurídicas <span>peça</span></li>
+          </ul>
+          <p class="status-dica" id="status-busca" aria-live="polite">4 documentos</p>
+        </div>
+        <div class="demo">
+          <h3>Robô de conversa</h3>
+          <p>Responde com fonte. Se não souber, diz que não sabe.</p>
+          <div class="robo robo--tela" data-robo>
+            <div class="robo__painel" data-robo-painel data-aberto="true">
+              <div class="robo__cabecalho"><strong>Pergunte ao acervo</strong></div>
+              <div class="robo__mensagens" data-robo-mensagens>
+                <p class="robo__bolha robo__bolha--robo">Olá. Pergunte sobre documentos da RENAP.</p>
+              </div>
+              <div class="robo__nota" data-robo-pensando hidden>Consultando o acervo…</div>
+              <form class="robo__form" data-robo-form>
+                <input data-robo-input type="text" placeholder="Ex.: o que é sigilo restrito?" aria-label="Sua pergunta" />
+                <button type="submit">Enviar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="demo">
+          <h3>Rádio</h3>
+          <p>Player de exemplo. Toca nada: mostra o desenho.</p>
+          <div class="radio" id="radio">
+            <button class="radio__botao" type="button" id="radio-botao" aria-pressed="false" aria-label="Tocar rádio de exemplo">▶</button>
+            <div class="radio__info"><strong>Rádio RENAP</strong><span>ao vivo · exemplo de interface</span></div>
+            <div class="radio__onda" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+        <div class="demo">
+          <h3>Botão que responde</h3>
+          <p>Foco visível, toque de 44 px e volta ao normal.</p>
+          <div class="demo__palco"><button class="botao" type="button" id="modelo-botao2">Testar toque</button></div>
+        </div>
+      </div>
+      <p class="folha"><b>Robô e rádio aqui são demonstração.</b> Não há rede nem áudio nesta página.</p>
+    </div>
+  </section>
+
+  <!-- 23 · ANEXO D: FONTES -->
+  <section class="tela" aria-label="Anexo D, fontes">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Anexo D · fontes</p>
+      <h2 class="titulo sobe" style="--i:1">A letra também é escolha.</h2>
+      <p class="resumo sobe" style="--i:2">
+        Toque num nome para ver o título desta página mudar. As gratuitas vêm do Fontshare.
+      </p>
+
+      <p class="etiqueta" style="margin-top:var(--e4);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Fontshare · grátis</p>
+      <div class="fonte-grade">
+        <div class="fonte-item">
+          <button type="button" data-fonte="satoshi" data-css="https://api.fontshare.com/v2/css?f[]=satoshi@700&display=swap" aria-pressed="false">Satoshi</button>
+          <a href="https://www.fontshare.com/fonts/satoshi" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte="cabinet-grotesk" data-css="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700&display=swap" aria-pressed="false">Cabinet Grotesk</button>
+          <a href="https://www.fontshare.com/fonts/cabinet-grotesk" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte="switzer" data-css="https://api.fontshare.com/v2/css?f[]=switzer@700&display=swap" aria-pressed="false">Switzer</button>
+          <a href="https://www.fontshare.com/fonts/switzer" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte="author" data-css="https://api.fontshare.com/v2/css?f[]=author@700&display=swap" aria-pressed="false">Author</button>
+          <a href="https://www.fontshare.com/fonts/author" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte="gambetta" data-css="https://api.fontshare.com/v2/css?f[]=gambetta@700&display=swap" aria-pressed="false">Gambetta</button>
+          <a href="https://www.fontshare.com/fonts/gambetta" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte="zodiak" data-css="https://api.fontshare.com/v2/css?f[]=zodiak@700&display=swap" aria-pressed="false">Zodiak</button>
+          <a href="https://www.fontshare.com/fonts/zodiak" target="_blank" rel="noopener">abrir</a>
+        </div>
+      </div>
+
+      <p class="etiqueta" style="margin-top:var(--e4);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Brasileiras · licença paga (Plau, do Rio)</p>
+      <div class="fonte-grade">
+        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Grama</span><a href="https://plau.co/fontes/grama" target="_blank" rel="noopener">abrir</a></div>
+        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Pacaembu</span><a href="https://plau.co/fontes/pacaembu" target="_blank" rel="noopener">abrir</a></div>
+        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Histerica</span><a href="https://plau.co/fontes/histerica" target="_blank" rel="noopener">abrir</a></div>
+        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Vinila</span><a href="https://plau.co/fontes/vinila" target="_blank" rel="noopener">abrir</a></div>
+        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Guanabara Sans</span><a href="https://plau.co/fontes/guanabara-sans" target="_blank" rel="noopener">abrir</a></div>
+        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Juma</span><a href="https://plau.co/fontes/juma" target="_blank" rel="noopener">abrir</a></div>
+      </div>
+
+      <div class="amostra-fonte">
+        <p id="texto-fonte">RENAP — o povo escreve a sua história</p>
+        <p>Mesma frase, letra escolhida. <button class="botao secundario" type="button" id="fonte-padrao" style="min-height:32px;font-size:var(--t-min);padding:.3rem .8rem">Voltar para Clash Display</button></p>
+      </div>
+      <p class="folha">
+        <b>Xilogravura:</b> não achei família livre com licença clara hoje. O caminho honesto é licenciar
+        uma brasileira ou encomendar letreiro. Nada aqui foi usado sem licença.
+      </p>
+    </div>
+  </section>
+
+  <!-- 24 · ANEXO E: HOSPEDAGEM -->
+  <section class="tela" aria-label="Anexo E, hospedagem e domínio">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0">Anexo E · custos de manter</p>
+      <h2 class="titulo sobe" style="--i:1">Quanto custa ficar no ar.</h2>
+      <p class="resumo sobe" style="--i:2">
+        Preços de 19/11/2026, em semana de promoção. O valor mais barato de cada casa, por mês.
+      </p>
+      <div class="tabela marca-custo" style="margin-top:var(--e4)">
+        <table>
+          <caption>Hospedagem e domínio — consulta feita em 19/11/2026</caption>
+          <thead>
+            <tr><th>Onde</th><th>Plano</th><th>Mais barato</th><th>Observação</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Guara Cloud (BR)</td><td data-rotulo="Plano">Starter</td><td data-rotulo="Mais barato" class="barato">R$ 19,99/mês</td><td data-rotulo="Observação">20 GiB, 3 dias de teste grátis</td></tr>
+            <tr><td>KingHost (BR)</td><td data-rotulo="Plano">Hospedagem I</td><td data-rotulo="Mais barato" class="barato">R$ 5,99/mês</td><td data-rotulo="Observação">no ciclo de 2 anos; tabela R$ 29,90</td></tr>
+            <tr><td>HostGator (BR)</td><td data-rotulo="Plano">Plano P</td><td data-rotulo="Mais barato" class="barato">R$ 10,09/mês</td><td data-rotulo="Observação">servidores no Brasil; ciclo longo</td></tr>
+            <tr><td>Hostinger</td><td data-rotulo="Plano">entrada</td><td data-rotulo="Mais barato" class="barato">R$ 5,99/mês</td><td data-rotulo="Observação">promoção; renovação R$ 29,99</td></tr>
+            <tr><td>Wix</td><td data-rotulo="Plano">Light</td><td data-rotulo="Mais barato">US$ 17/mês</td><td data-rotulo="Observação">em dólar, com IOF; domínio 1 ano</td></tr>
+            <tr><td>Cloudflare Pages</td><td data-rotulo="Plano">estático</td><td data-rotulo="Mais barato" class="barato">R$ 0</td><td data-rotulo="Observação">serve esta apresentação</td></tr>
+            <tr><td>Domínio .org.br</td><td data-rotulo="Plano">renap.org.br</td><td data-rotulo="Mais barato">tabela Registro.br</td><td data-rotulo="Observação">já registrado; renovação anual</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="nota-custo">
+        <b>WordPress</b> não tem linha: o programa é grátis, o custo é a hospedagem acima.
+        <b>Domínio:</b> o Registro.br não abriu a tabela para leitura automatizada hoje —
+        confirme o valor no painel e eu atualizo aqui.
+      </p>
+      <p class="folha"><b>Recomendação:</b> começar com hospedagem estática gratuita e guardar dinheiro para o domínio.</p>
     </div>
   </section>
 
 </main>
 
 <nav class="nav" aria-label="Navegação das telas">
-  <button type="button" id="anterior">← Anterior</button>
-  <p class="dica"><kbd>←</kbd> <kbd>→</kbd> para andar · <kbd>Ctrl</kbd>+<kbd>P</kbd> vira PDF</p>
-  <button type="button" id="seguinte">Seguinte →</button>
+  <button type="button" id="primeira" aria-label="Ir ao início" title="Ir ao início (Home)">⏮</button>
+  <button type="button" id="anterior">← <span class="rotulo">Anterior</span></button>
+  <p class="dica"><kbd>←</kbd> <kbd>→</kbd> para andar · <kbd>Home</kbd> <kbd>End</kbd> início e fim</p>
+  <button type="button" id="seguinte"><span class="rotulo">Seguinte</span> →</button>
+  <button type="button" id="ultima" aria-label="Ir ao final" title="Ir ao final (End)">⏭</button>
 </nav>
 
+<script src="efeitos/magnet.js" defer></script>
+<script src="componentes/shell.js" defer></script>
 <script>
-/* Deck de tela única, sem biblioteca.
-   Por que sem biblioteca: precisa abrir no celular e no notebook, offline,
-   sem build. Teclado, toque e endereço (#5) resolvem a navegação. */
+/* Deck de tela única. Sem biblioteca própria: teclado, toque e endereço (#5).
+   Os efeitos vêm de magnet.js e o robô de shell.js, ambos do design system. */
 (function () {
   'use strict';
 
@@ -615,6 +1058,8 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
   var barra = document.getElementById('barra-progresso');
   var btnAnterior = document.getElementById('anterior');
   var btnSeguinte = document.getElementById('seguinte');
+  var btnPrimeira = document.getElementById('primeira');
+  var btnUltima = document.getElementById('ultima');
   var seletor = document.getElementById('tema');
   var atual = 0;
 
@@ -626,19 +1071,24 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
       var ativo = i === novo;
       t.dataset.ativa = ativo ? 'true' : 'false';
       if (ativo) { t.removeAttribute('aria-hidden'); } else { t.setAttribute('aria-hidden', 'true'); }
-      if ('inert' in t) { t.inert = !ativo; }   // tira do Tab quem está fora da tela
+      if ('inert' in t) { t.inert = !ativo; }
     });
     atual = novo;
+    document.body.dataset.tela = String(atual + 1);   // o logo do canto some na capa
     contador.textContent = (atual + 1) + ' / ' + telas.length;
     barra.style.width = (atual / (telas.length - 1) * 100) + '%';
     btnAnterior.disabled = atual === 0;
     btnSeguinte.disabled = atual === telas.length - 1;
+    btnPrimeira.disabled = atual === 0;
+    btnUltima.disabled = atual === telas.length - 1;
     telas[atual].scrollTop = 0;
     if (!semEndereco) { history.replaceState(null, '', '#' + (atual + 1)); }
   }
 
   btnAnterior.addEventListener('click', function () { mostra(atual - 1); });
   btnSeguinte.addEventListener('click', function () { mostra(atual + 1); });
+  btnPrimeira.addEventListener('click', function () { mostra(0); });
+  btnUltima.addEventListener('click', function () { mostra(telas.length - 1); });
 
   document.addEventListener('keydown', function (e) {
     if (e.metaKey || e.ctrlKey || e.altKey) { return; }
@@ -650,8 +1100,6 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
     else if (e.key === 'End') { e.preventDefault(); mostra(telas.length - 1); }
   });
 
-  /* Deslizar o dedo: 54 px de folga, e só se o movimento for mais horizontal
-     que vertical — senão rolar o texto trocaria de tela sem querer. */
   var x0 = null, y0 = null;
   document.addEventListener('touchstart', function (e) {
     if (e.touches.length !== 1) { return; }
@@ -665,28 +1113,35 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
     if (Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.6) { mostra(atual + (dx < 0 ? 1 : -1)); }
   }, { passive: true });
 
-  /* Temas: a apresentação faz o que o site vai fazer. */
-  var temas = ['light', 'dark', 'high-contrast', 'pequi', 'cerrado', 'mata-atlantica', 'caatinga', 'pantanal'];
-  var biomas = ['pequi', 'cerrado', 'mata-atlantica', 'caatinga', 'pantanal'];
-  var temaAtual = 'light';
+  /* ── Tema ─────────────────────────────────────────────────────────────
+     Antes só existiam dois botões de "próximo", e trocar de bioma para bioma
+     parecia não fazer nada (Cerrado e Caatinga são vizinhos no tom). Agora
+     cada tema é um botão direto e o nome em uso aparece escrito. */
+  var NOMES = {
+    'light': 'Claro',
+    'dark': 'Escuro',
+    'high-contrast': 'Alto contraste',
+    'pequi': 'Pequi',
+    'cerrado': 'Cerrado',
+    'mata-atlantica': 'Mata Atlântica',
+    'caatinga': 'Caatinga',
+    'pantanal': 'Pantanal'
+  };
+  var nomeTema = document.getElementById('nome-tema');
 
   function aplicaTema(nome) {
-    temaAtual = nome;
     document.documentElement.setAttribute('data-theme', nome);
     seletor.value = nome;
+    if (nomeTema) { nomeTema.textContent = NOMES[nome] || nome; }
+    document.querySelectorAll('[data-tema-btn]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.temaBtn === nome));
+    });
     try { localStorage.setItem('renap-tema', nome); } catch (err) { /* modo privado */ }
   }
 
   seletor.addEventListener('change', function () { aplicaTema(seletor.value); });
-
-  document.getElementById('proximo-tema').addEventListener('click', function () {
-    var i = temas.indexOf(temaAtual);
-    aplicaTema(temas[(i + 1) % temas.length]);
-  });
-
-  document.getElementById('alternar-bioma').addEventListener('click', function () {
-    var i = biomas.indexOf(temaAtual);
-    aplicaTema(biomas[(i + 1) % biomas.length]);
+  document.querySelectorAll('[data-tema-btn]').forEach(function (b) {
+    b.addEventListener('click', function () { aplicaTema(b.dataset.temaBtn); });
   });
 
   var cvd = document.getElementById('daltonismo');
@@ -697,22 +1152,92 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
 
   try {
     var guardado = localStorage.getItem('renap-tema');
-    if (guardado && temas.indexOf(guardado) > -1) { aplicaTema(guardado); }
+    if (guardado && NOMES[guardado]) { aplicaTema(guardado); } else { aplicaTema('light'); }
     if (localStorage.getItem('renap-cvd') === 'on') {
       cvd.checked = true;
       document.documentElement.setAttribute('data-cvd', 'on');
     }
-  } catch (err) { /* modo privado: segue no claro */ }
+  } catch (err) { aplicaTema('light'); }
 
-  /* Prova de toque e de foco: o botão responde e volta. */
+  /* ── Botões de exemplo ─────────────────────────────────────────────── */
+  function responde(botao, texto) {
+    var original = botao.dataset.original || botao.textContent;
+    botao.dataset.original = original;
+    botao.textContent = texto;
+    setTimeout(function () { botao.textContent = original; }, 1400);
+  }
   document.getElementById('modelo-botao').addEventListener('click', function (e) {
-    var b = e.currentTarget;
-    b.textContent = 'Funciona assim';
-    setTimeout(function () { b.textContent = 'Botão de exemplo'; }, 1400);
+    responde(e.currentTarget, 'Funciona assim');
+  });
+  document.getElementById('modelo-botao2').addEventListener('click', function (e) {
+    responde(e.currentTarget, 'Toque sentido');
+  });
+  document.getElementById('botao-pulso').addEventListener('click', function () {
+    document.getElementById('status-pulso').textContent = 'Clique recebido. O anel não era o único sinal.';
+  });
+
+  /* ── Busca de exemplo ──────────────────────────────────────────────── */
+  var campo = document.getElementById('campo-busca');
+  var itens = Array.prototype.slice.call(document.querySelectorAll('#lista-busca li'));
+  var statusBusca = document.getElementById('status-busca');
+  campo.addEventListener('input', function () {
+    var termo = campo.value.trim().toLowerCase();
+    var achou = 0;
+    itens.forEach(function (li) {
+      var bate = !termo || li.dataset.chave.indexOf(termo) > -1 || li.textContent.toLowerCase().indexOf(termo) > -1;
+      li.hidden = !bate;
+      if (bate) { achou++; }
+    });
+    statusBusca.textContent = achou === 1 ? '1 documento' : achou + ' documentos';
+  });
+
+  /* ── Rádio de exemplo ──────────────────────────────────────────────── */
+  var radio = document.getElementById('radio');
+  var radioBotao = document.getElementById('radio-botao');
+  radioBotao.addEventListener('click', function () {
+    var tocando = radioBotao.getAttribute('aria-pressed') === 'true';
+    tocando = !tocando;
+    radioBotao.setAttribute('aria-pressed', String(tocando));
+    radioBotao.textContent = tocando ? '❚❚' : '▶';
+    radio.classList.toggle('radio--tocando', tocando);
+    radioBotao.setAttribute('aria-label', tocando ? 'Pausar rádio de exemplo' : 'Tocar rádio de exemplo');
+  });
+
+  /* ── Teste de fonte ────────────────────────────────────────────────── */
+  var familiaAtual = null;
+  function carregaFonte(familia, css) {
+    if (css && !document.querySelector('link[data-fonte="' + familia + '"]')) {
+      var l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = css;
+      l.dataset.fonte = familia;
+      document.head.appendChild(l);
+    }
+  }
+  document.querySelectorAll('[data-fonte]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var familia = b.dataset.fonte;
+      carregaFonte(familia, b.dataset.css);
+      familiaAtual = familia;
+      var nomeBonito = b.textContent.trim();
+      /* O nome do Fontshare vira família CSS: tudo em minúsculas, com espaço. */
+      document.documentElement.style.setProperty('--font-display', '"' + nomeBonito + '", "Clash Display", sans-serif');
+      document.querySelectorAll('[data-fonte]').forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+    });
+  });
+  document.getElementById('fonte-padrao').addEventListener('click', function () {
+    document.documentElement.style.removeProperty('--font-display');
+    document.querySelectorAll('[data-fonte]').forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
   });
 
   var inicial = parseInt((location.hash || '').replace('#', ''), 10);
   mostra(isNaN(inicial) ? 0 : inicial - 1, true);
+
+  /* Quem edita o endereço à mão (#7) também troca de tela. */
+  window.addEventListener('hashchange', function () {
+    var n = parseInt((location.hash || '').replace('#', ''), 10);
+    if (!isNaN(n)) { mostra(n - 1, true); }
+  });
 })();
 </script>
 </body>
