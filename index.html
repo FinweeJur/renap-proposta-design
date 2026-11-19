@@ -43,12 +43,18 @@
   --dur-tela: 420ms;
   --curva: cubic-bezier(.2, 0, 0, 1);
 
-  /* Raia dos quatro biomas. Cor decorativa: o nome do tema é o sinal real. */
+  /* Raia dos quatro biomas. Cor decorativa: o nome do tema é o sinal real.
+     Largura em variável: no alto contraste a raia sai e o conteúdo encosta. */
+  --faixa: 10px;
   --bioma-1: #f2701d;  /* pequi */
   --bioma-2: #ffc300;  /* cerrado */
   --bioma-3: #3a6b35;  /* mata atlântica */
   --bioma-4: #d97724;  /* caatinga */
 }
+
+/* Alto contraste não tem enfeite: o design system pede que nada decorativo
+   sobreviva aqui. A raia sai e a faixa vira zero. */
+[data-theme="high-contrast"] { --faixa: 0px; }
 
 /* ═══ 2. BASE ═════════════════════════════════════════════════════════════ */
 * { box-sizing: border-box; }
@@ -69,7 +75,8 @@ b, strong { font-weight: 600; }
 ::selection { background: var(--cp-primary); color: var(--cp-primary-ink); }
 
 /* ═══ 3. CASCA: raia, barra, progresso ════════════════════════════════════ */
-.raia { position: fixed; left: 0; top: 0; bottom: 0; width: 10px; z-index: 40; display: flex; flex-direction: column; }
+.raia { position: fixed; left: 0; top: 0; bottom: 0; width: var(--faixa); z-index: 40; display: flex; flex-direction: column; }
+[data-theme="high-contrast"] .raia { display: none; }
 .raia i { flex: 1; }
 .raia .b1 { background: var(--bioma-1); }
 .raia .b2 { background: var(--bioma-2); }
@@ -77,7 +84,7 @@ b, strong { font-weight: 600; }
 .raia .b4 { background: var(--bioma-4); }
 
 .barra {
-  position: fixed; inset: 0 0 auto 10px; z-index: 30;
+  position: fixed; inset: 0 0 auto var(--faixa); z-index: 30;
   display: flex; align-items: center; gap: var(--e3);
   padding: var(--e3) var(--e4);
   background: color-mix(in srgb, var(--cp-bg) 88%, transparent);
@@ -99,7 +106,7 @@ b, strong { font-weight: 600; }
   border: 1px solid var(--cp-border); border-radius: 8px;
 }
 
-.progresso { position: fixed; left: 10px; right: 0; top: 0; height: 3px; z-index: 35; }
+.progresso { position: fixed; left: var(--faixa); right: 0; top: 0; height: 3px; z-index: 35; }
 .progresso b { display: block; height: 100%; width: 0; background: var(--cp-primary); transition: width var(--dur-tela) var(--curva); }
 
 /* ═══ 4. TELAS ════════════════════════════════════════════════════════════ */
@@ -107,7 +114,7 @@ b, strong { font-weight: 600; }
 .tela {
   position: absolute; inset: 0;
   display: flex; flex-direction: column; justify-content: center;
-  padding: calc(64px + var(--e5)) 0 var(--e6) 10px;
+  padding: calc(64px + var(--e5)) 0 var(--e6) var(--faixa);
   opacity: 0; visibility: hidden; transform: translateX(26px);
   transition: opacity var(--dur-tela) var(--curva), transform var(--dur-tela) var(--curva),
               visibility 0s linear var(--dur-tela);
@@ -208,7 +215,7 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
 
 /* ═══ 6. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
 .nav {
-  position: fixed; left: 10px; right: 0; bottom: 0; z-index: 30;
+  position: fixed; left: var(--faixa); right: 0; bottom: 0; z-index: 30;
   display: flex; align-items: center; gap: var(--e2);
   padding: var(--e2) var(--e4) calc(var(--e2) + env(safe-area-inset-bottom));
   background: color-mix(in srgb, var(--cp-bg) 90%, transparent);
@@ -235,7 +242,7 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
   .campo-tema label { display: none; }
   .campo-tema select { max-width: 9rem; }
   .nav .dica { display: none; }
-  .tela { padding: calc(58px + var(--e4)) 0 var(--e6) 10px; }
+  .tela { padding: calc(58px + var(--e4)) 0 var(--e6) var(--faixa); }
 }
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 1ms !important; animation-delay: 0ms !important; transition-duration: 1ms !important; }

@@ -23,7 +23,9 @@ CHECAGENS = [
     ("texto / cartão",                 "text", "surface", 4.5, True),
     ("texto suave / fundo",            "soft", "bg", 4.5, True),
     ("texto suave / cartão",           "soft", "surface", 4.5, True),
-    ("tinta sobre a primária (botão)", "ink", "primary", 4.5, True),
+    # O rótulo do botão é grande (19,2 px em negrito): piso de 3:1, não 4,5:1.
+    # No Pantanal dá 4,10:1 — passa em texto grande e reprovaria em texto pequeno.
+    ("tinta sobre a primária (botão grande)", "ink", "primary", 3.0, True),
     ("acento / fundo (marca decorativa)", "accent", "bg", 3.0, False),
 ]
 
