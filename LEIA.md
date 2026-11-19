@@ -1,6 +1,6 @@
 # Apresentação — novo site da RENAP
 
-Página única, sem build, sem instalação. **31 telas** para apresentar o briefing
+Página única, sem build, sem instalação. **28 telas** para apresentar o briefing
 à Articulação Nacional em linguagem simples.
 
 - Conteúdo: `Briefing-novo-site-RENAP.docx`, de 19/11/2026.
@@ -29,18 +29,20 @@ e abra <http://127.0.0.1:4323>.
 
 O tema escolhido fica guardado no navegador.
 
-## As 31 telas
+## As 28 telas
 
 **Decisão (2 a 5):** quatro perguntas · o que os portais têm em comum ·
 sóbrio ou com efeitos · o que é grátis e fácil.
 
-**Proposta (6 a 23):** o que queremos · a cara · verba · fase 1 · migração ·
+**Proposta (6 a 22):** o que queremos · a cara · verba · fase 1 · migração ·
 documentos · cadastro · temas · sigilo · pedidos a orçar · API · proteções ·
-voz e robô · código aberto · como avaliar · cinco decisões · glossário ·
-fechamento.
+voz, robô e código aberto · cinco decisões · glossário · fechamento.
 
-**Anexos (24 a 31):** efeitos · sanfona · busca, robô e rádio · fontes ·
-hospedagem · referências (movimentos, jurídico, acervo).
+**Anexos (23 a 28):** efeitos · sanfona · busca, robô e rádio · fontes ·
+hospedagem · referências (movimentos; acervo, busca e serviço).
+
+As legendas dos anexos de referência descrevem o que a página inteira mostra —
+blocos, menu, busca, imagens —, não uma opinião sobre o site.
 
 ## O que é de quem
 
@@ -82,3 +84,12 @@ Hostinger e Wix — preço de tabela e promoção mudam; confira antes de contra
 O valor de renovação do domínio `renap.org.br` **não foi publicado de forma
 legível** pelo Registro.br na data. Confirme no painel da conta e atualize a
 tabela; não invente número.
+
+## Sobre os prints de referência
+
+As legendas descrevem o que a **página inteira** mostra: seções, menu,
+busca, número de imagens e de palavras. Não são opinião sobre o site.
+
+O Coletivo Margarida Alves ficou fora: o navegador bloqueou o site por
+certificado. O Observatório de Protocolos não tinha site próprio localizável
+em 19/11/2026.
