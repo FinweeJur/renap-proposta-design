@@ -33,3 +33,22 @@
   --cp-primary-ink: #ffffff;
   --cp-focus: #990000;
 }
+
+/* Tema Brasil — verde e amarelo, pedido do dono em 20/11/2026.
+   Verde escuro de fundo para o texto longo continuar legível; o amarelo é a
+   primária. Contraste medido em docs/medir-contraste.py. */
+[data-theme="brasil"] {
+  color-scheme: dark;
+  --cp-bg: #0b3d2e;
+  --cp-surface: #104a37;
+  --cp-surface-2: #14573f;
+  --cp-text: #fdf6e3;
+  --cp-text-soft: #cfe3b8;
+  --cp-primary: #ffd700;
+  --cp-primary-ink: #12250f;
+  --cp-accent: #009c3b;
+  --cp-accent-ink: #ffffff;
+  --cp-border: #1d6b4f;
+  --cp-alert: #ff9d7a;
+  --cp-focus: #ffd700;
+}

@@ -13,6 +13,7 @@ VERMELHO_ESCURO = dict(primary="#f2666a", ink="#1a0505")
 TEMAS = {
     "light":          dict(bg="#f7f8fa", surface="#ffffff", text="#0e1726", soft="#4a5568", accent="#0e8f6e", **VERMELHO_CLARO),
     "dark":           dict(bg="#0b1220", surface="#141c2b", text="#e6eaf0", soft="#a0aec0", accent="#2fbf9a", **VERMELHO_ESCURO),
+    "brasil":         dict(bg="#0b3d2e", surface="#104a37", text="#fdf6e3", soft="#cfe3b8", accent="#009c3b", primary="#ffd700", ink="#12250f"),
     "high-contrast":  dict(bg="#ffffff", surface="#ffffff", text="#000000", soft="#000000", accent="#006644", primary="#990000", ink="#ffffff"),
     "pequi":          dict(bg="#0d0b08", surface="#171310", text="#f7f0e6", soft="#cbbda9", accent="#e4b33c", **VERMELHO_ESCURO),
     "cerrado":        dict(bg="#1a1208", surface="#231a0f", text="#f5e6d0", soft="#c4a882", accent="#3a6b35", **VERMELHO_ESCURO),

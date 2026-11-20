@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Novo site da RENAP — proposta</title>
-<meta name="description" content="Proposta do novo site da RENAP, feita pelo GT de Comunicação. 28 telas, linguagem simples." />
+<meta name="description" content="Proposta do novo site da RENAP, feita pelo GT de Comunicação. Linguagem simples, cinco minutos." />
 <link rel="icon" href="data:," />
 
 <!--
@@ -19,7 +19,7 @@
 -->
 <link rel="stylesheet" href="fontes/fontshare.css" />
 <link rel="stylesheet" href="temas/temas.css" />
-<link rel="stylesheet" href="temas/renap.css" />
+<link rel="stylesheet" href="temas/renap.css?v=2" />
 <link rel="stylesheet" href="componentes/select.css" />
 <link rel="stylesheet" href="componentes/sanfona.css" />
 <link rel="stylesheet" href="componentes/shell.css" />
@@ -328,6 +328,12 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   font-size: 1.1rem; cursor: pointer; display: grid; place-items: center;
 }
 .rp__tocar:hover { filter: brightness(1.07); }
+.rp__parar {
+  width: 40px; height: 40px; flex: 0 0 auto; border-radius: 50%;
+  border: 1px solid var(--cp-border); background: var(--cp-surface); color: var(--cp-text);
+  font-size: .8rem; cursor: pointer; display: grid; place-items: center;
+}
+.rp__parar:hover { border-color: var(--cp-primary); color: var(--cp-primary); }
 .rp__nome { font-weight: 700; font-size: var(--t-peq); line-height: 1.25; }
 .rp__meta { display: block; font-weight: 400; font-size: var(--t-min); color: var(--cp-text-soft); }
 .rp__volume { display: flex; align-items: center; gap: var(--e2); font-size: var(--t-min); color: var(--cp-text-soft); }
@@ -560,6 +566,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   <div class="campo-tema">
     <label for="tema">Tema</label>
     <select id="tema">
+      <option value="brasil">Brasil</option>
       <option value="light">Claro</option>
       <option value="dark">Escuro</option>
       <option value="high-contrast">Alto contraste</option>
@@ -570,7 +577,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <option value="pantanal">Pantanal</option>
     </select>
   </div>
-  <p class="contador" id="contador">1 / 29</p>
+  <p class="contador" id="contador">1 / 28</p>
 </header>
 
 <main class="deck" id="deck">
@@ -583,7 +590,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="olho sobe" style="--i:0">Articulação Nacional · 19 de novembro de 2026</p>
       <h1 class="sobe" style="--i:1; font-size: var(--t-capa); font-family: var(--font-display)">Novo site da RENAP</h1>
       <p class="resumo sobe" style="--i:2">
-        Uma proposta em linguagem simples. Vinte e nove telas, cinco minutos.
+        Uma proposta em linguagem simples. Cinco minutos.
       </p>
       <p class="credito">Proposta do GT de Comunicação da RENAP</p>
       <p class="folha"><b>Use as setas</b>, clique no lado direito ou deslize o dedo.</p>
@@ -834,26 +841,6 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   </section>
 
   <!-- 10 · A CARA DO SITE -->
-  <section class="tela" aria-label="A cara do site">
-    <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🎨</span>A cara do site</p>
-      <h2 class="titulo sobe" style="--i:1">Sério no conteúdo. Leve na leitura.</h2>
-      <p class="resumo sobe" style="--i:2">
-        Título curto, texto curto, espaço em branco. A cor vem do território.
-        O nome do tema aparece escrito.
-      </p>
-      <div class="amostras">
-        <div class="amostra"><i style="background:var(--cp-primary)"></i><small>primária</small></div>
-        <div class="amostra"><i style="background:var(--cp-accent)"></i><small>acento</small></div>
-        <div class="amostra"><i style="background:var(--cp-text)"></i><small>texto</small></div>
-        <div class="amostra"><i style="background:var(--cp-surface)"></i><small>cartão</small></div>
-      </div>
-      <p style="margin-top:var(--e4);font-family:var(--font-display);font-size:1.5rem">Título em Clash Display</p>
-      <p style="color:var(--cp-text-soft);font-size:var(--t-peq)">Corpo em General Sans, 1,5 de entrelinha.</p>
-      <p style="margin-top:var(--e3)"><button class="botao" type="button" id="modelo-botao">Botão de exemplo</button></p>
-    </div>
-  </section>
-
   <!-- 11 · VERBA -->
   <section class="tela" aria-label="Quanto temos">
     <div class="miolo">
@@ -930,15 +917,25 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   </section>
 
   <!-- 16 · TEMAS -->
-  <section class="tela" aria-label="Temas">
+  <section class="tela" aria-label="Cores e temas">
     <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🌗</span>Temas de cor</p>
-      <h2 class="titulo sobe" style="--i:1">Oito jeitos de ver o mesmo site.</h2>
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🎨</span>Cores e identidade</p>
+      <h2 class="titulo sobe" style="--i:1">Qual cara a RENAP quer ter?</h2>
       <p class="resumo sobe" style="--i:2">
-        Toque num nome e esta apresentação troca na hora. Claro, escuro e alto contraste
-        primeiro; depois, os biomas.
+        A mesma página muda de cor sem mudar de conteúdo. Toque num tema e veja aqui.
       </p>
-      <div class="temas-grade" role="group" aria-label="Escolher tema">
+
+      <div class="amostras">
+        <div class="amostra"><i style="background:var(--cp-primary)"></i><small>primária</small></div>
+        <div class="amostra"><i style="background:var(--cp-accent)"></i><small>acento</small></div>
+        <div class="amostra"><i style="background:var(--cp-text)"></i><small>texto</small></div>
+        <div class="amostra"><i style="background:var(--cp-surface)"></i><small>cartão</small></div>
+      </div>
+      <p style="margin-top:var(--e3);font-family:var(--font-display);font-size:1.4rem">Título em Clash Display</p>
+      <p style="color:var(--cp-text-soft);font-size:var(--t-peq)">Corpo em General Sans, 1,5 de entrelinha.</p>
+
+      <div class="temas-grade" role="group" aria-label="Escolher tema" style="margin-top:var(--e4)">
+        <button class="chip-tema" type="button" data-tema-btn="brasil"><i style="background:#ffd700"></i>Brasil</button>
         <button class="chip-tema" type="button" data-tema-btn="light"><i style="background:#b00020"></i>Claro</button>
         <button class="chip-tema" type="button" data-tema-btn="dark"><i style="background:#4a90d9"></i>Escuro</button>
         <button class="chip-tema" type="button" data-tema-btn="high-contrast"><i style="background:#000"></i>Alto contraste</button>
@@ -953,7 +950,25 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
         <input type="checkbox" id="daltonismo" />
         Testar modo daltonismo (troca as cores de apoio)
       </label>
-      <p class="folha"><b>Regra:</b> cor nunca é o único sinal. Contraste é medido, nunca estimado.</p>
+
+      <div class="cartoes duas" style="margin-top:var(--e4)">
+        <div class="cartao">
+          <span class="etiqueta">Família 1</span>
+          <h3><span class="emoji" aria-hidden="true">🇧🇷</span>Identidade Brasil</h3>
+          <p>Verde e amarelo. Combina com o nome e o público, mas pesa em texto longo.</p>
+        </div>
+        <div class="cartao">
+          <span class="etiqueta">Família 2</span>
+          <h3><span class="emoji" aria-hidden="true">🌿</span>Biomas</h3>
+          <p>Pequi, Cerrado, Mata Atlântica, Caatinga e Pantanal. A cor acompanha o território.</p>
+        </div>
+        <div class="cartao">
+          <span class="etiqueta">Família 3</span>
+          <h3><span class="emoji" aria-hidden="true">🏛️</span>Institucional</h3>
+          <p>Claro, escuro e alto contraste. A leitura vem antes da identidade visual.</p>
+        </div>
+      </div>
+      <p class="folha"><b>Decisão:</b> escolher uma família agora e as outras duas ficam disponíveis para o leitor.</p>
     </div>
   </section>
 
@@ -1281,6 +1296,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
         <div class="rp__controles">
           <div class="rp__linha">
             <button class="rp__tocar" type="button" data-radio-tocar data-tocando="false" aria-label="Tocar rádio">▶</button>
+            <button class="rp__parar" type="button" data-radio-parar aria-label="Parar o rádio" title="Parar o rádio">■</button>
             <div>
               <div class="rp__nome" data-radio-nome>Escolha uma estação<span class="rp__meta" data-radio-meta>52 estações do acervo do Controle Popular</span></div>
             </div>
@@ -1505,6 +1521,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
      parecia não fazer nada (Cerrado e Caatinga são vizinhos no tom). Agora
      cada tema é um botão direto e o nome em uso aparece escrito. */
   var NOMES = {
+    'brasil': 'Brasil',
     'light': 'Claro',
     'dark': 'Escuro',
     'high-contrast': 'Alto contraste',
@@ -1553,9 +1570,10 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     botao.textContent = texto;
     setTimeout(function () { botao.textContent = original; }, 1400);
   }
-  document.getElementById('modelo-botao').addEventListener('click', function (e) {
-    responde(e.currentTarget, 'Funciona assim');
-  });
+  var modelo = document.getElementById('modelo-botao');
+  if (modelo) {
+    modelo.addEventListener('click', function (e) { responde(e.currentTarget, 'Funciona assim'); });
+  }
   document.getElementById('modelo-botao2').addEventListener('click', function (e) {
     responde(e.currentTarget, 'Toque sentido');
   });
@@ -1609,7 +1627,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   /* Rádio: script injetado para não esperar a folha de estilo do CDN. */
   (function carregaRadio() {
     var s = document.createElement('script');
-    s.src = 'componentes/radio.js?v=2';
+    s.src = 'componentes/radio.js?v=3';
     document.body.appendChild(s);
   })();
 

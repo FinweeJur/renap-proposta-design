@@ -65,6 +65,19 @@
     }
   }
 
+  /* Para TODO áudio da página. É o cinto de segurança: se sobrou um elemento
+     de uma troca anterior (ou de outra aba interna), ele cala aqui. */
+  function pararTudo() {
+    limpa();
+    var todos = document.querySelectorAll("audio");
+    for (var i = 0; i < todos.length; i++) {
+      try {
+        todos[i].pause();
+        if (todos[i] !== audio) { todos[i].removeAttribute("src"); todos[i].load(); }
+      } catch (err) { /* elemento já descartado */ }
+    }
+  }
+
   function desenhaLista(filtro) {
     var termo = (filtro || "").toLowerCase().trim();
     lista.innerHTML = "";
@@ -110,7 +123,7 @@
   }
 
   function toca(e) {
-    limpa();
+    pararTudo();
     audio = audioNovo();
     atual = e;
 
@@ -182,6 +195,20 @@
     if (botao.dataset.tocando === "true") pausa(); else toca(atual);
   });
 
+  var parar = raiz.querySelector("[data-radio-parar]");
+  if (parar) {
+    parar.addEventListener("click", function () {
+      pararTudo();
+      audio = audioNovo();
+      botao.dataset.tocando = "false";
+      botao.setAttribute("aria-label", "Tocar rádio");
+      aviso("Parado.");
+      desenhaLista(busca.value);
+    });
+  }
+
+  /* Saiu da página? O áudio não pode continuar no fone de ninguém. */
+  window.addEventListener("pagehide", pararTudo);
   busca.addEventListener("input", function () { desenhaLista(busca.value); });
 
   if (volume) {
