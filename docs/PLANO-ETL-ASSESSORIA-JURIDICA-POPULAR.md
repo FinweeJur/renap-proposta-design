@@ -68,6 +68,24 @@ Os nove blocos, na ordem:
 8. **Revisão humana antes de publicar.** O robô sugere tema e resumo; quem
    assina o acervo decide.
 
+### 2.1 Parceria com o IPDMS — GT de Assessoria Jurídica Popular
+
+O acervo é publicado **em parceria com o IPDMS — GT de Assessoria Jurídica
+Popular** (Instituto de Pesquisa, Direitos e Movimentos Sociais).
+
+| Onde aparece | Como |
+|---|---|
+| Topo da página do texto | selo “Parceria: IPDMS · GT de Assessoria Jurídica Popular” |
+| Bloco de citação | linha de crédito depois da atribuição ao autor |
+| Rodapé de cada página | logo textual + link `https://ipdms.org.br/` |
+| PDF do acervo | capa e rodapé com a parceria |
+| Ficha do post (`fonte.parceria`) | `"ipdms-gt-ajp"` |
+| Repositório no Drive | pasta `RENAP-AJP`, subpasta `_meta/parceria/` com o termo assinado |
+
+Regras: a parceria é **de publicação e curadoria**, não de autoria — o texto
+continua assinado por quem escreveu. O termo fica arquivado em
+`docs/autorizacoes/ipdms-gt-ajp.md` e pode ser revogado por escrito.
+
 ---
 
 ## 3. Decisão jurídica (antes da primeira linha de código)
@@ -247,6 +265,11 @@ Campos obrigatórios: `id`, `slug`, `titulo`, `data`, `autor.nome`, `fonte.url`,
     Capturado em 17/11/2026.
   </figcaption>
 </figure>
+
+  <p class="parceria">
+    Em parceria com o <a href="https://ipdms.org.br/" target="_blank" rel="noopener">IPDMS</a>
+    — GT de Assessoria Jurídica Popular.
+  </p>
 
 <p class="acoes-fonte">
   <a class="botao" href="https://assessoriajuridicapopular.blogspot.com/2009/08/o-que-e-assessoria-juridica-popular.html"
