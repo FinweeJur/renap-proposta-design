@@ -9,7 +9,7 @@ Primeira versão completa e publicada.
 
 ### Adicionado
 
-- Deck em 32 telas, página única, sem build.
+- Deck em 30 telas, página única, sem build.
 - Nove temas de cor, incluindo o tema Brasil (verde e amarelo).
 - Player de rádio com 52 estações públicas do Controle Popular, filtro por
   região, volume, botão de parar e HLS sob demanda.
