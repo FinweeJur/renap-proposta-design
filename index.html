@@ -633,32 +633,25 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .tela::before {
   content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none;
   background-image: var(--fundo, none);
-  background-position: right bottom; background-size: contain; background-repeat: no-repeat;
-  filter: brightness(1) saturate(1);
-  opacity: var(--fundo-op, .9);
-  width: min(58vw, 760px); height: min(70vh, 600px);
-  left: auto; right: 0; top: auto; bottom: 0;
-  -webkit-mask-image:
-    linear-gradient(to right, transparent 0%, rgba(0,0,0,.18) 8%, rgba(0,0,0,.5) 20%, rgba(0,0,0,.82) 32%, #000 46%),
-    linear-gradient(to top, #000 38%, rgba(0,0,0,.75) 66%, rgba(0,0,0,.32) 88%, transparent 100%),
-    radial-gradient(155% 125% at 100% 100%, #000 58%, transparent 100%);
-  mask-image:
-    linear-gradient(to right, transparent 0%, rgba(0,0,0,.18) 8%, rgba(0,0,0,.5) 20%, rgba(0,0,0,.82) 32%, #000 46%),
-    linear-gradient(to top, #000 38%, rgba(0,0,0,.75) 66%, rgba(0,0,0,.32) 88%, transparent 100%),
-    radial-gradient(155% 125% at 100% 100%, #000 58%, transparent 100%);
-  -webkit-mask-composite: source-in; mask-composite: intersect;
+  background-position: right 38%;
+  background-size: cover; background-repeat: no-repeat;
+  filter: brightness(.78) saturate(.95);
+  opacity: var(--fundo-op, .58);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.55) 9%, #000 26%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.55) 9%, #000 26%);
 }
+
 .tela::after {
   content: ""; position: fixed; inset: 0; z-index: 2; pointer-events: none;
   background: linear-gradient(100deg,
-    color-mix(in srgb, var(--cp-bg) var(--veu-1, 88%), transparent) 0%,
-    color-mix(in srgb, var(--cp-bg) var(--veu-2, 74%), transparent) 55%,
-    color-mix(in srgb, var(--cp-bg) var(--veu-3, 60%), transparent) 100%);
+    color-mix(in srgb, var(--cp-bg) var(--veu-1, 90%), transparent) 0%,
+    color-mix(in srgb, var(--cp-bg) var(--veu-2, 80%), transparent) 55%,
+    color-mix(in srgb, var(--cp-bg) var(--veu-3, 70%), transparent) 100%);
 }
 .tela .miolo { position: relative; z-index: 3; }
 
 /* Capa e fecho: foto maior e mais presente. */
-.tela--capa, .tela--fecho { --fundo-op: .86; }
+.tela--capa, .tela--fecho { --fundo-op: .72; }
 .tela--capa::after, .tela--fecho::after {
   background: linear-gradient(100deg,
     color-mix(in srgb, var(--cp-bg) 92%, transparent) 0%,
