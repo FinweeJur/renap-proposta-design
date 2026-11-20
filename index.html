@@ -1193,6 +1193,18 @@ a:hover { text-decoration-thickness: 2px; }
   text-shadow: 0 1px 3px rgba(0, 0, 0, .75);
 }
 
+/* Cartão padrão (o da tela 6): sem fundo, sem desfoque, só borda clara.
+   Vale para todo bloco que se comporta como cartão. */
+.cartao, .sumario__item, .contas li, .funcao, .demo, .lab__item, .amostra-fonte,
+.catalogo li, .fonte-item button, .chip-tema, .rp__controles, .rp__lista-area {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid color-mix(in srgb, var(--cp-text) 22%, transparent);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .10);
+}
+
 /* Brilho de vidro: uma linha clara no topo faz o cartão parecer vidro
    mesmo quando atrás dele a foto está escura. */
 .cartao, .sumario__item {
