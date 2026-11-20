@@ -617,32 +617,35 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .efeitos-botoes .botao { display: inline-flex; align-items: center; text-decoration: none; }
 
 /* ═══ 11. FOTOS DE FUNDO ══════════════════════════════════════════════════
-   Foto grande com brilho baixo e véu do próprio tema por cima. O véu existe
-   para o texto manter o contraste medido: a foto é atmosfera, não informação. */
-.tela--capa::before,
-.tela--fecho::before {
+   Cada tela recebe uma das três fotos, com brilho baixo e véu do próprio tema
+   por cima. A foto é atmosfera: o texto continua no contraste medido. */
+.tela::before {
   content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: var(--fundo, none);
   background-position: center; background-size: cover; background-repeat: no-repeat;
-  filter: brightness(.55) saturate(.85);
-  opacity: .55;
+  filter: brightness(.5) saturate(.8);
+  opacity: var(--fundo-op, .3);
 }
-.tela--capa::before { background-image: url("assets/fundo/capa.jpg"); }
-.tela--fecho::before { background-image: url("assets/fundo/fecho.jpg"); }
-
-.tela--capa::after,
-.tela--fecho::after {
+.tela::after {
   content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background: linear-gradient(100deg,
-    color-mix(in srgb, var(--cp-bg) 93%, transparent) 0%,
-    color-mix(in srgb, var(--cp-bg) 80%, transparent) 55%,
-    color-mix(in srgb, var(--cp-bg) 62%, transparent) 100%);
+    color-mix(in srgb, var(--cp-bg) 94%, transparent) 0%,
+    color-mix(in srgb, var(--cp-bg) 86%, transparent) 60%,
+    color-mix(in srgb, var(--cp-bg) 76%, transparent) 100%);
 }
-.tela--capa .miolo,
-.tela--fecho .miolo { position: relative; z-index: 1; }
+.tela .miolo { position: relative; z-index: 1; }
+
+/* Capa e fecho respiram mais a foto; o resto fica discreto. */
+.tela--capa, .tela--fecho { --fundo-op: .55; }
+.tela--capa::after, .tela--fecho::after {
+  background: linear-gradient(100deg,
+    color-mix(in srgb, var(--cp-bg) 92%, transparent) 0%,
+    color-mix(in srgb, var(--cp-bg) 78%, transparent) 55%,
+    color-mix(in srgb, var(--cp-bg) 58%, transparent) 100%);
+}
 
 @media print {
-  .tela--capa::before, .tela--capa::after,
-  .tela--fecho::before, .tela--fecho::after { display: none !important; }
+  .tela::before, .tela::after { display: none !important; }
 }
 
 /* Controles do texto corrido: fonte, peso e espaçamento. */
@@ -2434,6 +2437,15 @@ a:hover { text-decoration-thickness: 2px; }
         o.addEventListener('animationend', function () { o.remove(); });
       });
     }
+  })();
+
+
+  /* Fundo fotográfico: alterna as três imagens entre as telas. */
+  (function fundos() {
+    var fotos = ['assets/fundo/capa.jpg', 'assets/fundo/home-hero.jpg', 'assets/fundo/fecho.jpg'];
+    telas.forEach(function (tela, i) {
+      tela.style.setProperty('--fundo', 'url("' + fotos[i % fotos.length] + '")');
+    });
   })();
 
   /* Scripts injetados: com `defer` eles esperavam a folha de estilo do CDN e
