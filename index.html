@@ -299,29 +299,57 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .busca-lista li span { color: var(--cp-text-soft); font-size: var(--t-min); white-space: nowrap; }
 .busca-lista li[hidden] { display: none; }
 
-/* Rádio */
-.radio {
-  display: flex; align-items: center; gap: var(--e3);
+/* Rádio: player com lista de estações (acervo do Controle Popular).
+   Controles fixos à esquerda; a lista funciona como barra lateral. */
+.rp { display: grid; gap: var(--e3); margin-top: var(--e2); }
+@media (min-width: 760px) {
+  .rp { grid-template-columns: 260px 1fr; align-items: start; }
+}
+.rp__controles {
   border: 1px solid var(--cp-border); border-radius: 12px;
   background: var(--cp-surface-2); padding: var(--e3);
+  display: grid; gap: var(--e2);
 }
-.radio__botao {
-  width: 44px; height: 44px; flex: 0 0 auto; border-radius: 50%;
+.rp__linha { display: flex; align-items: center; gap: var(--e2); }
+.rp__tocar {
+  width: 52px; height: 52px; flex: 0 0 auto; border-radius: 50%;
   border: 0; background: var(--cp-primary); color: var(--cp-primary-ink);
-  font-size: 1rem; cursor: pointer; display: grid; place-items: center;
+  font-size: 1.1rem; cursor: pointer; display: grid; place-items: center;
 }
-.radio__info { display: grid; gap: 2px; min-width: 0; }
-.radio__info strong { font-size: var(--t-peq); }
-.radio__info span { font-size: var(--t-min); color: var(--cp-text-soft); }
-.radio__onda { display: flex; align-items: flex-end; gap: 3px; height: 26px; margin-left: auto; }
-.radio__onda i { width: 3px; height: 6px; background: var(--cp-primary); border-radius: 2px; opacity: .5; }
-.radio--tocando .radio__onda i { animation: onda .9s ease-in-out infinite alternate; opacity: 1; }
-.radio--tocando .radio__onda i:nth-child(2) { animation-delay: .12s; }
-.radio--tocando .radio__onda i:nth-child(3) { animation-delay: .24s; }
-.radio--tocando .radio__onda i:nth-child(4) { animation-delay: .36s; }
-.radio--tocando .radio__onda i:nth-child(5) { animation-delay: .48s; }
-@keyframes onda { from { height: 5px; } to { height: 24px; } }
-@media (prefers-reduced-motion: reduce) { .radio--tocando .radio__onda i { animation: none; height: 14px; } }
+.rp__tocar:hover { filter: brightness(1.07); }
+.rp__nome { font-weight: 700; font-size: var(--t-peq); line-height: 1.25; }
+.rp__meta { display: block; font-weight: 400; font-size: var(--t-min); color: var(--cp-text-soft); }
+.rp__volume { display: flex; align-items: center; gap: var(--e2); font-size: var(--t-min); color: var(--cp-text-soft); }
+.rp__volume input { flex: 1; accent-color: var(--cp-primary); }
+.rp__status { font-size: var(--t-min); color: var(--cp-text-soft); min-height: 1.2em; }
+.rp__lista-area {
+  border: 1px solid var(--cp-border); border-radius: 12px;
+  background: var(--cp-surface); overflow: hidden;
+}
+.rp__busca { display: flex; gap: var(--e2); align-items: center; padding: var(--e2); border-bottom: 1px solid var(--cp-border); }
+.rp__busca input {
+  flex: 1; min-height: 36px; padding: .4rem .6rem;
+  font: inherit; font-size: var(--t-min);
+  color: var(--cp-text); background-color: var(--cp-bg);
+  border: 1px solid var(--cp-border); border-radius: 8px;
+}
+.rp__contagem { font-size: var(--t-min); color: var(--cp-text-soft); white-space: nowrap; }
+.rp__lista { max-height: 260px; overflow-y: auto; padding: 6px; }
+.rp__grupo {
+  font-size: var(--t-min); text-transform: uppercase; letter-spacing: .1em;
+  color: var(--cp-text-soft); margin: var(--e2) var(--e1) 4px;
+}
+.rp__item {
+  display: grid; gap: 2px; width: 100%; text-align: left;
+  padding: 8px 10px; border: 0; border-radius: 8px;
+  background: transparent; color: var(--cp-text); cursor: pointer;
+  font: inherit; font-size: var(--t-min);
+}
+.rp__item:hover { background: var(--cp-surface-2); }
+.rp__item[data-tocando="true"] { background: var(--cp-surface-2); box-shadow: inset 3px 0 0 var(--cp-primary); }
+.rp__item-nome { font-weight: 600; }
+.rp__item-meta { color: var(--cp-text-soft); }
+.rp__vazio { font-size: var(--t-min); color: var(--cp-text-soft); padding: 10px; }
 
 /* Robô dentro da tela (o padrão do design system é flutuante) */
 .robo--tela { position: static; align-items: stretch; }
@@ -401,6 +429,46 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
    recortar cortaria justamente o que se quer comparar. */
 @media (max-width: 679px) {
   .refs img { aspect-ratio: 16 / 10; }
+}
+
+/* Funções do site: título e exemplo lado a lado, com pulso em ordem. */
+.funcoes { display: grid; gap: 8px; }
+.funcao {
+  display: grid; grid-template-columns: 10px 1fr; gap: var(--e3);
+  align-items: start; padding: 10px 14px;
+  border: 1px solid var(--cp-border); border-radius: 12px;
+  background: var(--cp-surface);
+  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .funcao:hover {
+    border-color: color-mix(in srgb, var(--cp-primary) 55%, transparent);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgb(0 0 0 / .18);
+  }
+}
+.funcao__texto { display: grid; gap: 2px; }
+@media (min-width: 700px) {
+  .funcao__texto { grid-template-columns: 168px 1fr; gap: var(--e3); align-items: baseline; }
+}
+.funcao__texto b { font-size: var(--t-peq); }
+.funcao__texto span { font-size: var(--t-peq); color: var(--cp-text-soft); line-height: 1.45; }
+
+/* Pulso que desce: o atraso é o índice do cartão (--i). */
+.funcao__marca { position: relative; width: 8px; height: 8px; margin-top: .55em; border-radius: 50%; background: var(--cp-primary); }
+.funcao__marca::after {
+  content: ""; position: absolute; inset: -3px; border-radius: 50%;
+  border: 2px solid var(--cp-primary); opacity: 0;
+  animation: pulso-degrau 2.4s ease-out infinite;
+  animation-delay: calc(var(--i, 0) * 220ms);
+}
+@keyframes pulso-degrau {
+  0% { transform: scale(.8); opacity: .5; }
+  70%, 100% { transform: scale(1.9); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .funcao__marca::after { animation: none; }
+  .funcao { transition: none; }
 }
 
 /* ═══ 7. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
@@ -501,7 +569,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="olho sobe" style="--i:0">Articulação Nacional · 19 de novembro de 2026</p>
       <h1 class="sobe" style="--i:1; font-size: var(--t-capa); font-family: var(--font-display)">Novo site da RENAP</h1>
       <p class="resumo sobe" style="--i:2">
-        Uma proposta em linguagem simples. Vinte e oito telas, cinco minutos.
+        Uma proposta em linguagem simples. Vinte e nove telas, cinco minutos.
       </p>
       <p class="credito">Proposta do GT de Comunicação da RENAP</p>
       <p class="folha"><b>Use as setas</b>, clique no lado direito ou deslize o dedo.</p>
@@ -512,7 +580,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   <section class="tela" aria-label="Quatro pontos em aberto">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">❓</span>Decisões desta reunião</p>
-      <h2 class="titulo sobe" style="--i:1">Quatro pontos em aberto, com duas opções cada.</h2>
+      <h2 class="titulo sobe" style="--i:1">Pontos em aberto com sugestões possíveis</h2>
       <p class="resumo sobe" style="--i:2">
         A RENAP (Rede Nacional de Advogados e Advogadas Populares) escolhe uma opção em cada linha. As quatro respostas definem preço, prazo e prioridade.
       </p>
@@ -530,8 +598,8 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
           <span class="etiqueta">Ponto 2</span>
           <h3><span class="emoji" aria-hidden="true">✍️</span>Quem publica conteúdo no dia a dia?</h3>
           <ul class="linhas" style="margin-top:var(--e2)">
-            <li><b>Opção A:</b> Uma pessoa da Articulação Nacional publica os conteúdos.</li>
-            <li><b>Opção B:</b> Uma pessoa indicada em cada estado publica os conteúdos.</li>
+            <li><b>Opção A:</b> Uma pessoa da Articulação Nacional ou do GT Comunicação publica.</li>
+            <li><b>Opção B:</b> Todo integrante aprovado pode publicar, na biblioteca ou no blog, por exemplo.</li>
           </ul>
           <p style="margin-top:var(--e2)"><b>Exemplo:</b> Hoje, a notícia depende de uma pessoa que tem a senha do Wix (plataforma de sites).</p>
         </div>
@@ -554,7 +622,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
           <p style="margin-top:var(--e2)"><b>Exemplo:</b> A liderança em área rural perde tempo quando o site pesa no 3G (internet móvel).</p>
         </div>
       </div>
-      <p class="folha"><b>Cada resposta vira requisito</b> do plano de trabalho. Cada resposta vira requisito do plano de trabalho. Sem elas, a proposta não define entregas.</p>
+      <p class="folha"><b>Cada resposta vira requisito</b> do plano de trabalho. Sem elas, a proposta não define entregas.</p>
     </div>
   </section>
 
@@ -564,32 +632,32 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖼️</span>Referências · 1 de 2</p>
       <h2 class="titulo sobe" style="--i:1">Movimentos e organizações.</h2>
       <p class="resumo sobe" style="--i:2">
-        Seis páginas inteiras capturadas em 19/11/2026. A legenda descreve o que a página tem, não o que achamos dela.
+        Prints de 19/11/2026. A legenda diz o que há no menu, nas funções e nas cores.
       </p>
       <div class="refs refs--6">
         <figure>
           <img src="assets/ref/mst.jpg" alt="Página inicial do MST" loading="lazy" />
-          <figcaption><b>MST</b> — menu de 12 itens com submenus, busca e 37 links no rodapé. <a href="https://mst.org.br/" target="_blank" rel="noopener">mst.org.br</a></figcaption>
+          <figcaption><b>MST</b> — menu de 12 itens (O MST, Notícias, Mídias, Especiais, Rádios); busca; galerias de imagem. Cores: vermelho vivo e bege claro. <a href="https://mst.org.br/" target="_blank" rel="noopener">mst.org.br</a></figcaption>
         </figure>
         <figure>
           <img src="assets/ref/mab.jpg" alt="Página inicial do MAB" loading="lazy" />
-          <figcaption><b>MAB</b> — 6 mil palavras e 574 imagens; menu em três idiomas; blocos de opinião, especiais e entrevistas. <a href="https://mab.org.br/" target="_blank" rel="noopener">mab.org.br</a></figcaption>
+          <figcaption><b>MAB</b> — menu de 9 itens em três idiomas (O MAB, Lutas, Apoie, Notícias); busca. Cores: verde e branco. <a href="https://mab.org.br/" target="_blank" rel="noopener">mab.org.br</a></figcaption>
         </figure>
         <figure>
           <img src="assets/ref/cpt.jpg" alt="Página inicial da CPT" loading="lazy" />
-          <figcaption><b>CPT</b> — menu com Acervo, Biblioteca e Cedoc; capa de relatório; bloco “Vozes da Resistência”. <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener">cptnacional.org.br</a></figcaption>
+          <figcaption><b>CPT</b> — menu com Acervo, Biblioteca, Cedoc e Conflitos no campo; busca. Cores: vinho e branco. <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener">cptnacional.org.br</a></figcaption>
         </figure>
         <figure>
           <img src="assets/ref/cimi.jpg" alt="Página inicial do CIMI" loading="lazy" />
-          <figcaption><b>CIMI</b> — 7 mil px de altura; notícias repetidas em dois blocos; menu por regionais. <a href="https://cimi.org.br/" target="_blank" rel="noopener">cimi.org.br</a></figcaption>
+          <figcaption><b>CIMI</b> — menu por temas e por regionais (Amazônia, Goiás, Leste, Maranhão); login e busca. Cores: vinho e branco. <a href="https://cimi.org.br/" target="_blank" rel="noopener">cimi.org.br</a></figcaption>
         </figure>
         <figure>
           <img src="assets/ref/abjd.jpg" alt="Página inicial da ABJD" loading="lazy" />
-          <figcaption><b>ABJD</b> — menu de 8 itens, capa com foto e frase, e seções de notícias, artigos, vídeos e agenda. <a href="https://www.abjd.org.br/" target="_blank" rel="noopener">abjd.org.br</a></figcaption>
+          <figcaption><b>ABJD</b> — menu com Núcleos Estaduais, Observatório e Área do Associado; busca e inscrição por e-mail. Cores: vermelho, vinho e branco. <a href="https://www.abjd.org.br/" target="_blank" rel="noopener">abjd.org.br</a></figcaption>
         </figure>
         <figure>
           <img src="assets/ref/veredas.jpg" alt="Página do Coletivo Veredas" loading="lazy" />
-          <figcaption><b>Coletivo Veredas</b> — quatro seções (Coletivo, Reparação, Eixos); menu de 4 itens; sem busca. <a href="https://coletivoveredas.org/" target="_blank" rel="noopener">coletivoveredas.org</a></figcaption>
+          <figcaption><b>Coletivo Veredas</b> — menu de 4 itens (Coletivo, Áreas acompanhadas, Equipe, Contato); sem busca. Cores: creme e marrom. <a href="https://coletivoveredas.org/" target="_blank" rel="noopener">coletivoveredas.org</a></figcaption>
         </figure>
       </div>
       <p class="folha"><b>Nas seis páginas:</b> menu de 4 a 12 itens e um bloco principal de notícia.</p>
@@ -601,32 +669,32 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖼️</span>Referências · 2 de 2</p>
       <h2 class="titulo sobe" style="--i:1">Acervo, busca e serviço.</h2>
       <p class="resumo sobe" style="--i:2">
-        As páginas que mais se parecem com o que a RENAP quer: documento com endereço e filtro.
+        As páginas mais próximas do que a RENAP quer: documento com endereço e filtro.
       </p>
       <div class="refs refs--6">
         <figure>
           <img src="assets/ref/terradedireitos.jpg" alt="Banco de Petições do Terra de Direitos" loading="lazy" />
-          <figcaption><b>Terra de Direitos</b> — lista de petições com data, órgão e etiqueta; filtros na lateral. <a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener">banco de petições</a></figcaption>
+          <figcaption><b>Terra de Direitos</b> — menu por eixos de atuação; busca e filtros por tipo, órgão e ação. Cores: azul e branco. <a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener">banco de petições</a></figcaption>
         </figure>
         <figure>
           <img src="assets/ref/mam.jpg" alt="Biblioteca do MAM Nacional" loading="lazy" />
-          <figcaption><b>MAM · biblioteca</b> — página curta: Cartilhas, Livros e Artigos, com um botão em cada bloco. <a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
+          <figcaption><b>MAM · biblioteca</b> — menu de 5 itens (MAM, Notícias, Internacional, Biblioteca, Contato); biblioteca em três blocos. Cores: vermelho e vinho. <a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
         </figure>
         <figure>
           <img src="assets/ref/democraciapopular.jpg" alt="Biblioteca da Democracia Popular" loading="lazy" />
-          <figcaption><b>Democracia Popular · biblioteca</b> — página de 11 mil px; lista “Arquivos” com capa, título, data e resumo. <a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
+          <figcaption><b>Democracia Popular · biblioteca</b> — menu com Fundação, Linhas de Atuação, Equipe e Apoie; busca; lista de arquivos com capa e data. Cores: vermelho e branco. <a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
         </figure>
         <figure>
           <img src="assets/ref/dpu.jpg" alt="Página inicial da DPU" loading="lazy" />
-          <figcaption><b>DPU</b> — menu de 7 itens, busca e carrossel “Destaques”; 131 imagens na página. <a href="https://www.dpu.def.br/" target="_blank" rel="noopener">dpu.def.br</a></figcaption>
+          <figcaption><b>DPU</b> — menu de 7 itens (Institucional, Unidades, Comunicação, Transparência); busca. Cores: azul e branco. <a href="https://www.dpu.def.br/" target="_blank" rel="noopener">dpu.def.br</a></figcaption>
         </figure>
         <figure>
           <img src="assets/ref/mpf.jpg" alt="Página inicial do MPF" loading="lazy" />
-          <figcaption><b>MPF</b> — aviso de portal em transição, busca e coluna “O que você deseja fazer hoje?” com 6 serviços. <a href="https://www.mpf.mp.br/" target="_blank" rel="noopener">mpf.mp.br</a></figcaption>
+          <figcaption><b>MPF</b> — menu institucional mais serviços ao cidadão; busca; área restrita. Cores: azul-escuro e branco. <a href="https://www.mpf.mp.br/" target="_blank" rel="noopener">mpf.mp.br</a></figcaption>
         </figure>
         <figure>
           <img src="assets/ref/renap.jpg" alt="Site atual da RENAP" loading="lazy" />
-          <figcaption><b>RENAP hoje</b> — menu de 5 itens, 5 imagens e 179 palavras; sem campo de busca. <a href="https://www.renap.org.br/" target="_blank" rel="noopener">renap.org.br</a></figcaption>
+          <figcaption><b>RENAP hoje</b> — menu de 5 itens (Início, Sobre, Encontro, Publicações, Blog); sem busca. Cores: vinho e bege. <a href="https://www.renap.org.br/" target="_blank" rel="noopener">renap.org.br</a></figcaption>
         </figure>
       </div>
       <p class="folha">
@@ -636,25 +704,29 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 5 · INSPIRAÇÕES DE CASA -->
-  <section class="tela" aria-label="Referências, inspirações de casa">
+  <!-- 0 · OUTRAS INSPIRAÇÕES -->
+  <section class="tela" aria-label="Outras inspirações">
     <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🏠</span>Referências · inspirações de casa</p>
-      <h2 class="titulo sobe" style="--i:1">Dois sites que já mostram o caminho.</h2>
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🏠</span>Outras inspirações</p>
+      <h2 class="titulo sobe" style="--i:1">Três sites para olhar de perto.</h2>
       <p class="resumo sobe" style="--i:2">
-        Um é do campo popular; o outro é da RENAP. Servem de referência de conteúdo, não de cópia.
+        Dois do campo popular e um da RENAP. A escolha é de conteúdo, não de cópia.
       </p>
-      <div class="refs" style="margin-top:var(--e4)">
+      <div class="refs refs--6" style="margin-top:var(--e4)">
         <figure>
           <img src="assets/ref/controlepopular.jpg" alt="Página inicial do Controle Popular" loading="lazy" />
-          <figcaption><b>Controle Popular</b> — 12 mil px de altura; três eixos temáticos; busca; 2.746 palavras. <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener">controlepopular.com.br</a></figcaption>
+          <figcaption><b>Controle Popular</b> — home com a mística do dia e fotos que rememoram os biomas brasileiros; reúne dados públicos de forma acessível. <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener">controlepopular.com.br</a></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/ref/cma.jpg" alt="Página inicial da CMA" loading="lazy" />
+          <figcaption><b>CMA</b> — menu com Programas, Publicações, Notícias e Apoie; busca no topo. Cores: amarelo-ocre e vinho; foto de comunidade na capa. <a href="https://cma.org.br/" target="_blank" rel="noopener">cma.org.br</a></figcaption>
         </figure>
         <figure>
           <img src="assets/ref/lenirlivre.jpg" alt="Página do 30º Encontro Nacional da RENAP, Lenir Correia Livre" loading="lazy" />
-          <figcaption><b>30º Encontro · Lenir Correia Livre</b> — 20 mil px; seis blocos com título próprio; carta política; 3.437 palavras. <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener">encontrolenirlivre.renap.org.br</a></figcaption>
+          <figcaption><b>30º Encontro · Lenir Correia Livre</b> — blocos com título próprio, carta política e programação; cores: vinho, branco e vermelho. <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener">encontrolenirlivre.renap.org.br</a></figcaption>
         </figure>
       </div>
-      <p class="folha"><b>O que os dois têm em comum:</b> página longa, blocos com título e navegação por âncoras.</p>
+      <p class="folha"><b>O que os três têm:</b> capa com foto, blocos com título e navegação por âncoras.</p>
     </div>
   </section>
 
@@ -669,7 +741,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
           <ul class="linhas" style="margin-top:var(--e2)">
             <li>Capa com <b>uma</b> manchete e foto forte.</li>
             <li>Acervo com nome próprio: biblioteca, banco de peças.</li>
-            <li>Menu curto, de cinco a sete itens.</li>
+            <li>Menu entre 4 e 12 itens, sem submenu profundo.</li>
             <li>Campanha no topo, com data visível.</li>
             <li>Contato e quem assina, à vista.</li>
           </ul>
@@ -723,7 +795,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <div class="grade-demo">
         <div class="demo"><h3>Fonte e ícone</h3><p>Clash Display e General Sans (Fontshare), Lucide (ISC). Zero custo.</p></div>
         <div class="demo"><h3>Sanfona e tema</h3><p><code>&lt;details&gt;</code> nativo e tema por CSS. Já estão nesta apresentação.</p></div>
-        <div class="demo"><h3>Busca</h3><p>Meilisearch (MIT): tolera acento e erra menos que a busca do site.</p></div>
+        <div class="demo"><h3>Busca</h3><p>Meilisearch (MIT): busca em PDF e tolera acento.</p></div>
         <div class="demo"><h3>Leitura em voz</h3><p>Web Speech do navegador (grátis) e Piper (MIT) para uso sem internet.</p></div>
         <div class="demo"><h3>Peso de imagem</h3><p>Converter foto para WebP corta 60% do tamanho, sem programa novo.</p></div>
         <div class="demo"><h3>Cópia de segurança</h3><p>Script e agendador do próprio servidor (MIT). Testar restauração uma vez por mês.</p></div>
@@ -824,7 +896,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
         <li>A equipe publica sozinha, sem programador.</li>
         <li>Foto, PDF, áudio e vídeo curto, em versão leve.</li>
       </ul>
-      <p class="folha"><b>Como se confere:</b> achei o documento em dois cliques e vi a fonte.</p>
+      <p class="folha"><b>Como se confere:</b> digitei “Paraopeba” e achei o documento com a fonte.</p>
     </div>
   </section>
 
@@ -895,63 +967,51 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
         São funções extras, que entram depois se couber no orçamento.
         Cada uma vem com preço e prazo à parte.
       </p>
-      <div style="display:grid;gap:10px;margin-top:var(--e4)">
-        <details class="sanfona">
-          <summary>
-            <span class="sanfona__titulo"><span class="emoji" aria-hidden="true">📁</span>Área restrita</span>
-            <span class="sanfona__dica sanfona__dica--abrir">Abrir</span>
-            <span class="sanfona__dica sanfona__dica--fechar">Fechar</span>
-            <span class="sanfona__seta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
-          </summary>
-          <div class="sanfona__corpo">Documento que só o grupo indicado abre. <b>Exemplo:</b> o GT jurídico anexa uma peça antes de protocolar.</div>
-        </details>
-        <details class="sanfona">
-          <summary>
-            <span class="sanfona__titulo"><span class="emoji" aria-hidden="true">📝</span>Formulários</span>
-            <span class="sanfona__dica sanfona__dica--abrir">Abrir</span>
-            <span class="sanfona__dica sanfona__dica--fechar">Fechar</span>
-            <span class="sanfona__seta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
-          </summary>
-          <div class="sanfona__corpo">Ficha preenchida no site, sem baixar arquivo. <b>Exemplo:</b> pedido de apoio jurídico com nome, cidade e anexo.</div>
-        </details>
-        <details class="sanfona">
-          <summary>
-            <span class="sanfona__titulo"><span class="emoji" aria-hidden="true">🎟️</span>Inscrição em eventos</span>
-            <span class="sanfona__dica sanfona__dica--abrir">Abrir</span>
-            <span class="sanfona__dica sanfona__dica--fechar">Fechar</span>
-            <span class="sanfona__seta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
-          </summary>
-          <div class="sanfona__corpo">Lista de presença com comprovante. <b>Exemplo:</b> inscrição no Encontro Nacional, com certificado no fim.</div>
-        </details>
-        <details class="sanfona">
-          <summary>
-            <span class="sanfona__titulo"><span class="emoji" aria-hidden="true">🔍</span>Busca unificada</span>
-            <span class="sanfona__dica sanfona__dica--abrir">Abrir</span>
-            <span class="sanfona__dica sanfona__dica--fechar">Fechar</span>
-            <span class="sanfona__seta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
-          </summary>
-          <div class="sanfona__corpo">Uma caixa só, que procura em tudo. <b>Exemplo:</b> digitar “Paraopeba” e ver notícia, documento e foto juntos.</div>
-        </details>
-        <details class="sanfona">
-          <summary>
-            <span class="sanfona__titulo"><span class="emoji" aria-hidden="true">🔑</span>Permissões</span>
-            <span class="sanfona__dica sanfona__dica--abrir">Abrir</span>
-            <span class="sanfona__dica sanfona__dica--fechar">Fechar</span>
-            <span class="sanfona__seta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
-          </summary>
-          <div class="sanfona__corpo">Quem vê, quem publica e quem aprova. <b>Exemplo:</b> a pessoa escreve a notícia e a coordenação publica.</div>
-        </details>
-        <details class="sanfona">
-          <summary>
-            <span class="sanfona__titulo"><span class="emoji" aria-hidden="true">💬</span>Fórum e moderação</span>
-            <span class="sanfona__dica sanfona__dica--abrir">Abrir</span>
-            <span class="sanfona__dica sanfona__dica--fechar">Fechar</span>
-            <span class="sanfona__seta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
-          </summary>
-          <div class="sanfona__corpo">Conversa por assunto, com alguém aprovando o que entra. <b>Exemplo:</b> o grupo de mineração discute um laudo e o moderador libera.</div>
-        </details>
+      <div class="funcoes" style="margin-top:var(--e4)">
+        <div class="funcao" style="--i:0">
+          <span class="funcao__marca" aria-hidden="true"></span>
+          <div class="funcao__texto">
+            <b>Área restrita</b>
+            <span>Documento que só o grupo indicado abre. Exemplo: o GT jurídico anexa uma peça antes de protocolar.</span>
+          </div>
+        </div>
+        <div class="funcao" style="--i:1">
+          <span class="funcao__marca" aria-hidden="true"></span>
+          <div class="funcao__texto">
+            <b>Formulários</b>
+            <span>Ficha preenchida no site, sem baixar arquivo. Exemplo: pedido de apoio jurídico com nome, cidade e anexo.</span>
+          </div>
+        </div>
+        <div class="funcao" style="--i:2">
+          <span class="funcao__marca" aria-hidden="true"></span>
+          <div class="funcao__texto">
+            <b>Inscrição em eventos</b>
+            <span>Lista de presença com comprovante. Exemplo: inscrição no Encontro Nacional, com certificado no fim.</span>
+          </div>
+        </div>
+        <div class="funcao" style="--i:3">
+          <span class="funcao__marca" aria-hidden="true"></span>
+          <div class="funcao__texto">
+            <b>Busca unificada</b>
+            <span>Uma caixa só, que procura em tudo. Exemplo: digitar “Paraopeba” e ver notícia, documento e foto juntos.</span>
+          </div>
+        </div>
+        <div class="funcao" style="--i:4">
+          <span class="funcao__marca" aria-hidden="true"></span>
+          <div class="funcao__texto">
+            <b>Permissões</b>
+            <span>Quem vê, quem publica e quem aprova. Exemplo: a pessoa escreve a notícia e a coordenação publica.</span>
+          </div>
+        </div>
+        <div class="funcao" style="--i:5">
+          <span class="funcao__marca" aria-hidden="true"></span>
+          <div class="funcao__texto">
+            <b>Fórum e moderação</b>
+            <span>Conversa por assunto, com alguém aprovando o que entra. Exemplo: o grupo de mineração discute um laudo e o moderador libera.</span>
+          </div>
+        </div>
       </div>
-      <p class="folha"><b>Toque em cada função</b> para ver um exemplo. Item sem resposta é tratado como “não faz”.</p>
+      <p class="folha"><b>Cada linha</b> traz a função e um exemplo. Item sem resposta é tratado como “não faz”.</p>
     </div>
   </section>
 
@@ -1192,23 +1252,38 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
               </form>
             </div>
           </div>
-        </div>
-        <div class="demo">
-          <h3>Rádio</h3>
-          <p>Player de exemplo. Toca nada: mostra o desenho.</p>
-          <div class="radio" id="radio">
-            <button class="radio__botao" type="button" id="radio-botao" aria-pressed="false" aria-label="Tocar rádio de exemplo">▶</button>
-            <div class="radio__info"><strong>Rádio RENAP</strong><span>ao vivo · exemplo de interface</span></div>
-            <div class="radio__onda" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-          </div>
-        </div>
+        </div></div>
         <div class="demo">
           <h3>Botão que responde</h3>
           <p>Foco visível, toque de 44 px e volta ao normal.</p>
           <div class="demo__palco"><button class="botao" type="button" id="modelo-botao2">Testar toque</button></div>
         </div>
       </div>
-      <p class="folha"><b>Robô e rádio aqui são demonstração.</b> Não há rede nem áudio nesta página.</p>
+            <div class="rp" data-radio>
+        <div class="rp__controles">
+          <div class="rp__linha">
+            <button class="rp__tocar" type="button" data-radio-tocar data-tocando="false" aria-label="Tocar rádio">▶</button>
+            <div>
+              <div class="rp__nome" data-radio-nome>Escolha uma estação<span class="rp__meta" data-radio-meta>52 estações do acervo do Controle Popular</span></div>
+            </div>
+          </div>
+          <label class="rp__volume">
+            <span>Volume</span>
+            <input type="range" min="0" max="100" value="70" data-radio-volume aria-label="Volume do rádio" />
+          </label>
+          <p class="rp__status" data-radio-status aria-live="polite"></p>
+        </div>
+        <div class="rp__lista-area">
+          <div class="rp__busca">
+            <input type="search" placeholder="Buscar estação, cidade ou UF" data-radio-busca aria-label="Buscar estação" />
+            <span class="rp__contagem" data-radio-contagem></span>
+          </div>
+          <div class="rp__lista" data-radio-lista></div>
+        </div>
+        <audio data-radio-audio preload="none"></audio>
+      </div>
+
+      <p class="folha"><b>O robô é demonstração.</b> O rádio toca de verdade: são estações públicas, com o stream conferido pelo Controle Popular.</p>
     </div>
   </section>
 
@@ -1484,17 +1559,6 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     statusBusca.textContent = achou === 1 ? '1 documento' : achou + ' documentos';
   });
 
-  /* ── Rádio de exemplo ──────────────────────────────────────────────── */
-  var radio = document.getElementById('radio');
-  var radioBotao = document.getElementById('radio-botao');
-  radioBotao.addEventListener('click', function () {
-    var tocando = radioBotao.getAttribute('aria-pressed') === 'true';
-    tocando = !tocando;
-    radioBotao.setAttribute('aria-pressed', String(tocando));
-    radioBotao.textContent = tocando ? '❚❚' : '▶';
-    radio.classList.toggle('radio--tocando', tocando);
-    radioBotao.setAttribute('aria-label', tocando ? 'Pausar rádio de exemplo' : 'Tocar rádio de exemplo');
-  });
 
   /* ── Teste de fonte ────────────────────────────────────────────────── */
   var familiaAtual = null;
@@ -1522,6 +1586,13 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     document.documentElement.style.removeProperty('--font-display');
     document.querySelectorAll('[data-fonte]').forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
   });
+
+  /* Rádio: script injetado para não esperar a folha de estilo do CDN. */
+  (function carregaRadio() {
+    var s = document.createElement('script');
+    s.src = 'componentes/radio.js';
+    document.body.appendChild(s);
+  })();
 
   var inicial = parseInt((location.hash || '').replace('#', ''), 10);
   mostra(isNaN(inicial) ? 0 : inicial - 1, true);
