@@ -528,6 +528,86 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .efeitos p { font-size: var(--t-min); color: var(--cp-text-soft); }
 .efeitos a { font-size: var(--t-min); }
 
+/* Laboratório de efeitos: seis cartões, cada um com o efeito rodando. */
+.lab { display: grid; gap: var(--e3); margin-top: var(--e4); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 900px) { .lab { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.lab__item {
+  border: 1px solid var(--cp-border); border-radius: 12px; overflow: hidden;
+  background: var(--cp-surface); display: grid;
+}
+.lab__palco { position: relative; height: 120px; overflow: hidden; background: var(--cp-surface-2); }
+.lab__palco--centro { display: grid; place-items: center; padding: var(--e2); }
+.lab__nome {
+  display: flex; justify-content: space-between; gap: var(--e2); flex-wrap: wrap;
+  padding: 8px 10px; border-top: 1px solid var(--cp-border); font-size: var(--t-min);
+}
+.lab__nome b { font-size: var(--t-min); }
+.lab__nome span { color: var(--cp-text-soft); }
+.lab__selo {
+  position: absolute; right: 8px; bottom: 6px; font-size: var(--t-min);
+  color: var(--cp-text-soft);
+}
+
+/* 1. Grid Motion */
+.lab--grade .lab__palco {
+  background-image:
+    linear-gradient(var(--cp-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cp-border) 1px, transparent 1px);
+  background-size: 22px 22px;
+  animation: grade-andando 6s linear infinite;
+}
+@keyframes grade-andando {
+  to { background-position: 22px 22px, 22px 22px; }
+}
+
+/* 3. Magic Card: inclina e acende com o ponteiro */
+.lab__carta {
+  width: 84%; padding: 14px 10px; text-align: center; font-size: var(--t-min);
+  border-radius: 10px; border: 1px solid var(--cp-border);
+  background:
+    radial-gradient(120px circle at var(--mx, 50%) var(--my, 50%),
+      color-mix(in srgb, var(--cp-primary) 26%, transparent), transparent 70%),
+    var(--cp-surface);
+  transition: transform .18s var(--curva), border-color .18s var(--curva);
+  will-change: transform;
+}
+.lab__carta:hover { border-color: var(--cp-primary); }
+
+/* 4. Text Trail */
+.lab__canvas { width: 100%; height: 100%; display: block; }
+
+/* 5. Meteors */
+.lab--meteoros { background: var(--cp-surface-2); }
+.lab--meteoros i {
+  position: absolute; top: -20%; width: 2px; height: 60%;
+  background: linear-gradient(to bottom, transparent, var(--cp-primary));
+  transform: rotate(35deg); opacity: .7;
+  animation: meteoro 2.6s linear infinite;
+}
+.lab--meteoros i:nth-child(1) { left: 10%; animation-delay: 0s; }
+.lab--meteoros i:nth-child(2) { left: 25%; animation-delay: .4s; }
+.lab--meteoros i:nth-child(3) { left: 42%; animation-delay: .9s; }
+.lab--meteoros i:nth-child(4) { left: 58%; animation-delay: .2s; }
+.lab--meteoros i:nth-child(5) { left: 74%; animation-delay: .7s; }
+.lab--meteoros i:nth-child(6) { left: 88%; animation-delay: 1.1s; }
+@keyframes meteoro {
+  0% { transform: translate(0, -30%) rotate(35deg); opacity: 0; }
+  15% { opacity: .8; }
+  100% { transform: translate(60px, 180%) rotate(35deg); opacity: 0; }
+}
+
+/* 6. Gradual Blur */
+.lab--desfoque .lab__palco { background: var(--cp-surface-2); }
+.lab__faixa {
+  position: absolute; inset: 0; background: var(--cp-primary); opacity: .35;
+  mask-image: linear-gradient(to bottom, #000 40%, transparent 100%);
+}
+.lab__faixa--b { filter: blur(8px); opacity: .55; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lab--grade .lab__palco, .lab--meteoros i { animation: none; }
+}
+
 /* ═══ 7. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
 .nav {
   position: fixed; left: var(--faixa); right: 0; bottom: 0; z-index: 30;
@@ -654,12 +734,12 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <option value="pantanal">Pantanal</option>
     </select>
   </div>
-  <p class="contador" id="contador">1 / 29</p>
+  <p class="contador" id="contador">1 / 30</p>
 </header>
 
 <main class="deck" id="deck">
 
-  <!-- 1 . CAPA -->
+  <!-- 1 · CAPA -->
   <section class="tela" data-ativa="true" aria-label="Capa">
     <div class="miolo estreito">
       <img class="capa-logo capa-logo--claro" src="assets/logo-renap-claro.png" alt="RENAP — Rede Nacional de Advogados e Advogadas Populares" />
@@ -674,7 +754,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 2 . PONTOS EM ABERTO -->
+  <!-- 2 · PONTOS EM ABERTO -->
   <section class="tela" aria-label="Quatro pontos em aberto">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">❓</span>Decisões desta reunião</p>
@@ -724,7 +804,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-<!-- 3 . REFERÊNCIAS 1: MOVIMENTOS -->
+<!-- 3 · REFERÊNCIAS 1: MOVIMENTOS -->
     <section class="tela" aria-label="Acervo, serviço e inspirações.">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖼️</span>Referências · 1 de 2</p>
@@ -768,7 +848,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 4 . REFERÊNCIAS 2: ACERVO E BUSCA -->
+  <!-- 4 · REFERÊNCIAS 2: ACERVO E BUSCA -->
     <section class="tela" aria-label="Movimentos e organizações.">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖼️</span>Referências · 2 de 2</p>
@@ -808,8 +888,8 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 5 . OUTRAS INSPIRAÇÕES -->
-<!-- 6 . O QUE OS PORTAIS TÊM EM COMUM -->
+  <!-- 5 · OUTRAS INSPIRAÇÕES -->
+<!-- 6 · O QUE OS PORTAIS TÊM EM COMUM -->
   <section class="tela" aria-label="O que os portais de referência têm em comum">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧩</span>O que os 12 portais ensinam</p>
@@ -840,7 +920,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 7 . SÓBRIO OU COM EFEITOS -->
+  <!-- 7 · SÓBRIO OU COM EFEITOS -->
   <section class="tela" aria-label="Sóbrio ou com efeitos">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">⚖️</span>A decisão de estilo</p>
@@ -866,7 +946,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 8 . GRÁTIS E FÁCIL -->
+  <!-- 8 · GRÁTIS E FÁCIL -->
   <section class="tela" aria-label="Grátis e fácil de integrar">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🎁</span>O que já vem pronto</p>
@@ -883,7 +963,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 9 . EM UMA FRASE -->
+  <!-- 9 · EM UMA FRASE -->
   <section class="tela" aria-label="O que queremos">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🎯</span>O que queremos</p>
@@ -898,8 +978,8 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 10 . A CARA DO SITE -->
-  <!-- 11 . VERBA -->
+  <!-- 10 · A CARA DO SITE -->
+  <!-- 11 · VERBA -->
   <section class="tela" aria-label="Quanto temos">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">💰</span>Quanto temos para começar</p>
@@ -913,7 +993,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 12 . FASE 1 -->
+  <!-- 12 · FASE 1 -->
   <section class="tela" aria-label="Fase 1">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧱</span>Fase 1 · o que entra</p>
@@ -929,7 +1009,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 13 . MIGRAÇÃO -->
+  <!-- 13 · MIGRAÇÃO -->
   <section class="tela" aria-label="Migração">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🚚</span>Migração</p>
@@ -944,7 +1024,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 14 . DOCUMENTOS E MÍDIA -->
+  <!-- 14 · DOCUMENTOS E MÍDIA -->
   <section class="tela" aria-label="Documentos e mídia">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🗂️</span>Documentos, notícias e arquivos</p>
@@ -959,7 +1039,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 15 . CADASTRO -->
+  <!-- 15 · CADASTRO -->
   <section class="tela" aria-label="Cadastro e administrador">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🪪</span>Cadastro e administração</p>
@@ -974,7 +1054,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 16 . TEMAS -->
+  <!-- 16 · TEMAS -->
   <section class="tela" aria-label="Cores e temas">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🎨</span>Cores e identidade</p>
@@ -1088,7 +1168,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   </section>
 
 
-  <!-- 17 . SIGILO -->
+  <!-- 17 · SIGILO -->
   <section class="tela" aria-label="Sigilo">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔐</span>Sigilo · fase 2</p>
@@ -1103,7 +1183,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 18 . PEDIDOS A ORÇAR -->
+  <!-- 18 · PEDIDOS A ORÇAR -->
   <section class="tela" aria-label="Possibilidade de funções no site">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">⚙️</span>Fase 2 · se couber</p>
@@ -1160,7 +1240,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 19 . API -->
+  <!-- 19 · API -->
   <section class="tela" aria-label="Conexão para publicar, API">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔑</span>Conexão para publicar · API</p>
@@ -1186,7 +1266,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 20 . PROTEÇÕES -->
+  <!-- 20 · PROTEÇÕES -->
   <section class="tela" aria-label="Proteções">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🛡️</span>Cuidado com quem lê e com quem administra</p>
@@ -1200,7 +1280,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-    <!-- 21 . VOZ, ROBÔ E CÓDIGO ABERTO -->
+    <!-- 21 · VOZ, ROBÔ E CÓDIGO ABERTO -->
   <section class="tela" aria-label="Acessibilidade comunicacional">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🗣️</span>Três caminhos para a mesma informação</p>
@@ -1218,7 +1298,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="folha">Quer ver o robô e o rádio funcionando? <b>Anexo C.</b></p>
     </div>
   </section>
-<!-- 22 . CINCO DECISÕES -->
+<!-- 22 · CINCO DECISÕES -->
   <section class="tela" aria-label="Cinco decisões">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🤝</span>O que precisamos decidir</p>
@@ -1234,7 +1314,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 23 . GLOSSÁRIO -->
+  <!-- 23 · GLOSSÁRIO -->
   <section class="tela" aria-label="Glossário">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">📖</span>Glossário da reunião</p>
@@ -1250,7 +1330,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 24 . FECHAMENTO -->
+  <!-- 24 · FECHAMENTO -->
   <section class="tela" aria-label="Fechamento">
     <div class="miolo estreito">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🚩</span>Próximo passo</p>
@@ -1273,7 +1353,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 
   <!-- ═════════════════════ ANEXOS ═════════════════════ -->
 
-  <!-- 25 . ANEXO A: EFEITOS -->
+  <!-- 25 · ANEXO A: EFEITOS -->
   <section class="tela" aria-label="Anexo A, efeitos">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">✨</span>Anexo A · efeitos</p>
@@ -1311,7 +1391,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 26 . ANEXO B: SANFONA -->
+  <!-- 26 · ANEXO B: SANFONA -->
   <section class="tela" aria-label="Anexo B, sanfona">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🪗</span>Anexo B · sanfona</p>
@@ -1364,7 +1444,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 27 . ANEXO C: BUSCA, ROBÔ E RÁDIO -->
+  <!-- 27 · ANEXO C: BUSCA, ROBÔ E RÁDIO -->
   <section class="tela" aria-label="Anexo C, busca, robô e rádio">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔍</span>Anexo C · busca, robô e rádio</p>
@@ -1437,8 +1517,8 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 28 . ANEXO D: FONTES -->
-  <!-- 29 . ANEXO E: HOSPEDAGEM -->
+  <!-- 28 · ANEXO D: FONTES -->
+  <!-- 29 · ANEXO E: HOSPEDAGEM -->
   <section class="tela" aria-label="Anexo E, hospedagem e domínio">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">💸</span>Anexo D · custos de manter</p>
@@ -1572,6 +1652,64 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="folha">
         <b>⛔ Evitaria:</b> Vanta, tsParticles, three.js, Lenis e Remotion. Pesam no celular,
         quebram âncora ou têm licença que não é livre.
+      </p>
+    </div>
+  </section>
+
+  <section class="tela" aria-label="Anexo G, laboratório de efeitos">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧪</span>Anexo G · laboratório</p>
+      <h2 class="titulo sobe" style="--i:1">Seis efeitos para testar agora</h2>
+      <p class="resumo sobe" style="--i:2">
+        Versões leves dos componentes do React Bits e do Lightswind. Passe o mouse e toque.
+      </p>
+
+      <div class="lab">
+        <div class="lab__item lab--grade">
+          <div class="lab__palco"><span class="lab__selo">fundo</span></div>
+          <p class="lab__nome"><b>Grid Motion</b><span>React Bits · fundo</span></p>
+        </div>
+
+        <div class="lab__item">
+          <div class="lab__palco lab__palco--centro">
+            <div class="eletrico" style="width:78%"><div class="eletrico__miolo" style="padding:10px;text-align:center;font-size:12px">borda viva</div></div>
+          </div>
+          <p class="lab__nome"><b>Electro Border</b><span>Lightswind · borda</span></p>
+        </div>
+
+        <div class="lab__item">
+          <div class="lab__palco lab__palco--centro">
+            <div class="lab__carta" data-tilt><b>Magic Card</b></div>
+          </div>
+          <p class="lab__nome"><b>Magic Card</b><span>React Bits · cartão</span></p>
+        </div>
+
+        <div class="lab__item">
+          <div class="lab__palco">
+            <canvas class="lab__canvas" data-rastro aria-label="Rastro de texto seguindo o ponteiro"></canvas>
+          </div>
+          <p class="lab__nome"><b>Text Trail</b><span>React Bits · ponteiro</span></p>
+        </div>
+
+        <div class="lab__item">
+          <div class="lab__palco lab--meteoros" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <p class="lab__nome"><b>Meteors</b><span>React Bits · entrada</span></p>
+        </div>
+
+        <div class="lab__item lab--desfoque">
+          <div class="lab__palco">
+            <div class="lab__faixa"></div>
+            <div class="lab__faixa lab__faixa--b"></div>
+          </div>
+          <p class="lab__nome"><b>Gradual Blur</b><span>React Bits · borda suave</span></p>
+        </div>
+      </div>
+
+      <p class="folha">
+        <b>Como usar:</b> copiar a peça original e trocar as cores pelos tokens.
+        ⚠️ React Bits é MIT + Commons Clause: pode usar no site, não pode vender o componente.
       </p>
     </div>
   </section>
@@ -1827,6 +1965,54 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     document.documentElement.style.removeProperty('--font-display');
     document.querySelectorAll('[data-fonte]').forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
   });
+
+
+  /* Laboratório: inclinação do cartão e rastro de texto. */
+  document.querySelectorAll('[data-tilt]').forEach(function (el) {
+    el.addEventListener('pointermove', function (e) {
+      var r = el.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - 0.5;
+      var y = (e.clientY - r.top) / r.height - 0.5;
+      el.style.transform = 'perspective(600px) rotateY(' + (x * 14).toFixed(1) + 'deg) rotateX(' +
+        (-y * 14).toFixed(1) + 'deg)';
+      el.style.setProperty('--mx', ((x + 0.5) * 100).toFixed(0) + '%');
+      el.style.setProperty('--my', ((y + 0.5) * 100).toFixed(0) + '%');
+    });
+    el.addEventListener('pointerleave', function () { el.style.transform = ''; });
+  });
+
+  var canvas = document.querySelector('[data-rastro]');
+  if (canvas && canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+    var pontos = [];
+    var letras = 'RENAP';
+    function ajusta() {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+    }
+    ajusta();
+    window.addEventListener('resize', ajusta);
+    canvas.addEventListener('pointermove', function (e) {
+      var r = canvas.getBoundingClientRect();
+      pontos.push({
+        x: e.clientX - r.left, y: e.clientY - r.top,
+        ch: letras[Math.floor(Math.random() * letras.length)], vida: 1
+      });
+      if (pontos.length > 40) pontos.shift();
+    });
+    (function desenha() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.font = '600 12px "General Sans", sans-serif';
+      pontos.forEach(function (p) {
+        p.vida -= 0.02;
+        if (p.vida <= 0) return;
+        ctx.fillStyle = 'rgba(176, 0, 32, ' + p.vida.toFixed(2) + ')';
+        ctx.fillText(p.ch, p.x, p.y);
+      });
+      pontos = pontos.filter(function (p) { return p.vida > 0; });
+      requestAnimationFrame(desenha);
+    })();
+  }
 
   /* Scripts injetados: com `defer` eles esperavam a folha de estilo do CDN e
      não rodavam. Aqui entram sem bloqueio, depois do DOM pronto. */
