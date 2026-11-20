@@ -832,6 +832,30 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 
   .tabela th, .tabela td { padding: 1.2mm 2mm !important; font-size: 8.2pt !important; }
   .tela { break-inside: auto !important; page-break-inside: auto !important; }
+  /* Separação entre seções no papel. */
+  .miolo {
+    border-top: 1px solid #e2d8cc !important;
+    padding-top: 4mm !important;
+    margin: 0 0 6mm !important;
+  }
+  .tela:first-of-type .miolo { border-top: 0 !important; padding-top: 0 !important; }
+
+  /* Referências: duas colunas com o print de cada site. */
+  .refs { columns: 2 !important; column-gap: 6mm !important; display: block !important; }
+  .refs figure {
+    break-inside: avoid; page-break-inside: avoid;
+    margin: 0 0 4mm !important;
+  }
+  .refs img {
+    width: 100% !important; height: auto !important;
+    border: 1px solid #ddd2c5 !important; border-radius: 2mm;
+  }
+  .refs figcaption { font-size: 7.6pt !important; line-height: 1.3 !important; }
+
+  /* Sanfona não abre no papel: sai o poema do Galeano junto. */
+  details.sanfona { display: none !important; }
+
+
   /* Interativo não imprime: some a demo e entra a nota com link. */
   .lab, .lab--cursores, .temas-grade, .fonte-grade, .amostra-fonte,
   .amostra-controles, .efeitos, .efeitos-botoes, .chip-tema, .interruptor,
@@ -1090,9 +1114,9 @@ a:hover { text-decoration-thickness: 2px; }
   column-gap: var(--e2); row-gap: 2px;
   padding: var(--e3) var(--e4); border-radius: 12px;
   border: 1px solid color-mix(in srgb, var(--cp-border) 45%, transparent);
-  background: color-mix(in srgb, var(--cp-surface) 93%, transparent);
-  backdrop-filter: blur(6px) saturate(1.05);
-  -webkit-backdrop-filter: blur(6px) saturate(1.05);
+  background: color-mix(in srgb, var(--cp-surface) 54%, transparent);
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
   color: var(--cp-text); text-decoration: none;
   transition: border-color .16s var(--curva), transform .16s var(--curva);
 }
@@ -1768,63 +1792,63 @@ a:hover { text-decoration-thickness: 2px; }
       <p class="resumo sobe" style="--i:2">Quinze páginas olhadas: como cada uma organiza documento, busca, menu e capa. Role para ver todas.</p>
       <div class="refs refs--6">
         <figure>
-          <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener"><img src="assets/ref/controlepopular.jpg" alt="Página inicial do Controle Popular" loading="lazy" /></a>
+          <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener"><img src="assets/ref/controlepopular.jpg" alt="Página inicial do Controle Popular" /></a>
           <figcaption><b>Controle Popular</b> — home com a mística do dia e fotos que rememoram os biomas brasileiros; reúne dados públicos de forma acessível. <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener">controlepopular.com.br</a></figcaption>
         </figure>
         <figure>
-          <a href="https://cma.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cma.jpg" alt="Página inicial da CMA" loading="lazy" /></a>
+          <a href="https://cma.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cma.jpg" alt="Página inicial da CMA" /></a>
           <figcaption><b>CMA</b> — menu com Programas, Publicações, Notícias e Apoie; busca no topo. Cores: amarelo-ocre e vinho; foto de comunidade na capa. <a href="https://cma.org.br/" target="_blank" rel="noopener">cma.org.br</a></figcaption>
         </figure>
         <figure>
-          <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener"><img src="assets/ref/lenirlivre.jpg" alt="Página do 30º Encontro Nacional da RENAP, Lenir Correia Livre" loading="lazy" /></a>
+          <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener"><img src="assets/ref/lenirlivre.jpg" alt="Página do 30º Encontro Nacional da RENAP, Lenir Correia Livre" /></a>
           <figcaption><b>30º Encontro · Lenir Correia Livre</b> — blocos com título próprio, carta política e programação; cores: vinho, branco e vermelho. <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener">encontrolenirlivre.renap.org.br</a></figcaption>
         </figure>
         <figure>
-          <a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener"><img src="assets/ref/terradedireitos.jpg" alt="Banco de Petições do Terra de Direitos" loading="lazy" /></a>
+          <a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener"><img src="assets/ref/terradedireitos.jpg" alt="Banco de Petições do Terra de Direitos" /></a>
           <figcaption><b>Terra de Direitos</b> — menu por eixos de atuação; busca e filtros por tipo, órgão e ação. Cores: azul e branco. <a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener">banco de petições</a></figcaption>
         </figure>
         <figure>
-          <a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener"><img src="assets/ref/mam.jpg" alt="Biblioteca do MAM Nacional" loading="lazy" /></a>
+          <a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener"><img src="assets/ref/mam.jpg" alt="Biblioteca do MAM Nacional" /></a>
           <figcaption><b>MAM · biblioteca</b> — menu de 5 itens (MAM, Notícias, Internacional, Biblioteca, Contato); biblioteca em três blocos. Cores: vermelho e vinho. <a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
         </figure>
         <figure>
-          <a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener"><img src="assets/ref/democraciapopular.jpg" alt="Biblioteca da Democracia Popular" loading="lazy" /></a>
+          <a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener"><img src="assets/ref/democraciapopular.jpg" alt="Biblioteca da Democracia Popular" /></a>
           <figcaption><b>Democracia Popular · biblioteca</b> — menu com Fundação, Linhas de Atuação, Equipe e Apoie; busca; lista de arquivos com capa e data. Cores: vermelho e branco. <a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
         </figure>
         <figure>
-          <a href="https://www.dpu.def.br/" target="_blank" rel="noopener"><img src="assets/ref/dpu.jpg" alt="Página inicial da DPU" loading="lazy" /></a>
+          <a href="https://www.dpu.def.br/" target="_blank" rel="noopener"><img src="assets/ref/dpu.jpg" alt="Página inicial da DPU" /></a>
           <figcaption><b>DPU</b> — menu de 7 itens (Institucional, Unidades, Comunicação, Transparência); busca. Cores: azul e branco. <a href="https://www.dpu.def.br/" target="_blank" rel="noopener">dpu.def.br</a></figcaption>
         </figure>
         <figure>
-          <a href="https://www.renap.org.br/" target="_blank" rel="noopener"><img src="assets/ref/renap.jpg" alt="Site atual da RENAP" loading="lazy" /></a>
+          <a href="https://www.renap.org.br/" target="_blank" rel="noopener"><img src="assets/ref/renap.jpg" alt="Site atual da RENAP" /></a>
           <figcaption><b>RENAP hoje</b> — menu de 5 itens (Início, Sobre, Encontro, Publicações, Blog); sem busca. Cores: vinho e bege. <a href="https://www.renap.org.br/" target="_blank" rel="noopener">renap.org.br</a></figcaption>
         </figure>
         <figure>
-          <a href="https://mst.org.br/" target="_blank" rel="noopener"><img src="assets/ref/mst.jpg" alt="Página inicial do MST" loading="lazy" /></a>
+          <a href="https://mst.org.br/" target="_blank" rel="noopener"><img src="assets/ref/mst.jpg" alt="Página inicial do MST" /></a>
           <figcaption><b>MST</b> — menu de 12 itens (O MST, Notícias, Mídias, Especiais, Rádios); busca; galerias de imagem. Cores: vermelho vivo e bege claro. <a href="https://mst.org.br/" target="_blank" rel="noopener">mst.org.br</a></figcaption>
         </figure>
         <figure>
-          <a href="https://mab.org.br/" target="_blank" rel="noopener"><img src="assets/ref/mab.jpg" alt="Página inicial do MAB" loading="lazy" /></a>
+          <a href="https://mab.org.br/" target="_blank" rel="noopener"><img src="assets/ref/mab.jpg" alt="Página inicial do MAB" /></a>
           <figcaption><b>MAB</b> — menu de 9 itens em três idiomas (O MAB, Lutas, Apoie, Notícias); busca. Cores: verde e branco. <a href="https://mab.org.br/" target="_blank" rel="noopener">mab.org.br</a></figcaption>
         </figure>
         <figure>
-          <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cpt.jpg" alt="Página inicial da CPT" loading="lazy" /></a>
+          <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cpt.jpg" alt="Página inicial da CPT" /></a>
           <figcaption><b>CPT</b> — menu com Acervo, Biblioteca, Cedoc e Conflitos no campo; busca. Cores: vinho e branco. <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener">cptnacional.org.br</a></figcaption>
         </figure>
         <figure>
-          <a href="https://cimi.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cimi.jpg" alt="Página inicial do CIMI" loading="lazy" /></a>
+          <a href="https://cimi.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cimi.jpg" alt="Página inicial do CIMI" /></a>
           <figcaption><b>CIMI</b> — menu por temas e por regionais (Amazônia, Goiás, Leste, Maranhão); login e busca. Cores: vinho e branco. <a href="https://cimi.org.br/" target="_blank" rel="noopener">cimi.org.br</a></figcaption>
         </figure>
         <figure>
-          <a href="https://www.abjd.org.br/" target="_blank" rel="noopener"><img src="assets/ref/abjd.jpg" alt="Página inicial da ABJD" loading="lazy" /></a>
+          <a href="https://www.abjd.org.br/" target="_blank" rel="noopener"><img src="assets/ref/abjd.jpg" alt="Página inicial da ABJD" /></a>
           <figcaption><b>ABJD</b> — menu com Núcleos Estaduais, Observatório e Área do Associado; busca e inscrição por e-mail. Cores: vermelho, vinho e branco. <a href="https://www.abjd.org.br/" target="_blank" rel="noopener">abjd.org.br</a></figcaption>
         </figure>
         <figure>
-          <a href="https://coletivoveredas.org/" target="_blank" rel="noopener"><img src="assets/ref/veredas.jpg" alt="Página do Coletivo Veredas" loading="lazy" /></a>
+          <a href="https://coletivoveredas.org/" target="_blank" rel="noopener"><img src="assets/ref/veredas.jpg" alt="Página do Coletivo Veredas" /></a>
           <figcaption><b>Coletivo Veredas</b> — menu de 4 itens (Coletivo, Áreas acompanhadas, Equipe, Contato); sem busca. Cores: creme e marrom. <a href="https://coletivoveredas.org/" target="_blank" rel="noopener">coletivoveredas.org</a></figcaption>
         </figure>
         <figure>
-          <a href="https://www.mpf.mp.br/" target="_blank" rel="noopener"><img src="assets/ref/mpf.jpg" alt="Página inicial do MPF" loading="lazy" /></a>
+          <a href="https://www.mpf.mp.br/" target="_blank" rel="noopener"><img src="assets/ref/mpf.jpg" alt="Página inicial do MPF" /></a>
           <figcaption><b>MPF</b> — menu institucional mais serviços ao cidadão; busca; área restrita. Cores: azul-escuro e branco. <a href="https://www.mpf.mp.br/" target="_blank" rel="noopener">mpf.mp.br</a></figcaption>
         </figure>
       </div>
@@ -2250,7 +2274,7 @@ a:hover { text-decoration-thickness: 2px; }
       <div class="home-demo home-demo--lado">
         <div class="home-demo__lado">
           <figure>
-          <a href="proposta-home.html" target="_blank" rel="noopener"><img src="assets/ref/home.jpg" alt="Prévia da proposta de página inicial" loading="lazy" /></a>
+          <a href="proposta-home.html" target="_blank" rel="noopener"><img src="assets/ref/home.jpg" alt="Prévia da proposta de página inicial" /></a>
           <figcaption>Prévia em 20/11/2026 · <a href="proposta-home.html">abrir a página</a></figcaption>
         </figure>
           <p class="etiqueta" style="margin-top:var(--e4);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Requisitos que esta página já cumpre</p>
