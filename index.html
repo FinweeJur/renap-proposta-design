@@ -634,8 +634,8 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   background-image: var(--fundo, none);
   background-position: right center;
   background-size: cover; background-repeat: no-repeat;
-  filter: brightness(.78) saturate(.95);
-  opacity: var(--fundo-op, .58);
+  filter: brightness(.66) saturate(.95);
+  opacity: var(--fundo-op, .72);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.55) 9%, #000 26%);
   mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.55) 9%, #000 26%);
 }
@@ -643,9 +643,9 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .tela::after {
   content: ""; position: fixed; inset: 0; z-index: 2; pointer-events: none;
   background: linear-gradient(100deg,
-    color-mix(in srgb, var(--cp-bg) var(--veu-1, 74%), transparent) 0%,
-    color-mix(in srgb, var(--cp-bg) var(--veu-2, 62%), transparent) 55%,
-    color-mix(in srgb, var(--cp-bg) var(--veu-3, 48%), transparent) 100%);
+    color-mix(in srgb, var(--cp-bg) var(--veu-1, 0%), transparent) 0%,
+    color-mix(in srgb, var(--cp-bg) var(--veu-2, 0%), transparent) 55%,
+    color-mix(in srgb, var(--cp-bg) var(--veu-3, 0%), transparent) 100%);
 }
 .tela .miolo { position: relative; z-index: 3; }
 
