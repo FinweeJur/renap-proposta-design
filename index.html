@@ -1193,6 +1193,12 @@ a:hover { text-decoration-thickness: 2px; }
   text-shadow: 0 1px 3px rgba(0, 0, 0, .75);
 }
 
+/* Brilho de vidro: uma linha clara no topo faz o cartão parecer vidro
+   mesmo quando atrás dele a foto está escura. */
+.cartao, .sumario__item {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .10), 0 12px 30px rgba(0, 0, 0, .28);
+}
+
 /* Cartões translúcidos: vidro leve sobre a foto, sem perder legibilidade. */
 .cartao, .demo, .lab__item, .funcao, .amostra-fonte, .rp__controles, .rp__lista-area {
   background: color-mix(in srgb, var(--cp-surface) 8%, transparent);
