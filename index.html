@@ -616,6 +616,35 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .efeitos-botoes { display: flex; flex-wrap: wrap; gap: var(--e2); margin-top: var(--e4); }
 .efeitos-botoes .botao { display: inline-flex; align-items: center; text-decoration: none; }
 
+/* ═══ 11. FOTOS DE FUNDO ══════════════════════════════════════════════════
+   Foto grande com brilho baixo e véu do próprio tema por cima. O véu existe
+   para o texto manter o contraste medido: a foto é atmosfera, não informação. */
+.tela--capa::before,
+.tela--fecho::before {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-position: center; background-size: cover; background-repeat: no-repeat;
+  filter: brightness(.55) saturate(.85);
+  opacity: .55;
+}
+.tela--capa::before { background-image: url("assets/fundo/capa.jpg"); }
+.tela--fecho::before { background-image: url("assets/fundo/fecho.jpg"); }
+
+.tela--capa::after,
+.tela--fecho::after {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(100deg,
+    color-mix(in srgb, var(--cp-bg) 93%, transparent) 0%,
+    color-mix(in srgb, var(--cp-bg) 80%, transparent) 55%,
+    color-mix(in srgb, var(--cp-bg) 62%, transparent) 100%);
+}
+.tela--capa .miolo,
+.tela--fecho .miolo { position: relative; z-index: 1; }
+
+@media print {
+  .tela--capa::before, .tela--capa::after,
+  .tela--fecho::before, .tela--fecho::after { display: none !important; }
+}
+
 /* ═══ 7. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
 .nav {
   position: fixed; left: var(--faixa); right: 0; bottom: 0; z-index: 30;
@@ -748,7 +777,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 <main class="deck" id="deck">
 
   <!-- 1 · CAPA -->
-  <section class="tela" data-ativa="true" aria-label="Capa">
+  <section class="tela tela--capa" data-ativa="true" aria-label="Capa">
     <div class="miolo estreito">
       <img class="capa-logo capa-logo--claro" src="assets/logo-renap-claro.png" alt="RENAP — Rede Nacional de Advogados e Advogadas Populares" />
       <img class="capa-logo capa-logo--branco" src="assets/logo-renap-escuro.png" alt="" aria-hidden="true" />
@@ -1337,7 +1366,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   </section>
 
   <!-- 24 · FECHAMENTO -->
-  <section class="tela" aria-label="Fechamento">
+  <section class="tela tela--fecho" aria-label="Fechamento">
     <div class="miolo estreito">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🚩</span>Próximo passo</p>
       <h2 class="titulo sobe" style="--i:1">Próximos passos</h2>

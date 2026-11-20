@@ -101,6 +101,27 @@ a.botao:hover { border-color: var(--cp-primary); color: var(--cp-primary); }
 .topo__gaveta a { text-decoration: none; color: var(--cp-text); padding: 10px 8px; border-radius: 8px; }
 .topo__gaveta a:hover { background: var(--cp-surface-2); }
 
+/* Foto de fundo do hero: brilho baixo, véu do papel por cima. */
+.hero {
+  position: relative; overflow: hidden; border-radius: 16px;
+  padding: var(--e5) var(--e4); margin-bottom: var(--e4);
+  border-bottom: 0;
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: url("assets/fundo/home-hero.jpg") center / cover no-repeat;
+  filter: brightness(.6) saturate(.8);
+  opacity: .5;
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(100deg,
+    color-mix(in srgb, var(--cp-bg) 92%, transparent) 0%,
+    color-mix(in srgb, var(--cp-bg) 76%, transparent) 60%,
+    color-mix(in srgb, var(--cp-bg) 55%, transparent) 100%);
+}
+.hero > * { position: relative; z-index: 1; }
+
 /* Conteúdo */
 main { max-width: 76rem; margin: 0 auto; padding: var(--e5) var(--e4) var(--e6); }
 .olho {
