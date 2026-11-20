@@ -510,6 +510,24 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 @media (min-width: 1100px) { .refs--8 { grid-template-columns: repeat(4, 1fr); } }
 .refs--8 figcaption { font-size: var(--t-min); line-height: 1.35; }
 
+/* Dez efeitos sugeridos: duas colunas, licença ao lado do nome. */
+.efeitos { list-style: none; margin: var(--e4) 0 0; padding: 0; display: grid; gap: var(--e2); }
+@media (min-width: 760px) { .efeitos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.efeitos li {
+  border: 1px solid var(--cp-border); border-left: 3px solid var(--cp-primary);
+  border-radius: 10px; background: var(--cp-surface);
+  padding: 10px 12px; display: grid; gap: 2px;
+}
+.efeito__topo { display: flex; align-items: center; gap: var(--e2); flex-wrap: wrap; }
+.efeito__topo b { font-size: var(--t-peq); }
+.efeito__licenca {
+  font-size: var(--t-min); font-weight: 700; letter-spacing: .04em;
+  color: var(--cp-text-soft); border: 1px solid var(--cp-border);
+  border-radius: 999px; padding: 1px 7px;
+}
+.efeitos p { font-size: var(--t-min); color: var(--cp-text-soft); }
+.efeitos a { font-size: var(--t-min); }
+
 /* ═══ 7. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
 .nav {
   position: fixed; left: var(--faixa); right: 0; bottom: 0; z-index: 30;
@@ -636,7 +654,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <option value="pantanal">Pantanal</option>
     </select>
   </div>
-  <p class="contador" id="contador">1 / 28</p>
+  <p class="contador" id="contador">1 / 29</p>
 </header>
 
 <main class="deck" id="deck">
@@ -1489,6 +1507,72 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
         </div>
       </div>
       <p class="folha"><b>No celular:</b> menu em gaveta e a mesma ordem de blocos. Os requisitos acima são medidos, não prometidos.</p>
+    </div>
+  </section>
+
+  <section class="tela" aria-label="Anexo F, efeitos e componentes sugeridos">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">✨</span>Anexo F · o que eu usaria</p>
+      <h2 class="titulo sobe" style="--i:1">Dez efeitos e componentes gratuitos</h2>
+      <p class="resumo sobe" style="--i:2">
+        Todos com licença aberta e peso baixo. Os cinco primeiros entram na fase 1; os outros, na fase 2.
+      </p>
+      <ul class="efeitos">
+        <li>
+          <div class="efeito__topo"><b>Magic UI</b><span class="efeito__licenca">MIT</span></div>
+          <p>Número que conta, marquee, bento. Bom para a capa e para os painéis.</p>
+          <a href="https://magicui.design/" target="_blank" rel="noopener">abrir o site</a>
+        </li>
+        <li>
+          <div class="efeito__topo"><b>Cult UI</b><span class="efeito__licenca">MIT</span></div>
+          <p>Modal, formulário e borda animada. Cai bem na área restrita.</p>
+          <a href="https://www.cult-ui.com/" target="_blank" rel="noopener">abrir o site</a>
+        </li>
+        <li>
+          <div class="efeito__topo"><b>Origin UI</b><span class="efeito__licenca">MIT</span></div>
+          <p>400 blocos de formulário. Resolve cadastro e filtros sem invenção.</p>
+          <a href="https://originui.com/" target="_blank" rel="noopener">abrir o site</a>
+        </li>
+        <li>
+          <div class="efeito__topo"><b>Uiverse</b><span class="efeito__licenca">MIT</span></div>
+          <p>Botão, loader e toggle em CSS puro. Leve e sem JavaScript.</p>
+          <a href="https://uiverse.io/" target="_blank" rel="noopener">abrir o site</a>
+        </li>
+        <li>
+          <div class="efeito__topo"><b>Motion</b><span class="efeito__licenca">MIT</span></div>
+          <p>Entrada de bloco e transição de página com uma linha.</p>
+          <a href="https://motion.dev/" target="_blank" rel="noopener">abrir o site</a>
+        </li>
+        <li>
+          <div class="efeito__topo"><b>AutoAnimate</b><span class="efeito__licenca">MIT</span></div>
+          <p>A lista de documentos se reordena sozinha ao filtrar.</p>
+          <a href="https://auto-animate.formkit.com/" target="_blank" rel="noopener">abrir o site</a>
+        </li>
+        <li>
+          <div class="efeito__topo"><b>Lottie</b><span class="efeito__licenca">MIT</span></div>
+          <p>Animação de After Effects em arquivo pequeno: estado vazio e carregando.</p>
+          <a href="https://lottiefiles.com/" target="_blank" rel="noopener">abrir o site</a>
+        </li>
+        <li>
+          <div class="efeito__topo"><b>Paper Shaders</b><span class="efeito__licenca">Apache-2.0</span></div>
+          <p>Fundo de capa com shader. Leve, sem 3D e sem WebGL pesado.</p>
+          <a href="https://shaders.paper.design/" target="_blank" rel="noopener">abrir o site</a>
+        </li>
+        <li>
+          <div class="efeito__topo"><b>Anime.js</b><span class="efeito__licenca">MIT</span></div>
+          <p>Contador e barra do anexo A. Alternativa ao que já fazemos na mão.</p>
+          <a href="https://animejs.com/" target="_blank" rel="noopener">abrir o site</a>
+        </li>
+        <li>
+          <div class="efeito__topo"><b>animate.css</b><span class="efeito__licenca">MIT</span></div>
+          <p>Entrada de bloco só com classe. Zero JavaScript, zero peso.</p>
+          <a href="https://animate.style/" target="_blank" rel="noopener">abrir o site</a>
+        </li>
+      </ul>
+      <p class="folha">
+        <b>⛔ Evitaria:</b> Vanta, tsParticles, three.js, Lenis e Remotion. Pesam no celular,
+        quebram âncora ou têm licença que não é livre.
+      </p>
     </div>
   </section>
 

@@ -35,7 +35,7 @@ e abra <http://127.0.0.1:4323>.
 
 O tema escolhido fica guardado no navegador.
 
-## As 28 telas
+## As 29 telas
 
 **Abertura (2 a 7):** quatro decisões da reunião · referências (duas telas, 15
 prints) · o que os 12 portais têm em comum · decisão de estilo · ferramentas
@@ -46,8 +46,8 @@ documentos · cadastro · cores e temas · fontes · sigilo · funções possív
 chave de edição (API) · proteções · acessibilidade comunicacional · cinco
 decisões · glossário · próximos passos.
 
-**Anexos (23 a 28):** efeitos · sanfona · busca, robô e rádio · hospedagem ·
-proposta de home (com os requisitos que ela cumpre).
+**Anexos (23 a 29):** efeitos · sanfona · busca, robô e rádio · hospedagem ·
+proposta de home · dez efeitos e componentes sugeridos.
 
 ## O que é de quem
 
