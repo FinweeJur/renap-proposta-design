@@ -86,6 +86,9 @@ img { max-width: 100%; display: block; }
   background: var(--cp-primary); color: var(--cp-primary-ink);
 }
 .botao.secundario { background: var(--cp-surface); color: var(--cp-text); border: 1px solid var(--cp-border); }
+a.botao { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+a.botao.secundario { border-color: var(--cp-border); }
+a.botao:hover { border-color: var(--cp-primary); color: var(--cp-primary); }
 .topo__menu {
   font: inherit; min-height: 40px; width: 40px; border-radius: 8px;
   border: 1px solid var(--cp-border); background: var(--cp-surface); color: var(--cp-text);
@@ -197,7 +200,7 @@ main { max-width: 76rem; margin: 0 auto; padding: var(--e5) var(--e4) var(--e6);
 
 <header class="topo">
   <div class="topo__interno">
-    <a class="topo__marca" href="index.html">
+    <a class="topo__marca" href="index.html#28">
       <img src="assets/logo-renap-claro.png" alt="RENAP" />
     </a>
     <nav class="topo__links" aria-label="Navegação principal">
@@ -214,6 +217,7 @@ main { max-width: 76rem; margin: 0 auto; padding: var(--e5) var(--e4) var(--e6);
         <input id="busca" type="search" placeholder="Buscar documento, peça ou notícia" />
         <button type="submit">Buscar</button>
       </form>
+      <a class="botao secundario" href="index.html#28">← Voltar ao slide</a>
       <button class="topo__menu" type="button" data-menu aria-expanded="false" aria-controls="gaveta">☰</button>
     </div>
   </div>
@@ -361,7 +365,7 @@ main { max-width: 76rem; margin: 0 auto; padding: var(--e5) var(--e4) var(--e6);
         <li><a href="#">Fale com a RENAP</a></li>
         <li><a href="#">Imprensa</a></li>
         <li><a href="#">Política de privacidade</a></li>
-        <li><a href="index.html">Voltar à proposta</a></li>
+        <li><a href="index.html#28">Voltar ao slide</a></li>
       </ul>
     </div>
   </div>

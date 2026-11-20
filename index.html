@@ -608,6 +608,10 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   .lab--grade .lab__palco, .lab--meteoros i { animation: none; }
 }
 
+/* Botões das galerias e lista dos componentes citados. */
+.efeitos-botoes { display: flex; flex-wrap: wrap; gap: var(--e2); margin-top: var(--e4); }
+.efeitos-botoes .botao { display: inline-flex; align-items: center; text-decoration: none; }
+
 /* ═══ 7. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
 .nav {
   position: fixed; left: var(--faixa); right: 0; bottom: 0; z-index: 30;
@@ -1707,6 +1711,26 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
         </div>
       </div>
 
+      <div class="efeitos-botoes">
+        <a class="botao secundario" href="https://reactbits.dev/" target="_blank" rel="noopener">React Bits · galeria</a>
+        <a class="botao secundario" href="https://github.com/DavidHDev/react-bits" target="_blank" rel="noopener">React Bits · código</a>
+        <a class="botao secundario" href="https://lightswind.com/" target="_blank" rel="noopener">Lightswind · galeria</a>
+        <a class="botao secundario" href="https://github.com/codewithMUHILAN/Lightswind-UI-Library" target="_blank" rel="noopener">Lightswind · código</a>
+      </div>
+
+      <details class="sanfona" style="margin-top:var(--e3)">
+        <summary>
+          <span class="sanfona__titulo">Os 25 componentes citados, por origem</span>
+          <span class="sanfona__dica sanfona__dica--abrir">Abrir</span>
+          <span class="sanfona__dica sanfona__dica--fechar">Fechar</span>
+          <span class="sanfona__seta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </summary>
+        <div class="sanfona__corpo">
+          <p><b>React Bits:</b> Dither Veil · Gradual Blur · Electric Logo · Crystalized Ball · Holo Card · Grid Motion · Text Trail Cursor · Magic Card · Meteors · Image Trail · Lens · 3D Bend Carousel · Infinite Drift 2.</p>
+          <p style="margin-top:8px"><b>Lightswind:</b> Scroll Timeline · Woofy Hover Image · Animated Meteors Link · Cube Volume Background · Star Glow Background · Stellar Vortex · Glowing Lines · Timeline Layout · Layout Grid · Slice Cursor · AI Aurora Blob · Electro Border · Expandable Search Bar · Expandable Speed Dial · Globe · Interactive Gradient Card · Invoice Printer.</p>
+          <p style="margin-top:8px"><b>Como achar:</b> abra a galeria e use a busca do site pelo nome. O React Bits Pro é pago.</p>
+        </div>
+      </details>
       <p class="folha">
         <b>Como usar:</b> copiar a peça original e trocar as cores pelos tokens.
         ⚠️ React Bits é MIT + Commons Clause: pode usar no site, não pode vender o componente.
