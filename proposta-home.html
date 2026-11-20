@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Proposta de home — RENAP</title>
+<meta name="description" content="Demonstração de página inicial para o novo site da RENAP: navegação, biblioteca, banco de peças, notícias e rodapé." />
+<link rel="icon" href="data:," />
+<link rel="stylesheet" href="fontes/fontshare.css" />
+<link rel="stylesheet" href="temas/temas.css" />
+<link rel="stylesheet" href="temas/renap.css" />
+<link rel="stylesheet" href="componentes/select.css" />
+
+<style>
+/* ═══ PROPOSTA DE HOME — demonstração ═════════════════════════════════════
+   Por que existe: mostrar em uma página o que a proposta quer dizer com
+   navegação, biblioteca, banco de peças e rodapé. Não é o site final.
+   Tokens do design system; nada de cor solta. */
+:root {
+  --t-h1: clamp(1.9rem, 5vw, 3.2rem);
+  --t-h2: clamp(1.3rem, 3vw, 1.9rem);
+  --t-corpo: clamp(1rem, 2vw, 1.1rem);
+  --t-peq: clamp(.85rem, 1.8vw, .95rem);
+  --t-min: .8rem;
+  --e1: 4px; --e2: 8px; --e3: 12px; --e4: 20px; --e5: 32px; --e6: 56px;
+  --curva: cubic-bezier(.2, 0, 0, 1);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--cp-bg); color: var(--cp-text);
+  font-size: var(--t-corpo); line-height: 1.55;
+  font-family: var(--font-body);
+}
+h1, h2, h3 { font-family: var(--font-display); margin: 0; line-height: 1.1; letter-spacing: -.01em; }
+p { margin: 0; }
+a { color: var(--cp-primary); }
+img { max-width: 100%; display: block; }
+:focus-visible { outline: 3px solid var(--cp-focus); outline-offset: 3px; border-radius: 4px; }
+
+.pular {
+  position: absolute; left: -9999px; top: 8px; z-index: 100;
+  background: var(--cp-primary); color: var(--cp-primary-ink);
+  padding: 10px 16px; border-radius: 8px;
+}
+.pular:focus { left: 12px; }
+
+/* Barra de aviso: o site está em revisão. */
+.aviso-topo {
+  background: var(--cp-surface-2); color: var(--cp-text-soft);
+  font-size: var(--t-min); text-align: center; padding: 6px 12px;
+  border-bottom: 1px solid var(--cp-border);
+}
+
+/* Navbar */
+.topo {
+  position: sticky; top: 0; z-index: 30;
+  background: color-mix(in srgb, var(--cp-bg) 94%, transparent);
+  border-bottom: 1px solid var(--cp-border);
+  backdrop-filter: blur(8px);
+}
+.topo__interno {
+  max-width: 76rem; margin: 0 auto; padding: var(--e3) var(--e4);
+  display: flex; align-items: center; gap: var(--e4); flex-wrap: wrap;
+}
+.topo__marca { display: inline-flex; align-items: center; gap: var(--e2); text-decoration: none; color: var(--cp-text); }
+.topo__marca img { height: 38px; width: auto; }
+.topo__marca strong { font-family: var(--font-display); font-size: 1.05rem; }
+.topo__links { display: none; gap: var(--e1); margin-left: auto; }
+@media (min-width: 900px) { .topo__links { display: flex; } }
+.topo__links a {
+  color: var(--cp-text); text-decoration: none; font-size: var(--t-peq);
+  padding: 9px 11px; border-radius: 8px;
+}
+.topo__links a:hover { background: var(--cp-surface-2); }
+.topo__links a[aria-current="page"] { color: var(--cp-primary); font-weight: 700; }
+.topo__acoes { display: flex; align-items: center; gap: var(--e2); margin-left: auto; }
+.topo__busca { display: flex; align-items: center; gap: 6px; }
+.topo__busca input {
+  font: inherit; font-size: var(--t-peq); min-height: 40px; width: 12rem; max-width: 40vw;
+  padding: .4rem .7rem; border: 1px solid var(--cp-border); border-radius: 8px;
+  background-color: var(--cp-surface); color: var(--cp-text);
+}
+.topo__busca button, .botao {
+  font: inherit; font-size: var(--t-peq); font-weight: 700; min-height: 40px;
+  padding: .45rem .9rem; border-radius: 999px; border: 0; cursor: pointer;
+  background: var(--cp-primary); color: var(--cp-primary-ink);
+}
+.botao.secundario { background: var(--cp-surface); color: var(--cp-text); border: 1px solid var(--cp-border); }
+.topo__menu {
+  font: inherit; min-height: 40px; width: 40px; border-radius: 8px;
+  border: 1px solid var(--cp-border); background: var(--cp-surface); color: var(--cp-text);
+  cursor: pointer;
+}
+@media (min-width: 900px) { .topo__menu { display: none; } }
+.topo__gaveta { display: none; border-top: 1px solid var(--cp-border); padding: var(--e2) var(--e4); }
+.topo__gaveta[data-aberta="true"] { display: grid; gap: 2px; }
+.topo__gaveta a { text-decoration: none; color: var(--cp-text); padding: 10px 8px; border-radius: 8px; }
+.topo__gaveta a:hover { background: var(--cp-surface-2); }
+
+/* Conteúdo */
+main { max-width: 76rem; margin: 0 auto; padding: var(--e5) var(--e4) var(--e6); }
+.olho {
+  font-size: var(--t-min); text-transform: uppercase; letter-spacing: .12em;
+  color: var(--cp-text-soft); font-weight: 700; margin-bottom: var(--e2);
+}
+.hero { display: grid; gap: var(--e4); padding-bottom: var(--e5); border-bottom: 1px solid var(--cp-border); }
+@media (min-width: 900px) { .hero { grid-template-columns: 1.2fr .8fr; align-items: end; } }
+.hero h1 { font-size: var(--t-h1); max-width: 22ch; }
+.hero p { color: var(--cp-text-soft); max-width: 46ch; margin-top: var(--e3); }
+.hero__cartao {
+  border: 1px solid var(--cp-border); border-radius: 14px; background: var(--cp-surface);
+  padding: var(--e4);
+}
+.hero__cartao h2 { font-size: 1.05rem; margin-bottom: var(--e2); }
+.hero__cartao ul { margin: 0; padding-left: 1.1rem; color: var(--cp-text-soft); font-size: var(--t-peq); display: grid; gap: 6px; }
+
+.secao { padding: var(--e5) 0; border-bottom: 1px solid var(--cp-border); }
+.secao__topo { display: flex; align-items: baseline; gap: var(--e3); flex-wrap: wrap; margin-bottom: var(--e3); }
+.secao__topo h2 { font-size: var(--t-h2); }
+.secao__topo a { font-size: var(--t-peq); margin-left: auto; }
+
+/* Biblioteca: filtros + lista */
+.filtros { display: flex; flex-wrap: wrap; gap: var(--e2); margin-bottom: var(--e3); }
+.filtros select {
+  font: inherit; font-size: var(--t-peq); min-height: 40px;
+  padding: .4rem 2.25rem .4rem .6rem; border-radius: 8px;
+  border: 1px solid var(--cp-border); background-color: var(--cp-surface); color: var(--cp-text);
+}
+.docs { display: grid; gap: var(--e3); }
+@media (min-width: 700px) { .docs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1050px) { .docs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.doc {
+  border: 1px solid var(--cp-border); border-radius: 12px; background: var(--cp-surface);
+  padding: var(--e3); display: grid; gap: 6px; text-decoration: none; color: var(--cp-text);
+  transition: border-color .18s var(--curva), transform .18s var(--curva);
+}
+.doc:hover { border-color: var(--cp-primary); transform: translateY(-1px); }
+.doc__tipo {
+  font-size: var(--t-min); font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--cp-primary);
+}
+.doc h3 { font-size: 1.02rem; }
+.doc p { font-size: var(--t-peq); color: var(--cp-text-soft); }
+.doc__meta { font-size: var(--t-min); color: var(--cp-text-soft); display: flex; gap: var(--e2); flex-wrap: wrap; }
+
+/* Notícias */
+.noticias { display: grid; gap: var(--e3); }
+@media (min-width: 800px) { .noticias { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.noticia {
+  border: 1px solid var(--cp-border); border-radius: 12px; overflow: hidden;
+  background: var(--cp-surface); display: grid; text-decoration: none; color: var(--cp-text);
+}
+.noticia__foto {
+  aspect-ratio: 16 / 10; background: var(--cp-surface-2);
+  background-image: repeating-linear-gradient(45deg, transparent 0 10px, color-mix(in srgb, var(--cp-border) 55%, transparent) 10px 11px);
+  display: grid; place-items: center; color: var(--cp-text-soft); font-size: var(--t-min);
+}
+.noticia__corpo { padding: var(--e3); display: grid; gap: 6px; }
+.noticia h3 { font-size: 1rem; }
+.noticia span { font-size: var(--t-min); color: var(--cp-text-soft); }
+
+/* Peças */
+.pecas { display: grid; gap: var(--e3); }
+@media (min-width: 800px) { .pecas { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.peca {
+  border: 1px solid var(--cp-border); border-radius: 12px; background: var(--cp-surface);
+  padding: var(--e4); display: grid; gap: var(--e2);
+}
+.peca h3 { font-size: 1rem; }
+.peca p { font-size: var(--t-peq); color: var(--cp-text-soft); }
+
+/* Rodapé */
+.rodape { border-top: 1px solid var(--cp-border); background: var(--cp-surface); }
+.rodape__interno {
+  max-width: 76rem; margin: 0 auto; padding: var(--e5) var(--e4);
+  display: grid; gap: var(--e4);
+}
+@media (min-width: 760px) { .rodape__interno { grid-template-columns: 1.4fr 1fr 1fr 1fr; } }
+.rodape h3 { font-size: var(--t-peq); text-transform: uppercase; letter-spacing: .1em; color: var(--cp-text-soft); margin-bottom: var(--e2); }
+.rodape ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.rodape a { color: var(--cp-text); text-decoration: none; font-size: var(--t-peq); }
+.rodape a:hover { text-decoration: underline; }
+.rodape__base {
+  border-top: 1px solid var(--cp-border);
+  padding: var(--e3) var(--e4); max-width: 76rem; margin: 0 auto;
+  font-size: var(--t-min); color: var(--cp-text-soft);
+  display: flex; gap: var(--e3); flex-wrap: wrap; justify-content: space-between;
+}
+.rodape__marca { display: flex; align-items: center; gap: var(--e2); margin-bottom: var(--e2); }
+.rodape__marca img { height: 34px; width: auto; }
+</style>
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<p class="aviso-topo">Demonstração de proposta — não é o site final. Conteúdo de exemplo.</p>
+
+<header class="topo">
+  <div class="topo__interno">
+    <a class="topo__marca" href="index.html">
+      <img src="assets/logo-renap-claro.png" alt="RENAP" />
+    </a>
+    <nav class="topo__links" aria-label="Navegação principal">
+      <a href="#" aria-current="page">Início</a>
+      <a href="#biblioteca">Biblioteca</a>
+      <a href="#pecas">Banco de peças</a>
+      <a href="#noticias">Notícias</a>
+      <a href="#encontros">Encontros</a>
+      <a href="#sobre">Sobre</a>
+    </nav>
+    <div class="topo__acoes">
+      <form class="topo__busca" role="search" onsubmit="return false;">
+        <label for="busca" class="pular">Buscar no site</label>
+        <input id="busca" type="search" placeholder="Buscar documento, peça ou notícia" />
+        <button type="submit">Buscar</button>
+      </form>
+      <button class="topo__menu" type="button" data-menu aria-expanded="false" aria-controls="gaveta">☰</button>
+    </div>
+  </div>
+  <div class="topo__gaveta" id="gaveta" data-aberta="false">
+    <a href="#biblioteca">Biblioteca</a>
+    <a href="#pecas">Banco de peças</a>
+    <a href="#noticias">Notícias</a>
+    <a href="#encontros">Encontros</a>
+    <a href="#sobre">Sobre</a>
+  </div>
+</header>
+
+<main id="conteudo">
+
+  <section class="hero">
+    <div>
+      <p class="olho">Rede Nacional de Advogados e Advogadas Populares</p>
+      <h1>Documento, peça e notícia num lugar só.</h1>
+      <p>
+        A RENAP reúne o que produz e o que recebe: publicações, banco de peças,
+        notícias e os encontros nacionais. Tudo com endereço próprio e fonte.
+      </p>
+    </div>
+    <div class="hero__cartao">
+      <h2>O que a pessoa acha aqui</h2>
+      <ul>
+        <li>Biblioteca com filtro por tipo, órgão e ano.</li>
+        <li>Banco de peças para advogadas e advogados populares.</li>
+        <li>Notícia com data e fonte.</li>
+        <li>Leitura em voz alta e tema escuro.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="secao" id="biblioteca" aria-labelledby="titulo-biblioteca">
+    <div class="secao__topo">
+      <h2 id="titulo-biblioteca">Biblioteca</h2>
+      <a href="#">ver tudo (36)</a>
+    </div>
+    <div class="filtros">
+      <label class="pular" for="f-tipo">Tipo</label>
+      <select id="f-tipo"><option>Tipo: todos</option><option>Cartilha</option><option>Relatório</option><option>Parecer</option></select>
+      <label class="pular" for="f-orgao">Órgão</label>
+      <select id="f-orgao"><option>Órgão: todos</option><option>Articulação</option><option>GT Jurídico</option><option>Comunicação</option></select>
+      <label class="pular" for="f-ano">Ano</label>
+      <select id="f-ano"><option>Ano: todos</option><option>2026</option><option>2025</option></select>
+    </div>
+    <div class="docs">
+      <a class="doc" href="#">
+        <span class="doc__tipo">Relatório</span>
+        <h3>Conflitos no campo e na cidade — 2025</h3>
+        <p>Levantamento anual com casos por estado e fonte de cada número.</p>
+        <span class="doc__meta"><span>PDF</span><span>19/11/2026</span><span>Articulação</span></span>
+      </a>
+      <a class="doc" href="#">
+        <span class="doc__tipo">Cartilha</span>
+        <h3>Como pedir acesso a documento público</h3>
+        <p>Passo a passo para pedido, recurso e prazo de resposta.</p>
+        <span class="doc__meta"><span>PDF</span><span>12/11/2026</span><span>GT Jurídico</span></span>
+      </a>
+      <a class="doc" href="#">
+        <span class="doc__tipo">Parecer</span>
+        <h3>Barragem de Paraopeba: nota técnica</h3>
+        <p>Análise do laudo e do plano de emergência apresentado.</p>
+        <span class="doc__meta"><span>PDF</span><span>03/11/2026</span><span>GT Jurídico</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="secao" id="pecas" aria-labelledby="titulo-pecas">
+    <div class="secao__topo">
+      <h2 id="titulo-pecas">Banco de peças</h2>
+      <a href="#">ver tudo (128)</a>
+    </div>
+    <div class="pecas">
+      <div class="peca"><h3>Ação civil pública</h3><p>Modelo com pedido de tutela de urgência. Atualizado em 2026.</p><span class="doc__meta"><span>Modelo</span><span>Editável</span></span></div>
+      <div class="peca"><h3>Habeas corpus coletivo</h3><p>Estrutura de peça e jurisprudência de apoio.</p><span class="doc__meta"><span>Modelo</span><span>Editável</span></span></div>
+      <div class="peca"><h3>Memorial de audiência</h3><p>Roteiro com pontos de prova e quesitos.</p><span class="doc__meta"><span>Modelo</span><span>Editável</span></span></div>
+    </div>
+  </section>
+
+  <section class="secao" id="noticias" aria-labelledby="titulo-noticias">
+    <div class="secao__topo">
+      <h2 id="titulo-noticias">Notícias</h2>
+      <a href="#">ver todas</a>
+    </div>
+    <div class="noticias">
+      <a class="noticia" href="#"><div class="noticia__foto" role="img" aria-label="Foto de assembleia">foto</div><div class="noticia__corpo"><span>19/11/2026</span><h3>Encontro Nacional aprova carta política</h3></div></a>
+      <a class="noticia" href="#"><div class="noticia__foto" role="img" aria-label="Foto de reunião">foto</div><div class="noticia__corpo"><span>12/11/2026</span><h3>GT Jurídico publica nota sobre barragem</h3></div></a>
+      <a class="noticia" href="#"><div class="noticia__foto" role="img" aria-label="Foto de plenária">foto</div><div class="noticia__corpo"><span>05/11/2026</span><h3>Rede abre inscrição para novos núcleos</h3></div></a>
+    </div>
+  </section>
+
+  <section class="secao" id="encontros" aria-labelledby="titulo-encontros">
+    <div class="secao__topo"><h2 id="titulo-encontros">Encontros</h2></div>
+    <div class="docs">
+      <a class="doc" href="#"><span class="doc__tipo">30º Encontro</span><h3>Lenir Correia Livre — João Pessoa</h3><p>Carta política, programação e fotos do encontro.</p><span class="doc__meta"><span>11 a 14/11/2026</span></span></a>
+      <a class="doc" href="#"><span class="doc__tipo">29º Encontro</span><h3>Memória e balanço</h3><p>Resoluções e grupos de trabalho.</p><span class="doc__meta"><span>2025</span></span></a>
+      <a class="doc" href="#"><span class="doc__tipo">28º Encontro</span><h3>Arquivo e fotos</h3><p>Acervo do encontro anterior.</p><span class="doc__meta"><span>2024</span></span></a>
+    </div>
+  </section>
+
+  <section class="secao" id="sobre" aria-labelledby="titulo-sobre">
+    <div class="secao__topo"><h2 id="titulo-sobre">Sobre a RENAP</h2></div>
+    <p style="max-width:60ch;color:var(--cp-text-soft)">
+      A RENAP é uma rede de advogadas e advogados populares. O site reúne o acervo
+      da rede, o banco de peças e a memória dos encontros nacionais. Os dados
+      publicados têm fonte e data.
+    </p>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <div class="rodape__interno">
+    <div>
+      <div class="rodape__marca">
+        <img src="assets/logo-renap-claro.png" alt="RENAP" />
+      </div>
+      <p style="font-size:var(--t-peq);color:var(--cp-text-soft);max-width:34ch">
+        Rede Nacional de Advogados e Advogadas Populares. Assessoria jurídica popular.
+      </p>
+    </div>
+    <div>
+      <h3>Conteúdo</h3>
+      <ul>
+        <li><a href="#biblioteca">Biblioteca</a></li>
+        <li><a href="#pecas">Banco de peças</a></li>
+        <li><a href="#noticias">Notícias</a></li>
+        <li><a href="#encontros">Encontros</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Acesso</h3>
+      <ul>
+        <li><a href="#">Área restrita</a></li>
+        <li><a href="#">Cadastro</a></li>
+        <li><a href="#">Acessibilidade</a></li>
+        <li><a href="#">Mapa do site</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Contato</h3>
+      <ul>
+        <li><a href="#">Fale com a RENAP</a></li>
+        <li><a href="#">Imprensa</a></li>
+        <li><a href="#">Política de privacidade</a></li>
+        <li><a href="index.html">Voltar à proposta</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="rodape__base">
+    <span>Demonstração de proposta · conteúdo de exemplo · 20/11/2026</span>
+    <span>Código aberto (MIT)</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var botao = document.querySelector("[data-menu]");
+  var gaveta = document.getElementById("gaveta");
+  if (botao && gaveta) {
+    botao.addEventListener("click", function () {
+      var aberta = gaveta.dataset.aberta === "true";
+      gaveta.dataset.aberta = String(!aberta);
+      botao.setAttribute("aria-expanded", String(!aberta));
+    });
+  }
+})();
+</script>
+</body>
+</html>
