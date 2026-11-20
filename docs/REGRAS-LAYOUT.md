@@ -1,5 +1,7 @@
 # Regras de layout, respiro e janelas pequenas
 
+> 🌐 **Português** (este documento) · [English version ↓](#english-version)
+
 > Vale para esta apresentação e para qualquer página feita a partir dela.
 > Escrito em 20/11/2026, a pedido do dono, depois de o player de rádio estourar
 > em uma janela de metade da tela.
@@ -88,3 +90,15 @@ Tela com quatro linhas não deve parecer rascunho encostado no topo.
 
 Regra de bolso: se sobra metade da tela vazia embaixo, o conteúdo está no lugar
 errado — centralize. O texto não preenche espaço; o espaço é parte do desenho.
+
+## English version
+
+**Summary.** Nothing touches anything: at least 12 px between cards, 20 px to the
+screen edge, 18 px above the footer bar. Layout reacts to window width *and*
+height, not to device names. Below 900 px the radio player becomes a single
+column; under 660 px of height the top spacing and list heights shrink. Text and
+images adapt to the window; the font never goes below 12 px. Screens with few
+elements get more air and are vertically centred — a screen with four lines must
+not look like a draft stuck to the ceiling. Measurement checklist: no horizontal
+scroll, no text under 12 px, 12 px between cards, last element visible above the
+footer, and the radio player readable at 700 × 500.

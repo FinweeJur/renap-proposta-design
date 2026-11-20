@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "Se usar esta apresentação, cite como abaixo."
+title: "Apresentação da proposta do novo site da RENAP"
+version: 1.0.0
+date-released: 2026-11-20
+url: "https://github.com/FinweeJur/renap-proposta-design"
+license: MIT
+type: software
+authors:
+  - name: "GT de Comunicação da RENAP"
+    affiliation: "Rede Nacional de Advogados e Advogadas Populares"
+keywords:
+  - advocacia popular
+  - RENAP
+  - acessibilidade
+  - design system
+  - proposta de site
+  - página única
+abstract: >
+  Apresentação em 32 telas da proposta do novo site da RENAP, com nove temas de
+  cor, player de 52 rádios públicas, proposta de página inicial e laboratório de
+  efeitos. HTML, CSS e JavaScript puro, sem build.
+references:
+  - type: software
+    title: "Design System — Controle Popular"
+    url: "https://github.com/FinweeJur/controle-popular-design"
+    license: MIT

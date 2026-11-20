@@ -1,5 +1,7 @@
 # Revisão do texto da tela 2 pelo S5
 
+> 🌐 **Português** (este documento) · [English version ↓](#english-version)
+
 > Registro do que foi pedido, do que voltou e do que foi aceito.
 > Feito em 19/11/2026, com o modelo **S5** da Maritaca.
 
@@ -50,3 +52,13 @@ oficial é **"Rede Nacional de Advogados e Advogadas Populares"** — corrigido.
 
 O modelo não conhece o contexto da RENAP além do que foi enviado. Quem decide
 se a revisão serve é a Articulação, na reunião.
+
+## English version
+
+**Summary.** Screen 2 was rewritten by the Maritaca S5 model with reasoning
+enabled through `reasoning_effort: medium`. The API rejects the parameter name
+`thinking` (422) and any non-default `temperature` (400). `max_tokens` is a
+ceiling: with 3,200 the model spent everything thinking and returned empty text;
+with 9,000 it used 4,502 tokens and returned the JSON. Cost: under R$ 0.05.
+The model wrote the network name in the wrong order and the text was fixed by
+hand. The model does not know RENAP's context beyond what was sent.

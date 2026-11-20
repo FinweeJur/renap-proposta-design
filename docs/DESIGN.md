@@ -1,5 +1,7 @@
 # Design system da apresentação
 
+> 🌐 **Português** (este documento) · [English version ↓](#english-version)
+
 > Se um número aparecer aqui, ele foi medido. Rodar: `python docs/medir-contraste.py`.
 
 ## 1. Direção de arte
@@ -99,3 +101,15 @@ O robô do design system nasce flutuante. Aqui ele entra na tela: a classe
 5. Alvo de toque com 36 px ou mais?
 6. Sem `prefers-reduced-motion`, ainda faz sentido?
 7. Com o zoom de 200%, o texto não é cortado?
+
+## English version
+
+**Summary.** Art direction is "civic editorial": warm paper, Clash Display for
+titles, General Sans for body, a biome rail on the left and the RENAP logo in the
+corner. The RENAP brand layer only swaps token values: red `#b00020` on light
+backgrounds, `#f2666a` on dark themes, `#990000` on high contrast. Contrast is
+measured for every theme with `docs/medir-contraste.py` (target: 0 failures).
+Motion follows a corporate-premium profile: 420 ms screen transitions,
+70 ms stagger, everything stops under `prefers-reduced-motion`. Components
+(accordion, effects, robot, table, select) come from the Controle Popular design
+system; only the robot's floating position was adapted.

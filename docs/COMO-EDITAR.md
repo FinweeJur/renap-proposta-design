@@ -1,5 +1,7 @@
 # Como editar
 
+> 🌐 **Português** (este documento) · [English version ↓](#english-version)
+
 ## Trocar o texto de uma tela
 
 Abra `index.html` e procure o comentário da tela:
@@ -89,3 +91,13 @@ O CSS de impressão já deixa uma tela por página, fundo branco e sem as barras
 Só HTML e CSS: qualquer hospedagem estática serve (Cloudflare Pages, GitHub
 Pages, Netlify). Não há build. No GitHub Pages: Settings → Pages → branch
 `main` → pasta `/`.
+
+## English version
+
+**Summary.** To change a screen, find its `aria-label` in `index.html` and edit
+the eyebrow, title and body. To add a screen, copy a whole `<section>` block; the
+counter, progress bar and navigation adapt automatically. To change colours, edit
+`temas/renap.css` and re-run the contrast meter. Fonts are tested live on the
+typography screen; the CSS is fetched only when a font is chosen. Prices in the
+cost annex must change together with the date in the caption and the source in
+the README. `Ctrl`+`P` exports a PDF, one screen per page.

@@ -629,9 +629,9 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .tela::after {
   content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background: linear-gradient(100deg,
-    color-mix(in srgb, var(--cp-bg) 88%, transparent) 0%,
-    color-mix(in srgb, var(--cp-bg) 76%, transparent) 60%,
-    color-mix(in srgb, var(--cp-bg) 62%, transparent) 100%);
+    color-mix(in srgb, var(--cp-bg) var(--veu-1, 88%), transparent) 0%,
+    color-mix(in srgb, var(--cp-bg) var(--veu-2, 76%), transparent) 60%,
+    color-mix(in srgb, var(--cp-bg) var(--veu-3, 62%), transparent) 100%);
 }
 .tela .miolo { position: relative; z-index: 1; }
 
@@ -790,6 +790,41 @@ a:hover { text-decoration-thickness: 2px; }
   .setas__botao { width: 48px; height: 48px; font-size: 1.2rem; }
   #seta-esquerda { left: 8px; }
   #seta-direita { right: 8px; }
+}
+
+/* ═══ 12. RÁDIO FLUTUANTE ═════════════════════════════════════════════════
+   Como no Controle Popular: um botão fixo no canto que abre o painel.
+   Fica acima das telas e abaixo da barra do topo. */
+.radio-flut {
+  position: fixed; left: 16px; bottom: 84px; z-index: 45;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+}
+.radio-flut__botao {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 46px; padding: 10px 16px; border-radius: 999px;
+  border: 1px solid var(--cp-border); background: var(--cp-primary);
+  color: var(--cp-primary-ink); font: inherit; font-size: var(--t-peq); font-weight: 700;
+  cursor: pointer; box-shadow: 0 10px 24px rgb(0 0 0 / .28);
+}
+.radio-flut__botao:hover { filter: brightness(1.08); }
+.radio-flut__painel {
+  display: none; width: min(340px, calc(100vw - 32px));
+  border: 1px solid var(--cp-border); border-radius: 16px;
+  background: var(--cp-surface); box-shadow: 0 20px 48px rgb(0 0 0 / .35);
+  overflow: hidden;
+}
+.radio-flut[data-aberto="true"] .radio-flut__painel { display: block; }
+.radio-flut .rp { display: grid; gap: 0; margin: 0; }
+.radio-flut .rp__controles {
+  position: static; border: 0; border-bottom: 1px solid var(--cp-border);
+  border-radius: 0; background: var(--cp-surface-2); padding: var(--e3);
+}
+.radio-flut .rp__lista-area { border: 0; border-radius: 0; }
+.radio-flut .rp__lista { max-height: min(280px, 46vh); }
+@media (max-width: 700px) {
+  .radio-flut { left: 8px; bottom: 78px; }
+  .radio-flut__botao { min-height: 44px; padding: 8px 14px; }
+  .radio-flut .rp__lista { max-height: 220px; }
 }
 
 /* ═══ 7. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
@@ -1723,7 +1758,7 @@ a:hover { text-decoration-thickness: 2px; }
             </span>
           </summary>
           <div class="sanfona__corpo">
-            São quatro níveis: público, interno, restrito e sigiloso.
+            São quatro níveis: público, interno, restrito e sigiloso. Ver a tela de <a href="#17">sigilo</a>.
             Quem classifica é o administrador, e ele pode mudar depois.
           </div>
         </details>
@@ -1737,7 +1772,7 @@ a:hover { text-decoration-thickness: 2px; }
             </span>
           </summary>
           <div class="sanfona__corpo">
-            Duas chaves: uma geral, que mexe em tudo, e uma só de notícias.
+            Duas chaves: uma geral, que mexe em tudo, e uma só de notícias. Detalhe na tela da <a href="#19">API</a>.
             Toda ação fica registrada e a chave pode ser revogada.
           </div>
         </details>
@@ -1751,11 +1786,11 @@ a:hover { text-decoration-thickness: 2px; }
             </span>
           </summary>
           <div class="sanfona__corpo">
-            Código e conteúdo são exportáveis. A RENAP leva o acervo embora sem pedir licença.
+            Código e conteúdo são exportáveis. A licença é <a href="https://github.com/FinweeJur/renap-proposta-design/blob/main/LICENSE" target="_blank" rel="noopener">MIT</a>. A RENAP leva o acervo embora sem pedir licença.
           </div>
         </details>
       </div>
-      <p class="folha">Componente do design system do Controle Popular, com os tokens da RENAP.</p>
+      <p class="folha">Componente do <a href="https://github.com/FinweeJur/controle-popular-design" target="_blank" rel="noopener">design system do Controle Popular</a>, com os tokens da RENAP.</p>
     </div>
   </section>
 
@@ -1803,32 +1838,8 @@ a:hover { text-decoration-thickness: 2px; }
           <div class="demo__palco"><button class="botao" type="button" id="modelo-botao2">Testar toque</button></div>
         </div>
       </div>
-            <div class="rp" data-radio>
-        <div class="rp__controles">
-          <div class="rp__linha">
-            <button class="rp__tocar" type="button" data-radio-tocar data-tocando="false" aria-label="Tocar rádio">▶</button>
-            <button class="rp__parar" type="button" data-radio-parar aria-label="Parar o rádio" title="Parar o rádio">■</button>
-            <div>
-              <div class="rp__nome" data-radio-nome>Rádio Brasil de Fato<span class="rp__meta" data-radio-meta>toque em ▶ ou escolha outra estação</span></div>
-            </div>
-          </div>
-          <label class="rp__volume">
-            <span>Volume</span>
-            <input type="range" min="0" max="100" value="70" data-radio-volume aria-label="Volume do rádio" />
-          </label>
-          <p class="rp__status" data-radio-status aria-live="polite"></p>
-        </div>
-        <div class="rp__lista-area">
-          <div class="rp__busca">
-            <input type="search" placeholder="Buscar estação, cidade ou UF" data-radio-busca aria-label="Buscar estação" />
-            <span class="rp__contagem" data-radio-contagem></span>
-          </div>
-          <div class="rp__lista" data-radio-lista></div>
-        </div>
-        <audio data-radio-audio preload="none"></audio>
-      </div>
-
-      <p class="folha"><b>O robô é demonstração.</b> O rádio toca de verdade: são estações públicas, com o stream conferido pelo Controle Popular.</p>
+      
+      <p class="folha"><b>O robô é demonstração.</b> O rádio toca de verdade e agora fica flutuando no canto esquerdo, como no Controle Popular.</p>
     </div>
   </section>
 
@@ -2126,6 +2137,37 @@ a:hover { text-decoration-thickness: 2px; }
 <div class="setas" aria-hidden="false">
   <button class="setas__botao" type="button" id="seta-esquerda" aria-label="Tela anterior" title="Tela anterior (←)">←</button>
   <button class="setas__botao" type="button" id="seta-direita" aria-label="Próxima tela" title="Próxima tela (→)">→</button>
+</div>
+
+
+<div class="radio-flut" data-radio data-aberto="false">
+  <button class="radio-flut__botao" type="button" data-radio-toggle aria-expanded="false" aria-controls="radio-painel">
+    <span aria-hidden="true">📻</span> Rádio
+  </button>
+  <div class="radio-flut__painel" id="radio-painel">
+        <div class="rp__controles">
+          <div class="rp__linha">
+            <button class="rp__tocar" type="button" data-radio-tocar data-tocando="false" aria-label="Tocar rádio">▶</button>
+            <button class="rp__parar" type="button" data-radio-parar aria-label="Parar o rádio" title="Parar o rádio">■</button>
+            <div>
+              <div class="rp__nome" data-radio-nome>Rádio Brasil de Fato<span class="rp__meta" data-radio-meta>toque em ▶ ou escolha outra estação</span></div>
+            </div>
+          </div>
+          <label class="rp__volume">
+            <span>Volume</span>
+            <input type="range" min="0" max="100" value="70" data-radio-volume aria-label="Volume do rádio" />
+          </label>
+          <p class="rp__status" data-radio-status aria-live="polite"></p>
+        </div>
+        <div class="rp__lista-area">
+          <div class="rp__busca">
+            <input type="search" placeholder="Buscar estação, cidade ou UF" data-radio-busca aria-label="Buscar estação" />
+            <span class="rp__contagem" data-radio-contagem></span>
+          </div>
+          <div class="rp__lista" data-radio-lista></div>
+        </div>
+        <audio data-radio-audio preload="none"></audio>
+  </div>
 </div>
 
 <nav class="nav" aria-label="Navegação das telas">
@@ -2582,6 +2624,20 @@ a:hover { text-decoration-thickness: 2px; }
     setaEsq.addEventListener('click', function () { mostra(atual - 1); });
     setaDir.addEventListener('click', function () { mostra(atual + 1); });
   }
+
+
+  /* Rádio flutuante: o botão abre e fecha o painel. */
+  (function radioFlutuante() {
+    var caixa = document.querySelector('.radio-flut');
+    if (!caixa) { return; }
+    var botao = caixa.querySelector('[data-radio-toggle]');
+    if (!botao) { return; }
+    botao.addEventListener('click', function () {
+      var aberto = caixa.dataset.aberto === 'true';
+      caixa.dataset.aberto = String(!aberto);
+      botao.setAttribute('aria-expanded', String(!aberto));
+    });
+  })();
 
   /* Rolagem: botões aparecem quando o conteúdo passa da tela. */
   var caixaRolagem = document.getElementById('rolagem');
