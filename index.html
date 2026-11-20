@@ -561,8 +561,8 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   will-change: transform;
 }
 @keyframes grade-andando {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(22px, 22px, 0); }
+  from { transform: translate3d(var(--gx, 0px), var(--gy, 0px), 0); }
+  to { transform: translate3d(calc(22px + var(--gx, 0px)), calc(22px + var(--gy, 0px)), 0); }
 }
 
 /* 3. Magic Card: inclina e acende com o ponteiro */
@@ -624,7 +624,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .tela::before {
   content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background-image: var(--fundo, none);
-  background-position: center; background-size: cover; background-repeat: no-repeat;
+  background-position: left bottom; background-size: cover; background-repeat: no-repeat;
   filter: brightness(.72) saturate(.9);
   opacity: var(--fundo-op, .62);
 }
@@ -645,6 +645,9 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     color-mix(in srgb, var(--cp-bg) 70%, transparent) 55%,
     color-mix(in srgb, var(--cp-bg) 50%, transparent) 100%);
 }
+
+/* Tela par: a foto troca de canto. */
+.tela:nth-of-type(even)::before { background-position: right bottom; }
 
 @media print {
   .tela::before, .tela::after { display: none !important; }
@@ -831,12 +834,12 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* Cartões translúcidos: vidro leve sobre a foto, sem perder legibilidade. */
 .cartao, .demo, .lab__item, .funcao, .amostra-fonte, .rp__controles, .rp__lista-area {
-  background: color-mix(in srgb, var(--cp-surface) 74%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-color: color-mix(in srgb, var(--cp-border) 65%, transparent);
+  background: color-mix(in srgb, var(--cp-surface) 52%, transparent);
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  border-color: color-mix(in srgb, var(--cp-border) 45%, transparent);
 }
-.efeitos li { background: color-mix(in srgb, var(--cp-surface) 72%, transparent); backdrop-filter: blur(8px); }
+.efeitos li { background: color-mix(in srgb, var(--cp-surface) 50%, transparent); backdrop-filter: blur(10px); }
 @media print {
   .cartao, .demo, .lab__item, .funcao, .amostra-fonte, .rp__controles, .rp__lista-area {
     background: #fff !important; backdrop-filter: none;
@@ -1694,9 +1697,7 @@ a:hover { text-decoration-thickness: 2px; }
         <small>Código aberto (MIT). Os textos são da RENAP.</small>
       </p>
       <p class="folha">
-        <b>Anexos:</b> A efeitos · B sanfona · C busca, robô e rádio · D hospedagem.
-        Versão do briefing: 19/11/2026.
-      </p>
+        <b>Anexos:</b> A sanfona · B busca, robô e rádio · C hospedagem · D proposta de home · E efeitos sugeridos · F laboratório · G cursores. </p>
     </div>
   </section>
 
@@ -2469,6 +2470,23 @@ a:hover { text-decoration-thickness: 2px; }
       e.style.top = y + 'px';
       alvo.appendChild(e);
       return e;
+    }
+
+
+    /* Grid Motion: além de andar sozinha, a grade acompanha o ponteiro. */
+    var grade = document.querySelector('.lab--grade .lab__palco');
+    if (grade) {
+      grade.addEventListener('pointermove', function (ev) {
+        var r = grade.getBoundingClientRect();
+        var x = (ev.clientX - r.left) / r.width - 0.5;
+        var y = (ev.clientY - r.top) / r.height - 0.5;
+        grade.style.setProperty('--gx', (x * 18).toFixed(1) + 'px');
+        grade.style.setProperty('--gy', (y * 18).toFixed(1) + 'px');
+      });
+      grade.addEventListener('pointerleave', function () {
+        grade.style.setProperty('--gx', '0px');
+        grade.style.setProperty('--gy', '0px');
+      });
     }
 
     /* 1. chuva de punhos */
