@@ -1,6 +1,6 @@
 # Apresentação — novo site da RENAP
 
-Página única, sem build, sem instalação. **29 telas** para apresentar o briefing
+Página única, sem build, sem instalação. **27 telas** para apresentar o briefing
 à Articulação Nacional em linguagem simples.
 
 - Conteúdo: `Briefing-novo-site-RENAP.docx`, de 19/11/2026.

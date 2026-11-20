@@ -78,6 +78,15 @@
     }
   }
 
+  /* Primeiro play toca a Rádio Brasil de Fato, como no portal. Se a pessoa
+     escolher outra na lista, a escolha dela manda. */
+  function estacaoPadrao() {
+    for (var i = 0; i < ESTACOES.length; i++) {
+      if (ESTACOES[i].id === 'radio-brasil-de-fato') return ESTACOES[i];
+    }
+    return ESTACOES[0];
+  }
+
   function desenhaLista(filtro) {
     var termo = (filtro || "").toLowerCase().trim();
     lista.innerHTML = "";
@@ -191,7 +200,7 @@
   }
 
   botao.addEventListener("click", function () {
-    if (!atual) { toca(ESTACOES[0]); desenhaLista(busca.value); return; }
+    if (!atual) { toca(estacaoPadrao()); desenhaLista(busca.value); return; }
     if (botao.dataset.tocando === "true") pausa(); else toca(atual);
   });
 
