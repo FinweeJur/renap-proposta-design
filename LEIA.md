@@ -7,6 +7,12 @@ Página única, sem build, sem instalação. **29 telas** para apresentar o brie
 - Autoria da proposta: **GT de Comunicação da RENAP**.
 - Base visual: [design system do Controle Popular](https://github.com/FinweeJur/controle-popular-design) (MIT), com a marca RENAP por cima.
 
+## Publicado
+
+- Site: https://finweejur.github.io/renap-proposta-design/
+- Código: https://github.com/FinweeJur/renap-proposta-design
+- Publicação: GitHub Pages, branch main, pasta /. Atualiza sozinho a cada push.
+
 ## Abrir
 
 Clique duas vezes em `index.html`. Ou, nesta pasta:
