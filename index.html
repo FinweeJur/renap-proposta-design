@@ -632,8 +632,8 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .tela::before {
   content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none;
   background-image: var(--fundo, none);
-  background-position: right 25%;
-  background-size: cover; background-repeat: no-repeat;
+  background-position: right center;
+  background-size: auto 100%; background-repeat: no-repeat;
   filter: brightness(.78) saturate(.95);
   opacity: var(--fundo-op, .58);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.55) 9%, #000 26%);
@@ -645,7 +645,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   background: linear-gradient(100deg,
     color-mix(in srgb, var(--cp-bg) var(--veu-1, 90%), transparent) 0%,
     color-mix(in srgb, var(--cp-bg) var(--veu-2, 80%), transparent) 55%,
-    color-mix(in srgb, var(--cp-bg) var(--veu-3, 70%), transparent) 100%);
+    color-mix(in srgb, var(--cp-bg) var(--veu-3, 76%), transparent) 100%);
 }
 .tela .miolo { position: relative; z-index: 3; }
 
@@ -659,6 +659,10 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 }
 
 @media print {
+  .capa-logo { width: 40mm !important; height: auto !important; }
+  .tela--capa .folha { display: none !important; }
+  h1, h2, h3, .titulo { color: #1b1410 !important; }
+
   /* Casca de apresentação não entra no papel. */
   .topo, .setas, .radio-flut, .barra-inferior, .rolagem, .pular,
   .casca__codigo, .progresso, .fundo, .dica { display: none !important; }
@@ -675,7 +679,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   .tela {
     position: static !important;
     inset: auto !important;
-    display: block !important;
+    display: contents !important;
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;
@@ -690,6 +694,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 
   .miolo {
     max-width: 100% !important;
+    margin-bottom: 5mm !important;
     margin: 0 !important;
     padding: 0 !important;
     color: #1b1410 !important;
@@ -781,7 +786,65 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   a { color: #8a2019 !important; text-decoration: none; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 7.5pt; color: #7a6a5b; }
 
-  .tela--capa { page-break-after: always; }
+
+  /* ── PDF enxuto: menos páginas, menos quebra ─────────────────────────── */
+  @page { size: A4; margin: 10mm 12mm; }
+
+  .tela {
+    padding: 0 0 4mm 0 !important;
+    margin: 0 0 3mm 0 !important;
+    border-bottom: 1px solid #e6ddd2 !important;
+  }
+  .tela--capa { page-break-after: auto !important; }
+
+  .titulo { font-size: 14pt !important; margin-bottom: 2mm !important; }
+  .olho { font-size: 7.5pt !important; margin-bottom: 1mm !important; }
+  .resumo, .folha, p, li, td, th, small {
+    font-size: 8.8pt !important;
+    line-height: 1.38 !important;
+  }
+
+  /* Cartões e listas em duas colunas: o texto curto cabe lado a lado. */
+  .cartoes, .dupla, .catalogo, .fichas, .contas, .temas-grade, .fonte-grade {
+    columns: 2 !important;
+    column-gap: 5mm !important;
+    display: block !important;
+  }
+  .refs { columns: 2 !important; column-gap: 5mm !important; display: block !important; }
+  .refs img { width: 100% !important; }
+  .refs figure { margin-bottom: 3mm !important; }
+
+  .cartao, .funcao, .demo, .lab__item, .sumario__item, .contas li, .catalogo li {
+    padding: 2mm 3mm !important;
+    margin: 0 0 2mm !important;
+    border-radius: 2mm !important;
+    break-inside: avoid;
+  }
+  .cartao h3, .demo h3 { font-size: 9.5pt !important; margin-bottom: 1mm !important; }
+  .etiqueta { font-size: 7pt !important; }
+
+  .linhas { margin-top: 2mm !important; }
+  .linhas li { margin: 0 0 1mm !important; }
+
+  /* Caixas que só existem na tela não ocupam papel. */
+  .lab, .grade-demo, .fonte-grade, .temas-grade, .amostra-fonte { display: none !important; }
+  .lab__nome, .demo__palco { display: none !important; }
+
+  .tabela th, .tabela td { padding: 1.2mm 2mm !important; font-size: 8.2pt !important; }
+  .tela { break-inside: auto !important; page-break-inside: auto !important; }
+  /* Interativo não imprime: some a demo e entra a nota com link. */
+  .lab, .lab--cursores, .temas-grade, .fonte-grade, .amostra-fonte,
+  .amostra-controles, .efeitos, .efeitos-botoes, .chip-tema, .interruptor,
+  .demo, .grade-demo, .faixa-demo { display: none !important; }
+  .nota-print {
+    display: block !important;
+    margin: 3mm 0 0 !important;
+    padding: 2mm 3mm !important;
+    border-left: 2px solid #8a2019 !important;
+    font-size: 8.5pt !important;
+    color: #4a3f35 !important;
+  }
+
   .credito, .rodape-codigo { margin-top: 4mm !important; }
 }
 
@@ -990,6 +1053,9 @@ a:hover { text-decoration-thickness: 2px; }
 .refs--6 figcaption { font-size: var(--t-min); line-height: 1.35; }
 .fichas li { font-size: var(--t-min); }
 
+/* Nota que só existe no papel: o que é interativo vira link. */
+.nota-print { display: none; }
+
 /* Duas colunas de cartão: usada nas telas fundidas. */
 .dupla { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--e3); align-items: start; }
 .dupla .cartao { height: 100%; }
@@ -1024,9 +1090,9 @@ a:hover { text-decoration-thickness: 2px; }
   column-gap: var(--e2); row-gap: 2px;
   padding: var(--e3) var(--e4); border-radius: 12px;
   border: 1px solid color-mix(in srgb, var(--cp-border) 45%, transparent);
-  background: color-mix(in srgb, var(--cp-surface) 40%, transparent);
-  backdrop-filter: blur(12px) saturate(1.15);
-  -webkit-backdrop-filter: blur(12px) saturate(1.15);
+  background: color-mix(in srgb, var(--cp-surface) 93%, transparent);
+  backdrop-filter: blur(6px) saturate(1.05);
+  -webkit-backdrop-filter: blur(6px) saturate(1.05);
   color: var(--cp-text); text-decoration: none;
   transition: border-color .16s var(--curva), transform .16s var(--curva);
 }
@@ -1099,10 +1165,10 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* Cartões translúcidos: vidro leve sobre a foto, sem perder legibilidade. */
 .cartao, .demo, .lab__item, .funcao, .amostra-fonte, .rp__controles, .rp__lista-area {
-  background: color-mix(in srgb, var(--cp-surface) 40%, transparent);
-  backdrop-filter: blur(12px) saturate(1.15);
-  -webkit-backdrop-filter: blur(12px) saturate(1.15);
-  border-color: color-mix(in srgb, var(--cp-border) 38%, transparent);
+  background: color-mix(in srgb, var(--cp-surface) 93%, transparent);
+  backdrop-filter: blur(6px) saturate(1.05);
+  -webkit-backdrop-filter: blur(6px) saturate(1.05);
+  border-color: color-mix(in srgb, var(--cp-border) 55%, transparent);
 }
 .efeitos li { background: color-mix(in srgb, var(--cp-surface) 50%, transparent); backdrop-filter: blur(10px); }
 @media print {
@@ -2082,6 +2148,7 @@ a:hover { text-decoration-thickness: 2px; }
         </details>
       </div>
       <p class="folha">Componente do <a href="https://github.com/FinweeJur/controle-popular-design" target="_blank" rel="noopener">design system do Controle Popular</a>, com os tokens da RENAP.</p>
+      <p class="nota-print">Componente interativo. No site, a sanfona abre e fecha com teclado e toque: <a href="https://finweejur.github.io/renap-proposta-design/#22">ver a sanfona</a>.</p>
     </div>
   </section>
 
@@ -2132,6 +2199,7 @@ a:hover { text-decoration-thickness: 2px; }
       </div>
       
       <p class="folha"><b>O robô é demonstração.</b> O rádio toca de verdade e agora fica flutuando no canto esquerdo, como no Controle Popular.</p>
+      <p class="nota-print">Componentes interativos. No site, a busca filtra na hora e o rádio toca 52 estações: <a href="https://finweejur.github.io/renap-proposta-design/#23">ver busca e rádio</a>.</p>
     </div>
   </section>
 
@@ -2275,6 +2343,7 @@ a:hover { text-decoration-thickness: 2px; }
         <li><a href="https://www.reactbits.dev/" target="_blank" rel="noopener">React Bits</a><span>MIT</span></li>
       </ul>
       <p class="folha"><b>Peso:</b> todos entram como código, não como imagem. O custo é carregamento, e só pesa se exagerar.</p>
+      <p class="nota-print">Laboratório interativo. No site, os seis efeitos rodam de verdade: <a href="https://finweejur.github.io/renap-proposta-design/#26">ver o laboratório</a>.</p>
     </div>
   </section>
 
@@ -2342,6 +2411,7 @@ a:hover { text-decoration-thickness: 2px; }
         <b>Cuidado:</b> cursor próprio não pode ser o único sinal de estado.
         Em página de leitura, o rastro atrapalha — use só na capa e na campanha.
       </p>
+      <p class="nota-print">Dez efeitos de cursor, todos interativos. No site, cada quadro reage ao ponteiro: <a href="https://finweejur.github.io/renap-proposta-design/#27">ver os cursores</a>. Referências: <a href="https://www.cursor.directory/">Cursor Gallery</a>, <a href="https://tholman.com/cursor-effects/">Cursor Effects</a>, <a href="https://customcursor.com/">Custom Cursor</a>.</p>
     </div>
   </section>
 

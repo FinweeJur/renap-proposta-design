@@ -10,8 +10,24 @@
 <link rel="stylesheet" href="temas/temas.css" />
 <link rel="stylesheet" href="temas/renap.css" />
 <link rel="stylesheet" href="componentes/select.css" />
+<link rel="stylesheet" href="componentes/radio.css" />
 
 <style>
+/* Controles novos da demonstração: tema e leitura em voz. */
+.topo__tema { display: inline-flex; align-items: center; }
+.topo__tema select {
+  font: inherit; font-size: .82rem; min-height: 36px;
+  padding: 4px 30px 4px 10px; border-radius: 8px;
+  background: var(--cp-surface); color: var(--cp-text);
+  border: 1px solid var(--cp-border); cursor: pointer;
+}
+#ouvir-pagina { min-height: 36px; font-size: .82rem; padding: 4px 12px; }
+#ouvir-pagina[aria-pressed="true"] { border-color: var(--cp-primary); color: var(--cp-primary); }
+@media (max-width: 760px) {
+  .topo__tema, #ouvir-pagina { display: none; }
+}
+
+
 /* ═══ PROPOSTA DE HOME — demonstração ═════════════════════════════════════
    Por que existe: mostrar em uma página o que a proposta quer dizer com
    navegação, biblioteca, banco de peças e rodapé. Não é o site final.
@@ -239,6 +255,21 @@ main { max-width: 76rem; margin: 0 auto; padding: var(--e5) var(--e4) var(--e6);
         <input id="busca" type="search" placeholder="Buscar documento, peça ou notícia" />
         <button type="submit">Buscar</button>
       </form>
+      <label class="topo__tema">
+        <span class="pular">Tema</span>
+        <select id="tema-home" aria-label="Tema de cores">
+          <option value="pequi">Pequi</option>
+          <option value="brasil">Brasil</option>
+          <option value="light">Claro</option>
+          <option value="dark">Escuro</option>
+          <option value="high-contrast">Alto contraste</option>
+          <option value="cerrado">Cerrado</option>
+          <option value="mata-atlantica">Mata Atlântica</option>
+          <option value="caatinga">Caatinga</option>
+          <option value="pantanal">Pantanal</option>
+        </select>
+      </label>
+      <button class="botao secundario" type="button" id="ouvir-pagina" aria-pressed="false">🔊 Ouvir</button>
       <a class="botao secundario" href="index.html#29">← Voltar ao slide</a>
       <button class="topo__menu" type="button" data-menu aria-expanded="false" aria-controls="gaveta">☰</button>
     </div>
@@ -447,6 +478,79 @@ main { max-width: 76rem; margin: 0 auto; padding: var(--e5) var(--e4) var(--e6);
     });
   })();
 
+
+  /* Tema, leitura em voz e rádio nesta página de demonstração. */
+  (function () {
+    var raiz = document.documentElement;
+    var seletor = document.getElementById("tema-home");
+    var guardado = localStorage.getItem("renap-tema");
+    if (guardado) { raiz.dataset.theme = guardado; }
+    if (seletor) {
+      seletor.value = raiz.dataset.theme || "pequi";
+      seletor.addEventListener("change", function () {
+        raiz.dataset.theme = seletor.value;
+        localStorage.setItem("renap-tema", seletor.value);
+      });
+    }
+
+    var ouvir = document.getElementById("ouvir-pagina");
+    if (ouvir && "speechSynthesis" in window) {
+      var falando = false;
+      ouvir.addEventListener("click", function () {
+        if (falando) {
+          speechSynthesis.cancel();
+          falando = false;
+          ouvir.setAttribute("aria-pressed", "false");
+          ouvir.textContent = "🔊 Ouvir";
+          return;
+        }
+        var texto = (document.querySelector("main") || document.body).innerText.slice(0, 4000);
+        var fala = new SpeechSynthesisUtterance(texto);
+        fala.lang = "pt-BR";
+        fala.onend = function () {
+          falando = false;
+          ouvir.setAttribute("aria-pressed", "false");
+          ouvir.textContent = "🔊 Ouvir";
+        };
+        speechSynthesis.speak(fala);
+        falando = true;
+        ouvir.setAttribute("aria-pressed", "true");
+        ouvir.textContent = "⏹ Parar";
+      });
+    }
+  })();
 </script>
+<div class="radio-flut" data-radio data-aberto="false">
+  <button data-dica="Abrir ou fechar o rádio" class="radio-flut__botao" type="button" data-radio-toggle aria-expanded="false" aria-controls="radio-painel">
+    <span aria-hidden="true">📻</span> Rádio
+  </button>
+  <div class="radio-flut__painel" id="radio-painel">
+    <button class="radio-flut__fechar" type="button" data-radio-fechar aria-label="Fechar o rádio">×</button>
+        <div class="rp__controles">
+          <div class="rp__linha">
+            <button class="rp__tocar" type="button" data-radio-tocar data-tocando="false" aria-label="Tocar rádio">▶</button>
+            <button class="rp__parar" type="button" data-radio-parar aria-label="Parar o rádio" title="Parar o rádio">■</button>
+            <div>
+              <div class="rp__nome" data-radio-nome>Rádio Brasil de Fato<span class="rp__meta" data-radio-meta>toque em ▶ ou escolha outra estação</span></div>
+            </div>
+          </div>
+          <label class="rp__volume">
+            <span>Volume</span>
+            <input type="range" min="0" max="100" value="70" data-radio-volume aria-label="Volume do rádio" />
+          </label>
+          <p class="rp__status" data-radio-status aria-live="polite"></p>
+        </div>
+        <div class="rp__lista-area">
+          <div class="rp__busca">
+            <input type="search" placeholder="Buscar estação, cidade ou UF" data-radio-busca aria-label="Buscar estação" />
+            <span class="rp__contagem" data-radio-contagem></span>
+          </div>
+          <div class="rp__lista" data-radio-lista></div>
+        </div>
+        <audio data-radio-audio preload="none"></audio>
+  </div>
+</div>
+
+<script src="componentes/radio.js?v=5" defer></script>
 </body>
 </html>
