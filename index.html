@@ -150,7 +150,7 @@ body[data-tela="1"] .logo-topo { display: none; }
 }
 /* `margin: auto` centra quando sobra espaço e encosta no topo quando a tela
    é mais alta que a janela — sem cortar o título. */
-.miolo { width: 100%; max-width: 62rem; margin: auto; padding: 0 var(--e4); }
+.miolo { width: 100%; max-width: 62rem; margin: auto; padding: 0 var(--e4); flex: 0 0 auto; }
 .estreito { max-width: 44rem; }
 
 .tela[data-ativa="true"] .sobe {
@@ -645,6 +645,55 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   .tela--fecho::before, .tela--fecho::after { display: none !important; }
 }
 
+/* Controles do texto corrido: fonte, peso e espaçamento. */
+.amostra-corpo {
+  margin-top: var(--e2); max-width: 54ch;
+  font-size: var(--t-corpo); line-height: 1.6; color: var(--cp-text);
+}
+.amostra-controles {
+  display: flex; flex-wrap: wrap; gap: var(--e3); align-items: center;
+  margin-top: var(--e3); padding-top: var(--e3); border-top: 1px solid var(--cp-border);
+}
+.amostra-controles label {
+  display: flex; align-items: center; gap: var(--e2);
+  font-size: var(--t-min); color: var(--cp-text-soft);
+}
+.amostra-controles input[type="range"] { width: 110px; accent-color: var(--cp-primary); }
+.amostra-controles output {
+  min-width: 3ch; font-variant-numeric: tabular-nums; color: var(--cp-text); font-weight: 600;
+}
+
+/* Link: azul sublinhado, como na web de sempre. Cor por tema, com contraste. */
+:root { --cor-link: #0b4fd8; }
+[data-theme="dark"], [data-theme="pequi"], [data-theme="cerrado"],
+[data-theme="mata-atlantica"], [data-theme="caatinga"], [data-theme="pantanal"],
+[data-theme="brasil"] { --cor-link: #9cc2ff; }
+[data-theme="high-contrast"] { --cor-link: #0000cc; }
+
+a {
+  color: var(--cor-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover { text-decoration-thickness: 2px; }
+.refs figcaption a { color: var(--cor-link); }
+
+/* Botões de rolagem: aparecem só quando a tela não cabe. */
+.rolagem {
+  position: fixed; right: 12px; bottom: 84px; z-index: 32;
+  display: none; flex-direction: column; gap: 6px;
+}
+.rolagem.mostra { display: flex; }
+.rolagem button {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: 1px solid var(--cp-border); background: var(--cp-surface);
+  color: var(--cp-text); font-size: 1rem; cursor: pointer;
+  box-shadow: 0 6px 16px rgb(0 0 0 / .18);
+}
+.rolagem button:hover { border-color: var(--cp-primary); color: var(--cp-primary); }
+@media (max-width: 560px) { .rolagem { right: 8px; bottom: 76px; } .rolagem button { width: 36px; height: 36px; } }
+
 /* ═══ 7. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
 .nav {
   position: fixed; left: var(--faixa); right: 0; bottom: 0; z-index: 30;
@@ -816,7 +865,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
             <li><b>Opção A:</b> Uma pessoa da Articulação Nacional ou do GT Comunicação publica.</li>
             <li><b>Opção B:</b> Todo integrante aprovado pode publicar, na biblioteca ou no blog, por exemplo.</li>
           </ul>
-          <p style="margin-top:var(--e2)"><b>Exemplo:</b> Hoje, a notícia depende de uma pessoa que tem a senha do Wix (plataforma de sites).</p>
+          <p style="margin-top:var(--e2)"><b>Exemplo:</b> Hoje, a notícia depende de uma pessoa que tem a senha do <a href="https://www.wix.com/" target="_blank" rel="noopener">Wix</a> (plataforma de sites).</p>
         </div>
         <div class="cartao">
           <span class="etiqueta">Ponto 3</span>
@@ -849,35 +898,35 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="resumo sobe" style="--i:2">Oito páginas: três inspirações, três acervos e dois órgãos públicos.</p>
       <div class="refs refs--8" style="margin-top:var(--e3)">
         <figure>
-                  <img src="assets/ref/controlepopular.jpg" alt="Página inicial do Controle Popular" loading="lazy" />
+                  <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener"><img src="assets/ref/controlepopular.jpg" alt="Página inicial do Controle Popular" loading="lazy" /></a>
                   <figcaption><b>Controle Popular</b> — home com a mística do dia e fotos que rememoram os biomas brasileiros; reúne dados públicos de forma acessível. <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener">controlepopular.com.br</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/cma.jpg" alt="Página inicial da CMA" loading="lazy" />
+                  <a href="https://cma.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cma.jpg" alt="Página inicial da CMA" loading="lazy" /></a>
                   <figcaption><b>CMA</b> — menu com Programas, Publicações, Notícias e Apoie; busca no topo. Cores: amarelo-ocre e vinho; foto de comunidade na capa. <a href="https://cma.org.br/" target="_blank" rel="noopener">cma.org.br</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/lenirlivre.jpg" alt="Página do 30º Encontro Nacional da RENAP, Lenir Correia Livre" loading="lazy" />
+                  <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener"><img src="assets/ref/lenirlivre.jpg" alt="Página do 30º Encontro Nacional da RENAP, Lenir Correia Livre" loading="lazy" /></a>
                   <figcaption><b>30º Encontro · Lenir Correia Livre</b> — blocos com título próprio, carta política e programação; cores: vinho, branco e vermelho. <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener">encontrolenirlivre.renap.org.br</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/terradedireitos.jpg" alt="Banco de Petições do Terra de Direitos" loading="lazy" />
+                  <a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener"><img src="assets/ref/terradedireitos.jpg" alt="Banco de Petições do Terra de Direitos" loading="lazy" /></a>
                   <figcaption><b>Terra de Direitos</b> — menu por eixos de atuação; busca e filtros por tipo, órgão e ação. Cores: azul e branco. <a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener">banco de petições</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/mam.jpg" alt="Biblioteca do MAM Nacional" loading="lazy" />
+                  <a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener"><img src="assets/ref/mam.jpg" alt="Biblioteca do MAM Nacional" loading="lazy" /></a>
                   <figcaption><b>MAM · biblioteca</b> — menu de 5 itens (MAM, Notícias, Internacional, Biblioteca, Contato); biblioteca em três blocos. Cores: vermelho e vinho. <a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/democraciapopular.jpg" alt="Biblioteca da Democracia Popular" loading="lazy" />
+                  <a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener"><img src="assets/ref/democraciapopular.jpg" alt="Biblioteca da Democracia Popular" loading="lazy" /></a>
                   <figcaption><b>Democracia Popular · biblioteca</b> — menu com Fundação, Linhas de Atuação, Equipe e Apoie; busca; lista de arquivos com capa e data. Cores: vermelho e branco. <a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/dpu.jpg" alt="Página inicial da DPU" loading="lazy" />
+                  <a href="https://www.dpu.def.br/" target="_blank" rel="noopener"><img src="assets/ref/dpu.jpg" alt="Página inicial da DPU" loading="lazy" /></a>
                   <figcaption><b>DPU</b> — menu de 7 itens (Institucional, Unidades, Comunicação, Transparência); busca. Cores: azul e branco. <a href="https://www.dpu.def.br/" target="_blank" rel="noopener">dpu.def.br</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/renap.jpg" alt="Site atual da RENAP" loading="lazy" />
+                  <a href="https://www.renap.org.br/" target="_blank" rel="noopener"><img src="assets/ref/renap.jpg" alt="Site atual da RENAP" loading="lazy" /></a>
                   <figcaption><b>RENAP hoje</b> — menu de 5 itens (Início, Sobre, Encontro, Publicações, Blog); sem busca. Cores: vinho e bege. <a href="https://www.renap.org.br/" target="_blank" rel="noopener">renap.org.br</a></figcaption>
                 </figure>
       </div>
@@ -893,31 +942,31 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="resumo sobe" style="--i:2">Sete páginas de movimento popular e de jurídico.</p>
       <div class="refs refs--8" style="margin-top:var(--e3)">
         <figure>
-                  <img src="assets/ref/mst.jpg" alt="Página inicial do MST" loading="lazy" />
+                  <a href="https://mst.org.br/" target="_blank" rel="noopener"><img src="assets/ref/mst.jpg" alt="Página inicial do MST" loading="lazy" /></a>
                   <figcaption><b>MST</b> — menu de 12 itens (O MST, Notícias, Mídias, Especiais, Rádios); busca; galerias de imagem. Cores: vermelho vivo e bege claro. <a href="https://mst.org.br/" target="_blank" rel="noopener">mst.org.br</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/mab.jpg" alt="Página inicial do MAB" loading="lazy" />
+                  <a href="https://mab.org.br/" target="_blank" rel="noopener"><img src="assets/ref/mab.jpg" alt="Página inicial do MAB" loading="lazy" /></a>
                   <figcaption><b>MAB</b> — menu de 9 itens em três idiomas (O MAB, Lutas, Apoie, Notícias); busca. Cores: verde e branco. <a href="https://mab.org.br/" target="_blank" rel="noopener">mab.org.br</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/cpt.jpg" alt="Página inicial da CPT" loading="lazy" />
+                  <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cpt.jpg" alt="Página inicial da CPT" loading="lazy" /></a>
                   <figcaption><b>CPT</b> — menu com Acervo, Biblioteca, Cedoc e Conflitos no campo; busca. Cores: vinho e branco. <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener">cptnacional.org.br</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/cimi.jpg" alt="Página inicial do CIMI" loading="lazy" />
+                  <a href="https://cimi.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cimi.jpg" alt="Página inicial do CIMI" loading="lazy" /></a>
                   <figcaption><b>CIMI</b> — menu por temas e por regionais (Amazônia, Goiás, Leste, Maranhão); login e busca. Cores: vinho e branco. <a href="https://cimi.org.br/" target="_blank" rel="noopener">cimi.org.br</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/abjd.jpg" alt="Página inicial da ABJD" loading="lazy" />
+                  <a href="https://www.abjd.org.br/" target="_blank" rel="noopener"><img src="assets/ref/abjd.jpg" alt="Página inicial da ABJD" loading="lazy" /></a>
                   <figcaption><b>ABJD</b> — menu com Núcleos Estaduais, Observatório e Área do Associado; busca e inscrição por e-mail. Cores: vermelho, vinho e branco. <a href="https://www.abjd.org.br/" target="_blank" rel="noopener">abjd.org.br</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/veredas.jpg" alt="Página do Coletivo Veredas" loading="lazy" />
+                  <a href="https://coletivoveredas.org/" target="_blank" rel="noopener"><img src="assets/ref/veredas.jpg" alt="Página do Coletivo Veredas" loading="lazy" /></a>
                   <figcaption><b>Coletivo Veredas</b> — menu de 4 itens (Coletivo, Áreas acompanhadas, Equipe, Contato); sem busca. Cores: creme e marrom. <a href="https://coletivoveredas.org/" target="_blank" rel="noopener">coletivoveredas.org</a></figcaption>
                 </figure>
         <figure>
-                  <img src="assets/ref/mpf.jpg" alt="Página inicial do MPF" loading="lazy" />
+                  <a href="https://www.mpf.mp.br/" target="_blank" rel="noopener"><img src="assets/ref/mpf.jpg" alt="Página inicial do MPF" loading="lazy" /></a>
                   <figcaption><b>MPF</b> — menu institucional mais serviços ao cidadão; busca; área restrita. Cores: azul-escuro e branco. <a href="https://www.mpf.mp.br/" target="_blank" rel="noopener">mpf.mp.br</a></figcaption>
                 </figure>
       </div>
@@ -989,12 +1038,12 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🎁</span>O que já vem pronto</p>
       <h2 class="titulo sobe" style="--i:1">Ferramentas gratuitas e fáceis de integrar</h2>
       <div class="grade-demo">
-        <div class="demo"><h3>Fonte e ícone</h3><p>Clash Display e General Sans (Fontshare), Lucide (ISC). Zero custo.</p></div>
-        <div class="demo"><h3>Sanfona e tema</h3><p><code>&lt;details&gt;</code> nativo e tema por CSS. Já estão nesta apresentação.</p></div>
-        <div class="demo"><h3>Busca</h3><p>Meilisearch (MIT): busca em PDF e tolera acento.</p></div>
-        <div class="demo"><h3>Leitura em voz</h3><p>Web Speech do navegador (grátis) e Piper (MIT) para uso sem internet.</p></div>
-        <div class="demo"><h3>Peso de imagem</h3><p>Converter foto para WebP corta 60% do tamanho, sem programa novo.</p></div>
-        <div class="demo"><h3>Cópia de segurança</h3><p>Script e agendador do próprio servidor (MIT). Testar restauração uma vez por mês.</p></div>
+        <div class="demo"><h3><span class="emoji" aria-hidden="true">🔤</span>Fonte e ícone</h3><p>Clash Display e General Sans (<a href="https://www.fontshare.com/" target="_blank" rel="noopener">Fontshare</a>), <a href="https://lucide.dev/" target="_blank" rel="noopener">Lucide</a> (ISC). Zero custo.</p></div>
+        <div class="demo"><h3><span class="emoji" aria-hidden="true">🪗</span>Sanfona e tema</h3><p><code>&lt;details&gt;</code> nativo e tema por CSS. Já estão nesta apresentação.</p></div>
+        <div class="demo"><h3><span class="emoji" aria-hidden="true">🔎</span>Busca</h3><p><a href="https://www.meilisearch.com/" target="_blank" rel="noopener">Meilisearch</a> (MIT): busca em PDF e tolera acento.</p></div>
+        <div class="demo"><h3><span class="emoji" aria-hidden="true">🗣️</span>Leitura em voz</h3><p>Web Speech do navegador (grátis) e <a href="https://github.com/rhasspy/piper" target="_blank" rel="noopener">Piper</a> (MIT) para uso sem internet.</p></div>
+        <div class="demo"><h3><span class="emoji" aria-hidden="true">🖼️</span>Peso de imagem</h3><p>Converter foto para WebP corta 60% do tamanho, sem programa novo.</p></div>
+        <div class="demo"><h3><span class="emoji" aria-hidden="true">💾</span>Cópia de segurança</h3><p>Script e agendador do próprio servidor (MIT). Testar restauração uma vez por mês.</p></div>
       </div>
       <p class="folha"><b>Esforço:</b> cada item acima é uma tarefa, não um projeto. Dá para entrar na fase 2.</p>
     </div>
@@ -1033,7 +1082,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">💰</span>Quanto temos para começar</p>
       <h2 class="grande sobe" style="--i:1">R$ 3.440<em>,00</em></h2>
-      <p class="resumo sobe" style="--i:2">Verba do projeto Fundo Casa. A primeira entrega cabe nesse valor.</p>
+      <p class="resumo sobe" style="--i:2">Verba do projeto <a href="https://www.fundocasa.org.br/" target="_blank" rel="noopener">Fundo Casa</a>. A primeira entrega cabe nesse valor.</p>
       <div class="cartoes duas">
         <div class="cartao"><h3><span class="emoji" aria-hidden="true">✅</span>Entra agora</h3><p>O site novo, a migração e o conteúdo.</p></div>
         <div class="cartao"><h3><span class="emoji" aria-hidden="true">🕒</span>Fica para depois</h3><p>O que não couber vira fase 2, com preço separado.</p></div>
@@ -1181,6 +1230,14 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
         </div>
       </div>
 
+      <p class="etiqueta" style="margin-top:var(--e4);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Fonte do texto corrido</p>
+      <div class="fonte-grade">
+        <div class="fonte-item"><button type="button" data-fonte-texto="General Sans" data-css="" aria-pressed="true">General Sans</button></div>
+        <div class="fonte-item"><button type="button" data-fonte-texto="Switzer" data-css="https://api.fontshare.com/v2/css?f[]=switzer@400&display=swap" aria-pressed="false">Switzer</button></div>
+        <div class="fonte-item"><button type="button" data-fonte-texto="Satoshi" data-css="https://api.fontshare.com/v2/css?f[]=satoshi@400&display=swap" aria-pressed="false">Satoshi</button></div>
+        <div class="fonte-item"><button type="button" data-fonte-texto="Author" data-css="https://api.fontshare.com/v2/css?f[]=author@400&display=swap" aria-pressed="false">Author</button></div>
+      </div>
+
       <p class="etiqueta" style="margin-top:var(--e4);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Brasileiras · licença paga (Plau, do Rio)</p>
       <div class="fonte-grade">
         <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Grama</span><a href="https://plau.co/fontes/grama" target="_blank" rel="noopener">abrir</a></div>
@@ -1193,7 +1250,21 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 
       <div class="amostra-fonte">
         <p id="texto-fonte">RENAP — o povo escreve a sua história</p>
-        <p>Mesma frase, letra escolhida. <button class="botao secundario" type="button" id="fonte-padrao" style="min-height:32px;font-size:var(--t-min);padding:.3rem .8rem">Voltar para Clash Display</button></p>
+        <p class="amostra-corpo" id="corpo-fonte">
+          A RENAP reúne documentos públicos, banco de peças, notícias e a memória dos
+          encontros nacionais. Cada documento tem endereço próprio, data e fonte.
+        </p>
+        <div class="amostra-controles">
+          <label>Peso
+            <input id="peso-fonte" type="range" min="300" max="800" step="100" value="400" />
+            <output for="peso-fonte" id="peso-valor">400</output>
+          </label>
+          <label>Espaçamento
+            <input id="espaco-fonte" type="range" min="0" max="12" step="1" value="0" />
+            <output for="espaco-fonte" id="espaco-valor">0</output>
+          </label>
+          <button class="botao secundario" type="button" id="fonte-padrao" style="min-height:32px;font-size:var(--t-min);padding:.3rem .8rem">Voltar ao padrão</button>
+        </div>
       </div>
       <p class="folha">
         <b>Xilogravura:</b> não achei família livre com licença clara hoje. O caminho honesto é licenciar
@@ -1281,7 +1352,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔑</span>Conexão para publicar · API</p>
       <h2 class="titulo titulo--longo sobe" style="--i:1">Chave de edição do site com níveis de acesso (API)</h2>
       <p class="resumo sobe" style="--i:2">
-        API é a porta entre dois programas: o site e outro programa, como ChatGPT ou Claude.
+        API é a porta entre dois programas: o site e outro programa, como <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a> ou <a href="https://claude.ai/" target="_blank" rel="noopener">Claude</a>.
       </p>
       <div class="cartoes duas">
         <div class="cartao">
@@ -1572,16 +1643,16 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
             <tr><td><span class="emoji" aria-hidden="true">👑</span> KingHost (BR)</td><td data-rotulo="Plano">Hospedagem I</td><td data-rotulo="Mais barato" class="barato">R$ 5,99/mês</td><td data-rotulo="Observação">no ciclo de 2 anos; tabela R$ 29,90</td></tr>
             <tr><td><span class="emoji" aria-hidden="true">🐊</span> HostGator (BR)</td><td data-rotulo="Plano">Plano P</td><td data-rotulo="Mais barato" class="barato">R$ 10,09/mês</td><td data-rotulo="Observação">servidores no Brasil; ciclo longo</td></tr>
             <tr><td><span class="emoji" aria-hidden="true">🚀</span> Hostinger</td><td data-rotulo="Plano">entrada</td><td data-rotulo="Mais barato" class="barato">R$ 5,99/mês</td><td data-rotulo="Observação">promoção; renovação R$ 29,99</td></tr>
-            <tr><td><span class="emoji" aria-hidden="true">🧩</span> Wix (conta da RENAP)</td><td data-rotulo="Plano">Inicial</td><td data-rotulo="Mais barato">R$ 15/mês</td><td data-rotulo="Observação">2 GB; 50% no 1º ciclo anual, sem impostos</td></tr>
+            <tr><td><span class="emoji" aria-hidden="true">🧩</span> <a href="https://www.wix.com/" target="_blank" rel="noopener">Wix</a> (conta da RENAP)</td><td data-rotulo="Plano">Inicial</td><td data-rotulo="Mais barato">R$ 15/mês</td><td data-rotulo="Observação">2 GB; 50% no 1º ciclo anual, sem impostos</td></tr>
             <tr><td><span class="emoji" aria-hidden="true">🧩</span> Wix (conta da RENAP)</td><td data-rotulo="Plano">Profissional</td><td data-rotulo="Mais barato">R$ 170/mês</td><td data-rotulo="Observação">100 colaboradores; armazenamento ilimitado</td></tr>
             <tr><td><span class="emoji" aria-hidden="true">⚡</span> Cloudflare Pages</td><td data-rotulo="Plano">estático</td><td data-rotulo="Mais barato" class="barato">R$ 0</td><td data-rotulo="Observação">serve esta apresentação</td></tr>
-            <tr><td><span class="emoji" aria-hidden="true">🌐</span> Domínio .org.br</td><td data-rotulo="Plano">renap.org.br</td><td data-rotulo="Mais barato">tabela Registro.br</td><td data-rotulo="Observação">já registrado; renovação anual</td></tr>
+            <tr><td><span class="emoji" aria-hidden="true">🌐</span> Domínio .org.br</td><td data-rotulo="Plano">renap.org.br</td><td data-rotulo="Mais barato">tabela <a href="https://registro.br/" target="_blank" rel="noopener">Registro.br</a></td><td data-rotulo="Observação">já registrado; renovação anual</td></tr>
           </tbody>
         </table>
       </div>
       <p class="nota-custo">
         <b>WordPress</b> não tem linha: o programa é grátis, o custo é a hospedagem acima. <b>Wix:</b> valores do painel da própria RENAP, com 50% no primeiro ciclo anual e impostos fora.
-        <b>Domínio:</b> o Registro.br não abriu a tabela para leitura automatizada hoje —
+        <b>Domínio:</b> o <a href="https://registro.br/" target="_blank" rel="noopener">Registro.br</a> não abriu a tabela para leitura automatizada hoje —
         confirme o valor no painel e eu atualizo aqui.
       </p>
       <p class="folha"><b>Recomendação:</b> começar com hospedagem estática gratuita e guardar dinheiro para o domínio.</p>
@@ -1596,7 +1667,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       </p>
       <div class="home-demo">
         <figure>
-          <img src="assets/ref/home.jpg" alt="Prévia da proposta de página inicial" loading="lazy" />
+          <a href="proposta-home.html" target="_blank" rel="noopener"><img src="assets/ref/home.jpg" alt="Prévia da proposta de página inicial" loading="lazy" /></a>
           <figcaption>Prévia em 20/11/2026 · <a href="proposta-home.html">abrir a página</a></figcaption>
         </figure>
         <div class="cartao">
@@ -1771,6 +1842,12 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 
 </main>
 
+
+<div class="rolagem" id="rolagem">
+  <button type="button" id="rolar-topo" aria-label="Subir o conteúdo" title="Subir">↑</button>
+  <button type="button" id="rolar-baixo" aria-label="Descer o conteúdo" title="Descer">↓</button>
+</div>
+
 <nav class="nav" aria-label="Navegação das telas">
   <button type="button" id="primeira" aria-label="Ir ao início" title="Ir ao início (Home)">⏮</button>
   <button type="button" id="anterior">← <span class="rotulo">Anterior</span></button>
@@ -1856,6 +1933,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     btnUltima.disabled = atual === telas.length - 1;
     telas[atual].scrollTop = 0;
     animaNumeros(telas[atual]);
+    if (typeof avaliaRolagem === 'function') { avaliaRolagem(); }
 
     if (!semEndereco) { history.replaceState(null, '', '#' + (atual + 1)); }
   }
@@ -2016,9 +2094,48 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       document.querySelectorAll('[data-fonte]').forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
     });
   });
+
+  /* Texto corrido: fonte, peso e espaçamento. */
+  document.querySelectorAll('[data-fonte-texto]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var familia = b.dataset.fonteTexto;
+      if (b.dataset.css) { carregaFonte(familia.toLowerCase().replace(/\s+/g, '-'), b.dataset.css); }
+      document.documentElement.style.setProperty('--font-body', '"' + familia + '", "General Sans", sans-serif');
+      document.querySelectorAll('[data-fonte-texto]').forEach(function (o) {
+        o.setAttribute('aria-pressed', String(o === b));
+      });
+    });
+  });
+
+  var pesoFonte = document.getElementById('peso-fonte');
+  var espacoFonte = document.getElementById('espaco-fonte');
+  var corpoFonte = document.getElementById('corpo-fonte');
+  var pesoValor = document.getElementById('peso-valor');
+  var espacoValor = document.getElementById('espaco-valor');
+
+  function aplicaTexto() {
+    if (!corpoFonte) { return; }
+    corpoFonte.style.fontWeight = pesoFonte.value;
+    corpoFonte.style.letterSpacing = (Number(espacoFonte.value) / 10) + 'px';
+    if (pesoValor) { pesoValor.textContent = pesoFonte.value; }
+    if (espacoValor) { espacoValor.textContent = espacoFonte.value; }
+  }
+  if (pesoFonte && espacoFonte) {
+    pesoFonte.addEventListener('input', aplicaTexto);
+    espacoFonte.addEventListener('input', aplicaTexto);
+    aplicaTexto();
+  }
+
   document.getElementById('fonte-padrao').addEventListener('click', function () {
     document.documentElement.style.removeProperty('--font-display');
+    document.documentElement.style.removeProperty('--font-body');
     document.querySelectorAll('[data-fonte]').forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
+    document.querySelectorAll('[data-fonte-texto]').forEach(function (o) {
+      o.setAttribute('aria-pressed', String(o.dataset.fonteTexto === 'General Sans'));
+    });
+    if (pesoFonte) { pesoFonte.value = 400; }
+    if (espacoFonte) { espacoFonte.value = 0; }
+    aplicaTexto();
   });
 
 
@@ -2076,6 +2193,27 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     s.src = src;
     document.body.appendChild(s);
   });
+
+
+  /* Rolagem: botões aparecem quando o conteúdo passa da tela. */
+  var caixaRolagem = document.getElementById('rolagem');
+  var sobe = document.getElementById('rolar-topo');
+  var desce = document.getElementById('rolar-baixo');
+
+  function avaliaRolagem() {
+    var tela = telas[atual];
+    var sobra = tela.scrollHeight - tela.clientHeight;
+    if (caixaRolagem) { caixaRolagem.classList.toggle('mostra', sobra > 8); }
+  }
+  if (sobe && desce) {
+    sobe.addEventListener('click', function () {
+      telas[atual].scrollBy({ top: -telas[atual].clientHeight * 0.75, behavior: 'smooth' });
+    });
+    desce.addEventListener('click', function () {
+      telas[atual].scrollBy({ top: telas[atual].clientHeight * 0.75, behavior: 'smooth' });
+    });
+    window.addEventListener('resize', avaliaRolagem);
+  }
 
   var inicial = parseInt((location.hash || '').replace('#', ''), 10);
   mostra(isNaN(inicial) ? 0 : inicial - 1, true);
