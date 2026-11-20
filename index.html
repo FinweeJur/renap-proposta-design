@@ -1193,6 +1193,12 @@ a:hover { text-decoration-thickness: 2px; }
   text-shadow: 0 1px 3px rgba(0, 0, 0, .75);
 }
 
+/* Cartão que é link: mesma pele do cartão, sem sublinhado. */
+a.cartao { display: block; text-decoration: none; color: var(--cp-text); }
+a.cartao:hover, a.cartao:focus-visible {
+  border-color: color-mix(in srgb, var(--cp-primary) 70%, transparent);
+}
+
 /* Cartão padrão (o da tela 6): sem fundo, sem desfoque, só borda clara.
    Vale para todo bloco que se comporta como cartão. */
 .cartao, .sumario__item, .contas li, .funcao, .demo, .lab__item, .amostra-fonte,
@@ -1412,50 +1418,43 @@ a:hover { text-decoration-thickness: 2px; }
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧭</span>Sumário</p>
       <h2 class="titulo sobe" style="--i:1">O caminho da apresentação</h2>
       <p class="resumo sobe" style="--i:2">Sete blocos, na ordem da conversa. Toque num bloco para ir direto a ele.</p>
-      <ul class="sumario sobe" style="--i:3">
-        <li><a class="sumario__item" href="#3">
-          <span class="sumario__emoji" aria-hidden="true">🗂️</span>
-          <b>Conteúdo do site</b>
-          <span class="sumario__numero" aria-hidden="true">1</span>
-          <span class="sumario__desc">O que reúne, fase 1, documentos, memória e teorias.</span>
-        </a></li>
-        <li><a class="sumario__item" href="#8">
-          <span class="sumario__emoji" aria-hidden="true">⚙️</span>
-          <b>Funções e plataforma</b>
-          <span class="sumario__numero" aria-hidden="true">2</span>
-          <span class="sumario__desc">Cadastro, sigilo, funções, API e acessibilidade.</span>
-        </a></li>
-        <li><a class="sumario__item" href="#12">
-          <span class="sumario__emoji" aria-hidden="true">💰</span>
-          <b>Dinheiro e decisões</b>
-          <span class="sumario__numero" aria-hidden="true">3</span>
-          <span class="sumario__desc">Quanto temos e as quatro respostas da reunião.</span>
-        </a></li>
-        <li><a class="sumario__item" href="#14">
-          <span class="sumario__emoji" aria-hidden="true">🖼️</span>
-          <b>Referências</b>
-          <span class="sumario__numero" aria-hidden="true">4</span>
-          <span class="sumario__desc">Portais que deram certo, acervos e movimentos.</span>
-        </a></li>
-        <li><a class="sumario__item" href="#16">
-          <span class="sumario__emoji" aria-hidden="true">🎨</span>
-          <b>Estilo e identidade</b>
-          <span class="sumario__numero" aria-hidden="true">5</span>
-          <span class="sumario__desc">Sóbrio ou com movimento, cores, fontes e fotos.</span>
-        </a></li>
-        <li><a class="sumario__item" href="#20">
-          <span class="sumario__emoji" aria-hidden="true">🤝</span>
-          <b>Fechamento</b>
-          <span class="sumario__numero" aria-hidden="true">6</span>
-          <span class="sumario__desc">Cinco decisões, próximos passos e glossário.</span>
-        </a></li>
-        <li><a class="sumario__item" href="#22">
-          <span class="sumario__emoji" aria-hidden="true">🧪</span>
-          <b>Anexos</b>
-          <span class="sumario__numero" aria-hidden="true">7</span>
-          <span class="sumario__desc">Sanfona, rádio, custos, home, catálogo e laboratórios.</span>
-        </a></li>
-      </ul>
+      <div class="cartoes duas sobe" style="--i:3">
+        <a class="cartao" href="#3">
+          <span class="etiqueta"><span class="emoji" aria-hidden="true">🗂️</span>1</span>
+          <h3>Conteúdo do site</h3>
+          <p>O que reúne, fase 1, documentos, memória e teorias.</p>
+        </a>
+        <a class="cartao" href="#8">
+          <span class="etiqueta"><span class="emoji" aria-hidden="true">⚙️</span>2</span>
+          <h3>Funções e plataforma</h3>
+          <p>Cadastro, sigilo, funções, API e acessibilidade.</p>
+        </a>
+        <a class="cartao" href="#12">
+          <span class="etiqueta"><span class="emoji" aria-hidden="true">💰</span>3</span>
+          <h3>Dinheiro e decisões</h3>
+          <p>Quanto temos e as quatro respostas da reunião.</p>
+        </a>
+        <a class="cartao" href="#14">
+          <span class="etiqueta"><span class="emoji" aria-hidden="true">🖼️</span>4</span>
+          <h3>Referências</h3>
+          <p>Portais que deram certo, acervos e movimentos.</p>
+        </a>
+        <a class="cartao" href="#16">
+          <span class="etiqueta"><span class="emoji" aria-hidden="true">🎨</span>5</span>
+          <h3>Estilo e identidade</h3>
+          <p>Sóbrio ou com movimento, cores, fontes e fotos.</p>
+        </a>
+        <a class="cartao" href="#20">
+          <span class="etiqueta"><span class="emoji" aria-hidden="true">🤝</span>6</span>
+          <h3>Fechamento</h3>
+          <p>Cinco decisões, próximos passos e glossário.</p>
+        </a>
+        <a class="cartao" href="#22">
+          <span class="etiqueta"><span class="emoji" aria-hidden="true">🧪</span>7</span>
+          <h3>Anexos</h3>
+          <p>Sanfona, rádio, custos, home, catálogo e laboratórios.</p>
+        </a>
+      </div>
       <p class="folha"><b>Se a leitura parar no bloco 1:</b> a pessoa já viu o que o site vai ter. O resto é dinheiro, referência e estilo.</p>
     </div>
   </section>
