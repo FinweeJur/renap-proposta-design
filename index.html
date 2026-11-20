@@ -622,7 +622,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .tela::before {
   content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background-image: var(--fundo, none);
-  background-position: center; background-size: cover; background-repeat: no-repeat;
+  background-position: center; background-size: contain; background-repeat: no-repeat;
   filter: brightness(.55) saturate(.9);
   opacity: var(--fundo-op, .5);
 }
@@ -767,6 +767,29 @@ a:hover { text-decoration-thickness: 2px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cur-punho, .cur-palavra, .cur-faisca, .cur-onda { animation: none; opacity: 0; }
+}
+
+/* Setas grandes nas laterais: o jeito óbvio de andar. */
+.setas { position: fixed; inset: 0; z-index: 31; pointer-events: none; }
+.setas__botao {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 64px; height: 64px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 1.6rem; line-height: 1; cursor: pointer; pointer-events: auto;
+  border: 1px solid var(--cp-border);
+  background: var(--cp-primary);
+  color: var(--cp-primary-ink);
+  box-shadow: 0 10px 26px rgb(0 0 0 / .28);
+  transition: transform .16s var(--curva), border-color .16s var(--curva), opacity .16s var(--curva);
+}
+.setas__botao:hover { filter: brightness(1.08); transform: translateY(-50%) scale(1.06); }
+.setas__botao:disabled { opacity: .25; cursor: default; }
+#seta-esquerda { left: 18px; }
+#seta-direita { right: 18px; }
+@media (max-width: 700px) {
+  .setas__botao { width: 48px; height: 48px; font-size: 1.2rem; }
+  #seta-esquerda { left: 8px; }
+  #seta-direita { right: 8px; }
 }
 
 /* ═══ 7. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
@@ -2099,6 +2122,12 @@ a:hover { text-decoration-thickness: 2px; }
   <button type="button" id="rolar-baixo" aria-label="Descer o conteúdo" title="Descer">↓</button>
 </div>
 
+
+<div class="setas" aria-hidden="false">
+  <button class="setas__botao" type="button" id="seta-esquerda" aria-label="Tela anterior" title="Tela anterior (←)">←</button>
+  <button class="setas__botao" type="button" id="seta-direita" aria-label="Próxima tela" title="Próxima tela (→)">→</button>
+</div>
+
 <nav class="nav" aria-label="Navegação das telas">
   <button type="button" id="primeira" aria-label="Ir ao início" title="Ir ao início (Home)">⏮</button>
   <button type="button" id="anterior">← <span class="rotulo">Anterior</span></button>
@@ -2181,6 +2210,8 @@ a:hover { text-decoration-thickness: 2px; }
     btnAnterior.disabled = atual === 0;
     btnSeguinte.disabled = atual === telas.length - 1;
     btnPrimeira.disabled = atual === 0;
+    if (setaEsq) { setaEsq.disabled = atual === 0; }
+    if (setaDir) { setaDir.disabled = atual === telas.length - 1; }
     btnUltima.disabled = atual === telas.length - 1;
     telas[atual].scrollTop = 0;
     animaNumeros(telas[atual]);
@@ -2216,31 +2247,6 @@ a:hover { text-decoration-thickness: 2px; }
     x0 = null;
     if (Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.6) { mostra(atual + (dx < 0 ? 1 : -1)); }
   }, { passive: true });
-
-  /* Clique na metade direita avança; na esquerda, volta.
-     Não dispara em controle (link, botão, campo, sanfona), nem em texto
-     selecionado, nem em arrasto de rolagem — senão a leitura quebra. */
-  var ponteiro = null;
-  document.addEventListener('pointerdown', function (e) {
-    ponteiro = { x: e.clientX, y: e.clientY };
-  }, { passive: true });
-
-  document.addEventListener('click', function (e) {
-    if (!ponteiro) { return; }
-    var andou = Math.abs(e.clientX - ponteiro.x) > 10 || Math.abs(e.clientY - ponteiro.y) > 10;
-    ponteiro = null;
-    if (andou) { return; }
-
-    var alvo = e.target;
-    var controle = alvo && alvo.closest
-      ? alvo.closest('a, button, input, select, textarea, summary, label, details, .nav, .casca')
-      : null;
-    var selecionou = (window.getSelection() || '').toString().length > 0;
-    if (controle || selecionou) { return; }
-
-    if (e.clientX > window.innerWidth / 2) { mostra(atual + 1); }
-    else { mostra(atual - 1); }
-  });
 
   /* ── Tema ─────────────────────────────────────────────────────────────
      Antes só existiam dois botões de "próximo", e trocar de bioma para bioma
@@ -2567,6 +2573,15 @@ a:hover { text-decoration-thickness: 2px; }
     document.body.appendChild(s);
   });
 
+
+
+  /* Setas laterais: andar é clique explícito, não clique em qualquer lugar. */
+  var setaEsq = document.getElementById('seta-esquerda');
+  var setaDir = document.getElementById('seta-direita');
+  if (setaEsq && setaDir) {
+    setaEsq.addEventListener('click', function () { mostra(atual - 1); });
+    setaDir.addEventListener('click', function () { mostra(atual + 1); });
+  }
 
   /* Rolagem: botões aparecem quando o conteúdo passa da tela. */
   var caixaRolagem = document.getElementById('rolagem');
