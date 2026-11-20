@@ -19,7 +19,6 @@ var ESTACOES = [{"id":"radio-nacional-rio","nome":"Rádio Nacional do Rio de Jan
   var raiz = document.querySelector("[data-radio]");
   if (!raiz) return;
 
-  var audio = raiz.querySelector("[data-radio-audio]");
   var lista = raiz.querySelector("[data-radio-lista]");
   var busca = raiz.querySelector("[data-radio-busca]");
   var botao = raiz.querySelector("[data-radio-tocar]");
@@ -29,6 +28,7 @@ var ESTACOES = [{"id":"radio-nacional-rio","nome":"Rádio Nacional do Rio de Jan
   var statusEl = raiz.querySelector("[data-radio-status]");
   var contagem = raiz.querySelector("[data-radio-contagem]");
 
+  var audio = raiz.querySelector("[data-radio-audio]");
   var atual = null;
   var hls = null;
   var hlsPronto = false;
@@ -52,6 +52,34 @@ var ESTACOES = [{"id":"radio-nacional-rio","nome":"Rádio Nacional do Rio de Jan
     if (statusEl) statusEl.textContent = texto || "";
   }
 
+  /* Cada troca de emissora usa um <audio> novo. Sem isso, o MediaSource do
+     hls.js antigo continua preso ao elemento e o som da estação anterior
+     segue tocando mesmo depois de destruir a instância. */
+  function audioNovo() {
+    var antigo = audio;
+    var novo = document.createElement("audio");
+    novo.setAttribute("data-radio-audio", "");
+    novo.preload = "none";
+    novo.volume = Number(volume && volume.value ? volume.value : 70) / 100;
+    novo.addEventListener("error", function () {
+      if (!novo.src) return;
+      aviso("Esta estação não abriu. Tente outra.");
+      botao.dataset.tocando = "false";
+    });
+    if (antigo && antigo.parentNode) antigo.parentNode.replaceChild(novo, antigo);
+    else raiz.appendChild(novo);
+    return novo;
+  }
+
+  function limpa() {
+    if (hls) { hls.destroy(); hls = null; }
+    if (audio) {
+      audio.pause();
+      audio.removeAttribute("src");
+      audio.load();
+    }
+  }
+
   function desenhaLista(filtro) {
     var termo = (filtro || "").toLowerCase().trim();
     lista.innerHTML = "";
@@ -72,12 +100,10 @@ var ESTACOES = [{"id":"radio-nacional-rio","nome":"Rádio Nacional do Rio de Jan
         var b = el("button", "rp__item");
         b.type = "button";
         b.dataset.id = e.id;
-        if (atual && atual.id === e.id) b.dataset.tocando = "true";
+        if (atual && atual.id === e.id) b.dataset.tocando = botao.dataset.tocando || "false";
 
-        var titulo = el("span", "rp__item-nome", e.nome);
-        var sub = el("span", "rp__item-meta", [ROTULO[e.tipo], e.cidade, e.uf].filter(Boolean).join(" · "));
-        b.appendChild(titulo);
-        b.appendChild(sub);
+        b.appendChild(el("span", "rp__item-nome", e.nome));
+        b.appendChild(el("span", "rp__item-meta", [ROTULO[e.tipo], e.cidade, e.uf].filter(Boolean).join(" · ")));
         b.addEventListener("click", function () { escolhe(e); });
         lista.appendChild(b);
       });
@@ -98,19 +124,15 @@ var ESTACOES = [{"id":"radio-nacional-rio","nome":"Rádio Nacional do Rio de Jan
     });
   }
 
-  function pararAudio() {
-    audio.pause();
-    audio.removeAttribute("src");
-    audio.load();
-    if (hls) { hls.destroy(); hls = null; }
-  }
-
   function toca(e) {
-    pararAudio();
+    limpa();
+    audio = audioNovo();
     atual = e;
+
     nomeEl.textContent = e.nome;
     metaEl.textContent = [ROTULO[e.tipo], e.cidade, e.uf].filter(Boolean).join(" · ");
     aviso("Conectando…");
+    botao.dataset.tocando = "false";
 
     var nativo = audio.canPlayType("application/vnd.apple.mpegurl") !== "";
 
@@ -153,7 +175,11 @@ var ESTACOES = [{"id":"radio-nacional-rio","nome":"Rádio Nacional do Rio de Jan
   }
 
   function escolhe(e) {
-    if (atual && atual.id === e.id && botao.dataset.tocando === "true") { pausa(); return; }
+    if (atual && atual.id === e.id) {
+      if (botao.dataset.tocando === "true") { pausa(); }
+      else { toca(e); }
+      return;
+    }
     toca(e);
     desenhaLista(busca.value);
   }
@@ -163,6 +189,7 @@ var ESTACOES = [{"id":"radio-nacional-rio","nome":"Rádio Nacional do Rio de Jan
     botao.dataset.tocando = "false";
     botao.setAttribute("aria-label", "Tocar");
     aviso("Pausado.");
+    desenhaLista(busca.value);
   }
 
   botao.addEventListener("click", function () {
@@ -179,16 +206,10 @@ var ESTACOES = [{"id":"radio-nacional-rio","nome":"Rádio Nacional do Rio de Jan
     });
     try {
       var v = localStorage.getItem("renap-volume");
-      if (v !== null) { volume.value = v; audio.volume = Number(v) / 100; }
+      if (v !== null) { volume.value = v; }
     } catch (err) { /* modo privado */ }
     audio.volume = Number(volume.value) / 100;
   }
-
-  audio.addEventListener("error", function () {
-    if (!audio.src) return;
-    aviso("Esta estação não abriu. Tente outra.");
-    botao.dataset.tocando = "false";
-  });
 
   desenhaLista("");
 })();
