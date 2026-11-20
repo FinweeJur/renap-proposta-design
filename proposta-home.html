@@ -222,7 +222,7 @@ main { max-width: 76rem; margin: 0 auto; padding: var(--e5) var(--e4) var(--e6);
 
 <header class="topo">
   <div class="topo__interno">
-    <a class="topo__marca" href="index.html#28">
+    <a class="topo__marca" href="index.html#29">
       <img src="assets/logo-renap-claro.png" alt="RENAP" />
     </a>
     <nav class="topo__links" aria-label="Navegação principal">
@@ -239,7 +239,7 @@ main { max-width: 76rem; margin: 0 auto; padding: var(--e5) var(--e4) var(--e6);
         <input id="busca" type="search" placeholder="Buscar documento, peça ou notícia" />
         <button type="submit">Buscar</button>
       </form>
-      <a class="botao secundario" href="index.html#28">← Voltar ao slide</a>
+      <a class="botao secundario" href="index.html#29">← Voltar ao slide</a>
       <button class="topo__menu" type="button" data-menu aria-expanded="false" aria-controls="gaveta">☰</button>
     </div>
   </div>
@@ -387,7 +387,7 @@ main { max-width: 76rem; margin: 0 auto; padding: var(--e5) var(--e4) var(--e6);
         <li><a href="#">Fale com a RENAP</a></li>
         <li><a href="#">Imprensa</a></li>
         <li><a href="#">Política de privacidade</a></li>
-        <li><a href="index.html#28">Voltar ao slide</a></li>
+        <li><a href="index.html#29">Voltar ao slide</a></li>
       </ul>
     </div>
   </div>
@@ -410,6 +410,43 @@ main { max-width: 76rem; margin: 0 auto; padding: var(--e5) var(--e4) var(--e6);
     });
   }
 })();
+
+  /* Dicas nos itens: cada link e botão diz o que faz e para onde leva. */
+  (function dicasNosItens() {
+    var telas = [].slice.call(document.querySelectorAll('.tela'));
+    function limpo(s) { return (s || '').replace(/\s+/g, ' ').trim(); }
+    function nomeDaTela(n) {
+      var alvo = telas[Number(n) - 1];
+      return alvo ? (alvo.getAttribute('aria-label') || '') : '';
+    }
+    function dicaDeLink(a) {
+      var bruto = a.getAttribute('href') || '';
+      if (bruto === '#') { return 'Amostra do componente: ainda sem destino'; }
+      if (bruto.charAt(0) === '#') {
+        var alvo = bruto.slice(1);
+        if (/^\d+$/.test(alvo)) { return 'Ir para a tela ' + alvo + ' · ' + nomeDaTela(alvo); }
+        var texto = limpo(a.textContent);
+        return texto ? 'Ir para “' + texto + '”' : 'Ir para o bloco ' + alvo;
+      }
+      var interno = bruto.match(/^[\w-]+\.html#(\d+)$/);
+      if (interno) { return 'Voltar ao slide ' + interno[1] + ' da proposta'; }
+      if (/^https?:/i.test(bruto)) {
+        var host = bruto.replace(/^https?:\/\//i, '').split('/')[0].replace(/^www\./, '');
+        return 'Abrir ' + host + ' · nova aba';
+      }
+      return 'Abrir ' + bruto;
+    }
+    [].forEach.call(document.querySelectorAll('a[href], button'), function (el) {
+      if (el.hasAttribute('data-dica')) { return; }
+      var dica = el.tagName === 'A'
+        ? dicaDeLink(el)
+        : (limpo(el.getAttribute('aria-label')) || limpo(el.textContent));
+      if (!dica) { return; }
+      el.setAttribute('data-dica', dica);
+      if (el.getBoundingClientRect().top < 120) { el.setAttribute('data-dica-baixo', ''); }
+    });
+  })();
+
 </script>
 </body>
 </html>
