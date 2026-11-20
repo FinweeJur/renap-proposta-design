@@ -162,9 +162,11 @@ h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
 h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; line-height: 1.16; }
 .resumo { margin-top: var(--e4); color: var(--cp-text-soft); max-width: 50ch; }
 .linhas { list-style: none; margin: var(--e4) 0 0; padding: 0; display: grid; gap: var(--e3); }
-.linhas li { display: flex; gap: var(--e3); align-items: flex-start; }
+/* Marcador absoluto: o texto pode ter <b> no meio sem virar coluna. */
+.linhas li { position: relative; padding-left: 18px; }
 .linhas li::before {
-  content: ""; flex: 0 0 auto; width: 6px; height: 6px; margin-top: .62em;
+  content: ""; position: absolute; left: 0; top: .62em;
+  width: 6px; height: 6px;
   background: var(--cp-primary); border-radius: 50%;
 }
 .folha {
@@ -486,7 +488,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <option value="pantanal">Pantanal</option>
     </select>
   </div>
-  <p class="contador" id="contador">1 / 28</p>
+  <p class="contador" id="contador">1 / 29</p>
 </header>
 
 <main class="deck" id="deck">
@@ -506,25 +508,57 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 2 · ANTES DE DECIDIR -->
-  <section class="tela" aria-label="Perguntas para decidir">
+  <!-- 2 · PONTOS EM ABERTO -->
+  <section class="tela" aria-label="Quatro pontos em aberto">
     <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">❓</span>Para esta reunião</p>
-      <h2 class="titulo sobe" style="--i:1">Quatro perguntas antes de decidir.</h2>
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">❓</span>Decisões desta reunião</p>
+      <h2 class="titulo sobe" style="--i:1">Quatro pontos em aberto, com duas opções cada.</h2>
       <p class="resumo sobe" style="--i:2">
-        A resposta de cada uma muda o resto da proposta. Vale debater em voz alta.
+        A RENAP (Rede Nacional de Advogados e Advogadas Populares) escolhe uma opção em cada linha. As quatro respostas definem preço, prazo e prioridade.
       </p>
       <div class="cartoes duas" style="margin-top:var(--e4)">
-        <div class="cartao"><span class="etiqueta">1</span><h3><span class="emoji" aria-hidden="true">🔎</span>Achado ou admirado?</h3><p>O site é para achar documento rápido, ou para impressionar quem chega?</p></div>
-        <div class="cartao"><span class="etiqueta">2</span><h3><span class="emoji" aria-hidden="true">✍️</span>Quem publica?</h3><p>Uma pessoa no dia a dia ou dez pessoas espalhadas pelo país?</p></div>
-        <div class="cartao"><span class="etiqueta">3</span><h3><span class="emoji" aria-hidden="true">🔒</span>Sigilo entra na busca?</h3><p>Quem não tem permissão pode nem saber que o documento existe?</p></div>
-        <div class="cartao"><span class="etiqueta">4</span><h3><span class="emoji" aria-hidden="true">📶</span>Internet ruim?</h3><p>O site precisa abrir em celular fraco, no 3G, sem travar?</p></div>
+        <div class="cartao">
+          <span class="etiqueta">Ponto 1</span>
+          <h3><span class="emoji" aria-hidden="true">🔎</span>O que a pessoa precisa encontrar primeiro?</h3>
+          <ul class="linhas" style="margin-top:var(--e2)">
+            <li><b>Opção A:</b> A pessoa encontra o documento em dois cliques.</li>
+            <li><b>Opção B:</b> A pessoa encontra a notícia do dia.</li>
+          </ul>
+          <p style="margin-top:var(--e2)"><b>Exemplo:</b> Quem recebe um link no WhatsApp procura o PDF (documento digital), não a capa do site.</p>
+        </div>
+        <div class="cartao">
+          <span class="etiqueta">Ponto 2</span>
+          <h3><span class="emoji" aria-hidden="true">✍️</span>Quem publica conteúdo no dia a dia?</h3>
+          <ul class="linhas" style="margin-top:var(--e2)">
+            <li><b>Opção A:</b> Uma pessoa da Articulação Nacional publica os conteúdos.</li>
+            <li><b>Opção B:</b> Uma pessoa indicada em cada estado publica os conteúdos.</li>
+          </ul>
+          <p style="margin-top:var(--e2)"><b>Exemplo:</b> Hoje, a notícia depende de uma pessoa que tem a senha do Wix (plataforma de sites).</p>
+        </div>
+        <div class="cartao">
+          <span class="etiqueta">Ponto 3</span>
+          <h3><span class="emoji" aria-hidden="true">🔒</span>Quem pode descobrir que um documento restrito existe?</h3>
+          <ul class="linhas" style="margin-top:var(--e2)">
+            <li><b>Opção A:</b> Só quem tem permissão vê o título e o arquivo.</li>
+            <li><b>Opção B:</b> Ninguém vê o título; o administrador envia o link direto.</li>
+          </ul>
+          <p style="margin-top:var(--e2)"><b>Exemplo:</b> O administrador envia o laudo (parecer técnico) do GT (Grupo de Trabalho) jurídico só para quem tem permissão.</p>
+        </div>
+        <div class="cartao">
+          <span class="etiqueta">Ponto 4</span>
+          <h3><span class="emoji" aria-hidden="true">📶</span>O site precisa funcionar em internet lenta?</h3>
+          <ul class="linhas" style="margin-top:var(--e2)">
+            <li><b>Opção A:</b> O site funciona com foto reduzida, página leve e sem vídeo.</li>
+            <li><b>Opção B:</b> Não. O site pode pesar e demorar para abrir.</li>
+          </ul>
+          <p style="margin-top:var(--e2)"><b>Exemplo:</b> A liderança em área rural perde tempo quando o site pesa no 3G (internet móvel).</p>
+        </div>
       </div>
-      <p class="folha"><b>Regra:</b> quatro respostas definem estilo, custo e prazo.</p>
+      <p class="folha"><b>Cada resposta vira requisito</b> do plano de trabalho. Cada resposta vira requisito do plano de trabalho. Sem elas, a proposta não define entregas.</p>
     </div>
   </section>
 
-  <!-- 3 · REFERÊNCIAS 1: MOVIMENTOS -->
+<!-- 3 · REFERÊNCIAS 1: MOVIMENTOS -->
   <section class="tela" aria-label="Referências, movimentos e organizações">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖼️</span>Referências · 1 de 2</p>
@@ -602,7 +636,29 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-<!-- 5 · O QUE OS PORTAIS TÊM EM COMUM -->
+  <!-- 5 · INSPIRAÇÕES DE CASA -->
+  <section class="tela" aria-label="Referências, inspirações de casa">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🏠</span>Referências · inspirações de casa</p>
+      <h2 class="titulo sobe" style="--i:1">Dois sites que já mostram o caminho.</h2>
+      <p class="resumo sobe" style="--i:2">
+        Um é do campo popular; o outro é da RENAP. Servem de referência de conteúdo, não de cópia.
+      </p>
+      <div class="refs" style="margin-top:var(--e4)">
+        <figure>
+          <img src="assets/ref/controlepopular.jpg" alt="Página inicial do Controle Popular" loading="lazy" />
+          <figcaption><b>Controle Popular</b> — 12 mil px de altura; três eixos temáticos; busca; 2.746 palavras. <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener">controlepopular.com.br</a></figcaption>
+        </figure>
+        <figure>
+          <img src="assets/ref/lenirlivre.jpg" alt="Página do 30º Encontro Nacional da RENAP, Lenir Correia Livre" loading="lazy" />
+          <figcaption><b>30º Encontro · Lenir Correia Livre</b> — 20 mil px; seis blocos com título próprio; carta política; 3.437 palavras. <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener">encontrolenirlivre.renap.org.br</a></figcaption>
+        </figure>
+      </div>
+      <p class="folha"><b>O que os dois têm em comum:</b> página longa, blocos com título e navegação por âncoras.</p>
+    </div>
+  </section>
+
+<!-- 6 · O QUE OS PORTAIS TÊM EM COMUM -->
   <section class="tela" aria-label="O que os portais de referência têm em comum">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧩</span>O que os 12 portais ensinam</p>
@@ -633,7 +689,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 6 · SÓBRIO OU COM EFEITOS -->
+  <!-- 7 · SÓBRIO OU COM EFEITOS -->
   <section class="tela" aria-label="Sóbrio ou com efeitos">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">⚖️</span>A decisão de estilo</p>
@@ -659,7 +715,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 7 · GRÁTIS E FÁCIL -->
+  <!-- 8 · GRÁTIS E FÁCIL -->
   <section class="tela" aria-label="Grátis e fácil de integrar">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🎁</span>O que já vem pronto</p>
@@ -676,7 +732,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 8 · EM UMA FRASE -->
+  <!-- 9 · EM UMA FRASE -->
   <section class="tela" aria-label="O que queremos">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🎯</span>O que queremos</p>
@@ -691,7 +747,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 9 · A CARA DO SITE -->
+  <!-- 10 · A CARA DO SITE -->
   <section class="tela" aria-label="A cara do site">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🎨</span>A cara do site</p>
@@ -712,7 +768,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 10 · VERBA -->
+  <!-- 11 · VERBA -->
   <section class="tela" aria-label="Quanto temos">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">💰</span>Quanto temos para começar</p>
@@ -726,7 +782,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 11 · FASE 1 -->
+  <!-- 12 · FASE 1 -->
   <section class="tela" aria-label="Fase 1">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧱</span>Fase 1 · o que entra</p>
@@ -742,7 +798,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 12 · MIGRAÇÃO -->
+  <!-- 13 · MIGRAÇÃO -->
   <section class="tela" aria-label="Migração">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🚚</span>Migração</p>
@@ -757,7 +813,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 13 · DOCUMENTOS E MÍDIA -->
+  <!-- 14 · DOCUMENTOS E MÍDIA -->
   <section class="tela" aria-label="Documentos e mídia">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🗂️</span>Documentos, notícias e arquivos</p>
@@ -772,7 +828,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 14 · CADASTRO -->
+  <!-- 15 · CADASTRO -->
   <section class="tela" aria-label="Cadastro e administrador">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🪪</span>Cadastro e administração</p>
@@ -787,7 +843,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 15 · TEMAS -->
+  <!-- 16 · TEMAS -->
   <section class="tela" aria-label="Temas">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🌗</span>Temas de cor</p>
@@ -815,7 +871,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 16 · SIGILO -->
+  <!-- 17 · SIGILO -->
   <section class="tela" aria-label="Sigilo">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔐</span>Sigilo · fase 2</p>
@@ -830,7 +886,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 17 · PEDIDOS A ORÇAR -->
+  <!-- 18 · PEDIDOS A ORÇAR -->
   <section class="tela" aria-label="Possibilidade de funções no site">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">⚙️</span>Fase 2 · se couber</p>
@@ -899,7 +955,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 18 · API -->
+  <!-- 19 · API -->
   <section class="tela" aria-label="Conexão para publicar, API">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔑</span>Conexão para publicar · API</p>
@@ -925,7 +981,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 19 · PROTEÇÕES -->
+  <!-- 20 · PROTEÇÕES -->
   <section class="tela" aria-label="Proteções">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🛡️</span>Cuidado com quem lê e com quem administra</p>
@@ -939,7 +995,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-    <!-- 20 · VOZ, ROBÔ E CÓDIGO ABERTO -->
+    <!-- 21 · VOZ, ROBÔ E CÓDIGO ABERTO -->
   <section class="tela" aria-label="Acessibilidade comunicacional">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🗣️</span>Três caminhos para a mesma informação</p>
@@ -957,7 +1013,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="folha">Quer ver o robô e o rádio funcionando? <b>Anexo C.</b></p>
     </div>
   </section>
-<!-- 21 · CINCO DECISÕES -->
+<!-- 22 · CINCO DECISÕES -->
   <section class="tela" aria-label="Cinco decisões">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🤝</span>O que precisamos decidir</p>
@@ -973,7 +1029,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 22 · GLOSSÁRIO -->
+  <!-- 23 · GLOSSÁRIO -->
   <section class="tela" aria-label="Glossário">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">📖</span>Glossário da reunião</p>
@@ -989,7 +1045,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 23 · FECHAMENTO -->
+  <!-- 24 · FECHAMENTO -->
   <section class="tela" aria-label="Fechamento">
     <div class="miolo estreito">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🚩</span>Próximo passo</p>
@@ -1008,7 +1064,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 
   <!-- ═════════════════════ ANEXOS ═════════════════════ -->
 
-  <!-- 24 · ANEXO A: EFEITOS -->
+  <!-- 25 · ANEXO A: EFEITOS -->
   <section class="tela" aria-label="Anexo A, efeitos">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">✨</span>Anexo A · efeitos</p>
@@ -1046,7 +1102,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 25 · ANEXO B: SANFONA -->
+  <!-- 26 · ANEXO B: SANFONA -->
   <section class="tela" aria-label="Anexo B, sanfona">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🪗</span>Anexo B · sanfona</p>
@@ -1099,7 +1155,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 26 · ANEXO C: BUSCA, ROBÔ E RÁDIO -->
+  <!-- 27 · ANEXO C: BUSCA, ROBÔ E RÁDIO -->
   <section class="tela" aria-label="Anexo C, busca, robô e rádio">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔍</span>Anexo C · busca, robô e rádio</p>
@@ -1156,7 +1212,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 27 · ANEXO D: FONTES -->
+  <!-- 28 · ANEXO D: FONTES -->
   <section class="tela" aria-label="Anexo D, fontes">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔤</span>Anexo D · fontes</p>
@@ -1214,7 +1270,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     </div>
   </section>
 
-  <!-- 28 · ANEXO E: HOSPEDAGEM -->
+  <!-- 29 · ANEXO E: HOSPEDAGEM -->
   <section class="tela" aria-label="Anexo E, hospedagem e domínio">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">💸</span>Anexo E · custos de manter</p>

@@ -1,6 +1,6 @@
 # Apresentação — novo site da RENAP
 
-Página única, sem build, sem instalação. **28 telas** para apresentar o briefing
+Página única, sem build, sem instalação. **29 telas** para apresentar o briefing
 à Articulação Nacional em linguagem simples.
 
 - Conteúdo: `Briefing-novo-site-RENAP.docx`, de 19/11/2026.
@@ -93,3 +93,10 @@ busca, número de imagens e de palavras. Não são opinião sobre o site.
 O Coletivo Margarida Alves ficou fora: o navegador bloqueou o site por
 certificado. O Observatório de Protocolos não tinha site próprio localizável
 em 19/11/2026.
+
+## Como o texto da tela 2 foi revisado
+
+O texto passou pelo modelo S5 da Maritaca, com raciocínio ligado
+(`reasoning_effort: medium`) e teto de 9.000 tokens. Custo da chamada: menos de
+R$ 0,05. O raciocínio consome o mesmo teto do texto — com 3.200 tokens o modelo
+pensou tudo e devolveu vazio. O roteiro está em `docs/revisao-s5.md`.
