@@ -19,7 +19,7 @@
 -->
 <link rel="stylesheet" href="fontes/fontshare.css?v=3" />
 <link rel="stylesheet" href="temas/temas.css" />
-<link rel="stylesheet" href="temas/renap.css?v=2" />
+<link rel="stylesheet" href="temas/renap.css?v=3" />
 <link rel="stylesheet" href="componentes/select.css" />
 <link rel="stylesheet" href="componentes/sanfona.css" />
 <link rel="stylesheet" href="componentes/shell.css" />
@@ -643,9 +643,9 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .tela::after {
   content: ""; position: fixed; inset: 0; z-index: 2; pointer-events: none;
   background: linear-gradient(100deg,
-    color-mix(in srgb, var(--cp-bg) var(--veu-1, 34%), transparent) 0%,
-    color-mix(in srgb, var(--cp-bg) var(--veu-2, 20%), transparent) 55%,
-    color-mix(in srgb, var(--cp-bg) var(--veu-3, 10%), transparent) 100%);
+    color-mix(in srgb, var(--cp-bg) var(--veu-1, 40%), transparent) 0%,
+    color-mix(in srgb, var(--cp-bg) var(--veu-2, 28%), transparent) 55%,
+    color-mix(in srgb, var(--cp-bg) var(--veu-3, 18%), transparent) 100%);
 }
 .tela .miolo { position: relative; z-index: 3; }
 
@@ -1189,8 +1189,16 @@ a:hover { text-decoration-thickness: 2px; }
 
 
 /* Texto sobre vidro claro: sombra curta segura a leitura sem apagar a foto. */
-.cartao p, .cartao li, .cartao h3, .sumario__desc, .sumario__item b, .sumario__numero {
-  text-shadow: 0 1px 3px rgba(0, 0, 0, .75);
+.cartao p, .cartao li, .cartao h3, .sumario__desc, .sumario__item b, .sumario__numero,
+.resumo, .linhas li, .folha, .etiqueta, .fichas li, .tabela td, .tabela th, .contas span,
+.credito, .catalogo li {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .78);
+}
+/* No tema claro a sombra escura pesa: vira halo branco. */
+[data-theme="light"] .resumo, [data-theme="light"] .linhas li,
+[data-theme="light"] .folha, [data-theme="light"] .cartao p,
+[data-theme="light"] .tabela td, [data-theme="light"] .tabela th {
+  text-shadow: 0 1px 2px rgba(255, 255, 255, .85);
 }
 
 /* Cartão que é link: mesma pele do cartão, sem sublinhado. */

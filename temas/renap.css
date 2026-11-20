@@ -56,10 +56,11 @@
 /* Fotografia de fundo: no tema claro e no alto contraste o véu muda.
    Sem isto, a foto desaparece sob o papel branco. */
 [data-theme=light] {
-  --fundo-op: .55;
-  --veu-1: 80%;
-  --veu-2: 62%;
-  --veu-3: 44%;
+  /* Papel claro precisa de véu forte: a foto vira textura, não cena. */
+  --fundo-op: .18;
+  --veu-1: 92%;
+  --veu-2: 84%;
+  --veu-3: 74%;
 }
 /* Alto contraste não tem enfeite: a foto sai de cena. */
 [data-theme=high-contrast] { --fundo-op: 0; }
