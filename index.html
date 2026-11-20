@@ -548,16 +548,20 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   color: var(--cp-text-soft);
 }
 
-/* 1. Grid Motion */
-.lab--grade .lab__palco {
+/* 1. Grid Motion: camada de grade maior que o quadro desliza uma célula. */
+.lab--grade .lab__palco { position: relative; }
+.lab--grade .lab__palco::before {
+  content: ""; position: absolute; inset: -22px;
   background-image:
     linear-gradient(var(--cp-border) 1px, transparent 1px),
     linear-gradient(90deg, var(--cp-border) 1px, transparent 1px);
   background-size: 22px 22px;
-  animation: grade-andando 6s linear infinite;
+  animation: grade-andando 1.8s linear infinite;
+  will-change: transform;
 }
 @keyframes grade-andando {
-  to { background-position: 22px 22px, 22px 22px; }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(22px, 22px, 0); }
 }
 
 /* 3. Magic Card: inclina e acende com o ponteiro */
@@ -738,7 +742,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <option value="pantanal">Pantanal</option>
     </select>
   </div>
-  <p class="contador" id="contador">1 / 30</p>
+  <p class="contador" id="contador">1 / 29</p>
 </header>
 
 <main class="deck" id="deck">
@@ -896,31 +900,31 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 <!-- 6 · O QUE OS PORTAIS TÊM EM COMUM -->
   <section class="tela" aria-label="O que os portais de referência têm em comum">
     <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧩</span>O que os 12 portais ensinam</p>
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧩</span>Comparação · 12 páginas</p>
       <h2 class="titulo sobe" style="--i:1">O que os 12 portais têm em comum</h2>
       <div class="cartoes duas" style="margin-top:var(--e4)">
         <div class="cartao">
-          <span class="etiqueta">Padrão que funciona</span>
+          <span class="etiqueta">O que aparece nas 12</span>
           <ul class="linhas" style="margin-top:var(--e2)">
-            <li>Capa com <b>uma</b> manchete e foto forte.</li>
-            <li>Acervo com nome próprio: biblioteca, banco de peças.</li>
-            <li>Menu entre 4 e 12 itens, sem submenu profundo.</li>
-            <li>Campanha no topo, com data visível.</li>
-            <li>Contato e quem assina, à vista.</li>
+            <li><span class="emoji" aria-hidden="true">🖼️</span>Capa com uma notícia principal e foto.</li>
+            <li><span class="emoji" aria-hidden="true">🗂️</span>Acervo com nome próprio: biblioteca, banco de peças.</li>
+            <li><span class="emoji" aria-hidden="true">☰</span>Menu entre 4 e 12 itens, sem submenu profundo.</li>
+            <li><span class="emoji" aria-hidden="true">📣</span>Campanha ou relatório no topo, com data.</li>
+            <li><span class="emoji" aria-hidden="true">✉️</span>Contato no menu ou no rodapé.</li>
           </ul>
         </div>
         <div class="cartao">
-          <span class="etiqueta">O que quase nenhum tem</span>
+          <span class="etiqueta">O que quase não aparece</span>
           <ul class="linhas" style="margin-top:var(--e2)">
-            <li>Busca com filtro por tipo, órgão e data.</li>
-            <li>Leitura em voz.</li>
-            <li>Tema escuro e alto contraste.</li>
-            <li>Glossário para leigo.</li>
-            <li>Endereço antigo que continua abrindo.</li>
+            <li><span class="emoji" aria-hidden="true">🔎</span>Busca com filtro por tipo e órgão: em uma.</li>
+            <li><span class="emoji" aria-hidden="true">🗣️</span>Leitura em voz alta.</li>
+            <li><span class="emoji" aria-hidden="true">🌗</span>Troca de tema na própria página.</li>
+            <li><span class="emoji" aria-hidden="true">📖</span>Glossário para leigo.</li>
+            <li><span class="emoji" aria-hidden="true">📖</span>Glossário de termo técnico.</li>
           </ul>
         </div>
       </div>
-      <p class="folha"><b>Ou seja:</b> copiar a capa é fácil. A diferença está no acervo.</p>
+      <p class="folha"><b>Medido nas 12 telas:</b> menu e contato em todas; busca em 10; acervo com nome próprio em 5; troca de tema em nenhuma.</p>
     </div>
   </section>
 
@@ -942,9 +946,9 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
         </div>
       </div>
       <ul class="linhas" style="margin-top:var(--e4)">
-        <li>Efeito só na capa e em campanha. Nunca na página de documento.</li>
-        <li>Quem usa leitor de tela ou celular fraco não pode perder nada.</li>
-        <li>Movimento é escolha: existe botão de parar.</li>
+        <li><span class="emoji" aria-hidden="true">✨</span>Efeito só na capa e em campanha. Nunca na página de documento.</li>
+        <li><span class="emoji" aria-hidden="true">♿</span>Quem usa leitor de tela ou celular fraco não pode perder nada.</li>
+        <li><span class="emoji" aria-hidden="true">⏸️</span>Movimento é escolha: existe botão de parar.</li>
       </ul>
       <p class="folha"><b>Não é 8 ou 80:</b> o mesmo site pode ter as duas camadas.</p>
     </div>
@@ -968,17 +972,29 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   </section>
 
   <!-- 9 · EM UMA FRASE -->
-  <section class="tela" aria-label="O que queremos">
+  <section class="tela" aria-label="O que o site reúne e o que vem do antigo">
     <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🎯</span>O que queremos</p>
-      <h2 class="titulo sobe" style="--i:1">O que o site reúne</h2>
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧭</span>O que queremos</p>
+      <h2 class="titulo sobe" style="--i:1">O que o site reúne — e o que vem do antigo</h2>
       <p class="resumo sobe" style="--i:2">
-        Num lugar só: documentos públicos, banco de peças, notícias, fotos, vídeos e áudios.
-        E uma área de administração para a Articulação.
+        Documentos, peças, notícias, fotos, vídeos e áudios.
+        Do site antigo vêm 36 publicações, 6 categorias e 6 páginas.
       </p>
       <ul class="fichas">
-        <li><span class="emoji" aria-hidden="true">🗂️</span>Documentos</li><li><span class="emoji" aria-hidden="true">📜</span>Peças</li><li><span class="emoji" aria-hidden="true">📰</span>Notícias</li><li><span class="emoji" aria-hidden="true">🖼️</span>Fotos</li><li><span class="emoji" aria-hidden="true">🎬</span>Vídeos</li><li><span class="emoji" aria-hidden="true">🎧</span>Áudios</li>
+        <li><span class="emoji" aria-hidden="true">🗂️</span>Documentos</li>
+        <li><span class="emoji" aria-hidden="true">📜</span>Peças</li>
+        <li><span class="emoji" aria-hidden="true">📰</span>Notícias</li>
+        <li><span class="emoji" aria-hidden="true">🖼️</span>Fotos</li>
+        <li><span class="emoji" aria-hidden="true">🎬</span>Vídeos</li>
+        <li><span class="emoji" aria-hidden="true">🎧</span>Áudios</li>
       </ul>
+      <div class="cartoes duas" style="margin-top:var(--e4)">
+        <div class="cartao"><p class="num">36</p><p><span class="emoji" aria-hidden="true">🗂️</span>publicações</p></div>
+        <div class="cartao"><p class="num">6</p><p><span class="emoji" aria-hidden="true">🏷️</span>categorias</p></div>
+        <div class="cartao"><p class="num">6</p><p><span class="emoji" aria-hidden="true">📄</span>páginas</p></div>
+        <div class="cartao"><p class="num">0</p><p><span class="emoji" aria-hidden="true">🔗</span>link quebrado</p></div>
+      </div>
+      <p class="folha"><b>Como se confere:</b> todo endereço antigo abre ou redireciona. Nada dá 404.</p>
     </div>
   </section>
 
@@ -1003,41 +1019,27 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧱</span>Fase 1 · o que entra</p>
       <h2 class="titulo sobe" style="--i:1">Fase 1: seis entregas</h2>
       <ul class="linhas sobe" style="--i:2">
-        <li>Site público com cara nova: início, contato, publicações e encontro.</li>
-        <li>Migração das 36 publicações, 6 categorias e 6 páginas.</li>
-        <li>Notícias, fotos e arquivos: PDF, áudio e vídeo curto.</li>
-        <li>Documentos públicos com busca, filtro, data e endereço.</li>
-        <li>Cadastro aberto, com aprovação do administrador.</li>
-        <li>Temas de cor e linguagem simples com glossário.</li>
+        <li><span class="emoji" aria-hidden="true">🏠</span>Site público com cara nova: início, contato, publicações e encontro.</li>
+        <li><span class="emoji" aria-hidden="true">🚚</span>Migração das 36 publicações, 6 categorias e 6 páginas.</li>
+        <li><span class="emoji" aria-hidden="true">📰</span>Notícias, fotos e arquivos: PDF, áudio e vídeo curto.</li>
+        <li><span class="emoji" aria-hidden="true">🗂️</span>Documentos públicos com busca, filtro, data e endereço.</li>
+        <li><span class="emoji" aria-hidden="true">🪪</span>Cadastro aberto, com aprovação do administrador.</li>
+        <li><span class="emoji" aria-hidden="true">🎨</span>Temas de cor e linguagem simples com glossário.</li>
       </ul>
     </div>
   </section>
 
   <!-- 13 · MIGRAÇÃO -->
-  <section class="tela" aria-label="Migração">
-    <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🚚</span>Migração</p>
-      <h2 class="titulo sobe" style="--i:1">Migração do site antigo</h2>
-      <div class="cartoes duas" style="margin-top:var(--e4)">
-        <div class="cartao"><p class="num">36</p><p><span class="emoji" aria-hidden="true">🗂️</span>publicações</p></div>
-        <div class="cartao"><p class="num">6</p><p><span class="emoji" aria-hidden="true">🏷️</span>categorias</p></div>
-        <div class="cartao"><p class="num">6</p><p><span class="emoji" aria-hidden="true">📄</span>páginas</p></div>
-        <div class="cartao"><p class="num">0</p><p><span class="emoji" aria-hidden="true">🔗</span>link quebrado</p></div>
-      </div>
-      <p class="folha"><b>Como se confere:</b> todo endereço antigo abre ou redireciona. Nada dá 404.</p>
-    </div>
-  </section>
-
   <!-- 14 · DOCUMENTOS E MÍDIA -->
   <section class="tela" aria-label="Documentos e mídia">
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🗂️</span>Documentos, notícias e arquivos</p>
       <h2 class="titulo sobe" style="--i:1">Documentos: busca, filtro e fonte</h2>
       <ul class="linhas sobe" style="--i:2">
-        <li>Busca, filtro e data em cada documento.</li>
-        <li>A fonte aparece junto do arquivo.</li>
-        <li>A equipe publica sozinha, sem programador.</li>
-        <li>Foto, PDF, áudio e vídeo curto, em versão leve.</li>
+        <li><span class="emoji" aria-hidden="true">🔎</span>Busca, filtro e data em cada documento.</li>
+        <li><span class="emoji" aria-hidden="true">📎</span>A fonte aparece junto do arquivo.</li>
+        <li><span class="emoji" aria-hidden="true">✍️</span>A equipe publica sozinha, sem programador.</li>
+        <li><span class="emoji" aria-hidden="true">🎬</span>Foto, PDF, áudio e vídeo curto, em versão leve.</li>
       </ul>
       <p class="folha"><b>Como se confere:</b> digitei “Paraopeba” e achei o documento com a fonte.</p>
     </div>
@@ -1049,10 +1051,10 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🪪</span>Cadastro e administração</p>
       <h2 class="titulo sobe" style="--i:1">Cadastro e administração</h2>
       <ul class="linhas sobe" style="--i:2">
-        <li>A pessoa se cadastra sozinha.</li>
-        <li>Só entra quem o administrador aprova.</li>
-        <li>Administrador é pessoa física, indicada pela RENAP.</li>
-        <li>Todo administrador entra com senha e código.</li>
+        <li><span class="emoji" aria-hidden="true">🙋</span>A pessoa se cadastra sozinha.</li>
+        <li><span class="emoji" aria-hidden="true">✅</span>Só entra quem o administrador aprova.</li>
+        <li><span class="emoji" aria-hidden="true">🪪</span>Administrador é pessoa física, indicada pela RENAP.</li>
+        <li><span class="emoji" aria-hidden="true">🔐</span>Todo administrador entra com senha e código.</li>
       </ul>
       <p class="folha"><b>Proteção:</b> um administrador pode promover outro, com confirmação e registro.</p>
     </div>
@@ -1263,9 +1265,9 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
         </div>
       </div>
       <ul class="linhas" style="margin-top:var(--e4)">
-        <li>Cada vez que uma chave é usada, fica registrado: quem, quando e o quê.</li>
-        <li>Qualquer chave pode ser cancelada a qualquer momento.</li>
-        <li>A chave geral fica com a RENAP. O fornecedor usa só na entrega.</li>
+        <li><span class="emoji" aria-hidden="true">📝</span>Cada vez que uma chave é usada, fica registrado: quem, quando e o quê.</li>
+        <li><span class="emoji" aria-hidden="true">🚫</span>Qualquer chave pode ser cancelada a qualquer momento.</li>
+        <li><span class="emoji" aria-hidden="true">🔑</span>A chave geral fica com a RENAP. O fornecedor usa só na entrega.</li>
       </ul>
     </div>
   </section>
@@ -1570,11 +1572,11 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
         </figure>
         <div class="cartao">
           <ul class="linhas" style="margin-top:0">
-            <li><b>Navbar:</b> Início, Biblioteca, Banco de peças, Notícias, Encontros e Sobre, com busca.</li>
-            <li><b>Biblioteca:</b> filtro por tipo, órgão e ano; cartão com capa, data e resumo.</li>
-            <li><b>Peças:</b> modelo editável e contagem total.</li>
-            <li><b>Notícias:</b> data visível e foto.</li>
-            <li><b>Rodapé:</b> quatro colunas, contato e licença do código.</li>
+            <li><span class="emoji" aria-hidden="true">🧭</span><b>Navbar:</b> Início, Biblioteca, Banco de peças, Notícias, Encontros e Sobre, com busca.</li>
+            <li><span class="emoji" aria-hidden="true">🗂️</span><b>Biblioteca:</b> filtro por tipo, órgão e ano; cartão com capa, data e resumo.</li>
+            <li><span class="emoji" aria-hidden="true">📜</span><b>Peças:</b> modelo editável e contagem total.</li>
+            <li><span class="emoji" aria-hidden="true">📰</span><b>Notícias:</b> data visível e foto.</li>
+            <li><span class="emoji" aria-hidden="true">🦶</span><b>Rodapé:</b> quatro colunas, contato e licença do código.</li>
           </ul>
           <p class="etiqueta" style="margin-top:var(--e4);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Requisitos que esta página já cumpre</p>
           <ul class="fichas" style="margin-top:var(--e2)">
