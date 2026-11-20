@@ -35,20 +35,18 @@ e abra <http://127.0.0.1:4323>.
 
 O tema escolhido fica guardado no navegador.
 
-## As 28 telas
+## As 27 telas
 
-**Decisão (2 a 5):** quatro perguntas · o que os portais têm em comum ·
-sóbrio ou com efeitos · o que é grátis e fácil.
+**Abertura (2 a 7):** quatro decisões da reunião · referências (duas telas, 15
+prints) · o que os 12 portais têm em comum · decisão de estilo · ferramentas
+gratuitas.
 
-**Proposta (6 a 22):** o que queremos · a cara · verba · fase 1 · migração ·
-documentos · cadastro · temas · sigilo · pedidos a orçar · API · proteções ·
-voz, robô e código aberto · cinco decisões · glossário · fechamento.
+**Proposta (8 a 22):** o que o site reúne · verba · fase 1 · migração ·
+documentos · cadastro · cores e temas · fontes · sigilo · funções possíveis ·
+chave de edição (API) · proteções · acessibilidade comunicacional · cinco
+decisões · glossário · próximos passos.
 
-**Anexos (23 a 28):** efeitos · sanfona · busca, robô e rádio · fontes ·
-hospedagem · referências (movimentos; acervo, busca e serviço).
-
-As legendas dos anexos de referência descrevem o que a página inteira mostra —
-blocos, menu, busca, imagens —, não uma opinião sobre o site.
+**Anexos (23 a 27):** efeitos · sanfona · busca, robô e rádio · hospedagem.
 
 ## O que é de quem
 

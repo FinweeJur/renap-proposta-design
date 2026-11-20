@@ -89,12 +89,14 @@ a { color: var(--cp-primary); }
 .logo-topo { height: 36px; width: auto; display: block; }
 .logo-topo--branco { display: none; }
 [data-theme="dark"] .logo-topo--claro,
+[data-theme="brasil"] .logo-topo--claro,
 [data-theme="pequi"] .logo-topo--claro,
 [data-theme="cerrado"] .logo-topo--claro,
 [data-theme="mata-atlantica"] .logo-topo--claro,
 [data-theme="caatinga"] .logo-topo--claro,
 [data-theme="pantanal"] .logo-topo--claro { display: none; }
 [data-theme="dark"] .logo-topo--branco,
+[data-theme="brasil"] .logo-topo--branco,
 [data-theme="pequi"] .logo-topo--branco,
 [data-theme="cerrado"] .logo-topo--branco,
 [data-theme="mata-atlantica"] .logo-topo--branco,
@@ -191,12 +193,14 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .capa-logo { height: clamp(112px, 22vw, 190px); width: auto; display: block; margin-bottom: var(--e4); }
 .capa-logo--branco { display: none; }
 [data-theme="dark"] .capa-logo--claro,
+[data-theme="brasil"] .capa-logo--claro,
 [data-theme="pequi"] .capa-logo--claro,
 [data-theme="cerrado"] .capa-logo--claro,
 [data-theme="mata-atlantica"] .capa-logo--claro,
 [data-theme="caatinga"] .capa-logo--claro,
 [data-theme="pantanal"] .capa-logo--claro { display: none; }
 [data-theme="dark"] .capa-logo--branco,
+[data-theme="brasil"] .capa-logo--branco,
 [data-theme="pequi"] .capa-logo--branco,
 [data-theme="cerrado"] .capa-logo--branco,
 [data-theme="mata-atlantica"] .capa-logo--branco,
@@ -258,7 +262,8 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 }
 .chip-tema:hover { border-color: var(--cp-primary); }
 .chip-tema[aria-pressed="true"] { border-color: var(--cp-primary); box-shadow: inset 0 0 0 1px var(--cp-primary); }
-.chip-tema i { width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; }
+.chip-tema__cores { display: inline-flex; gap: 3px; flex: 0 0 auto; }
+.chip-tema__cores i { width: 10px; height: 10px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--cp-text) 30%, transparent); }
 .aviso-tema { margin-top: var(--e3); font-size: var(--t-peq); color: var(--cp-text-soft); }
 .aviso-tema b { color: var(--cp-text); }
 
@@ -313,10 +318,11 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 /* Rádio: player com lista de estações (acervo do Controle Popular).
    Controles fixos à esquerda; a lista funciona como barra lateral. */
 .rp { display: grid; gap: var(--e3); margin-top: var(--e2); }
-@media (min-width: 760px) {
-  .rp { grid-template-columns: 260px 1fr; align-items: start; }
+@media (min-width: 900px) {
+  .rp { grid-template-columns: minmax(0, 260px) minmax(0, 1fr); align-items: start; }
 }
 .rp__controles {
+  position: sticky; top: 8px; z-index: 2;
   border: 1px solid var(--cp-border); border-radius: 12px;
   background: var(--cp-surface-2); padding: var(--e3);
   display: grid; gap: var(--e2);
@@ -532,6 +538,43 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 1ms !important; animation-delay: 0ms !important; transition-duration: 1ms !important; }
 }
+
+
+/* ═══ 10. RESPIRO E JANELAS PEQUENAS ══════════════════════════════════════
+   Regra do dono (20/11/2026): nada encosta em nada. O respiro é o mesmo em
+   celular, tablet e computador; quando a janela encolhe, o texto quebra e a
+   imagem encolhe — nunca o contrário.
+   Testado em 1440x950, 1024x640, 768x600, 700x500, 390x844 e 360x640. */
+.cartoes, .grade-demo, .funcoes, .refs { gap: var(--e3); }
+.cartoes > *, .grade-demo > *, .funcoes > *, .refs figure { min-width: 0; }
+@media (min-width: 640px) { .cartoes.duas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 780px) { .grade-demo { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .cartoes.tres { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* A barra de cima e o rodapé podem quebrar linha em vez de cortar. */
+.casca { flex-wrap: wrap; row-gap: 6px; }
+.casca .vao { min-width: 12px; }
+.nav { flex-wrap: nowrap; }
+
+/* A tela reserva o rodapé inteiro: nada fica embaixo do menu. */
+.tela { padding-bottom: calc(var(--e6) + 18px); scroll-padding-top: 72px; }
+
+/* Janela baixa (metade da tela): encurta o respiro de cima e das listas. */
+@media (max-height: 660px) {
+  .tela { padding-top: calc(50px + var(--e2)); }
+  .miolo { margin-top: 0; }
+  .rp__lista { max-height: 180px; }
+  .refs img { aspect-ratio: 16 / 9; }
+}
+
+/* Texto longo quebra em vez de empurrar a caixa. */
+.rp__nome, .rp__item-nome, .cartao h3, .funcao__texto b { overflow-wrap: anywhere; }
+.rp__volume { flex-wrap: wrap; }
+.rp__lista { max-height: min(260px, 42vh); }
+
+/* Tabela de custos: em janela estreita vira cartão (já existe), mas o bloco
+   nunca cria rolagem lateral na página. */
+.tabela { max-width: 100%; }
 
 /* ═══ 9. IMPRESSÃO ════════════════════════════════════════════════════════ */
 @media print {
@@ -921,15 +964,15 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p style="color:var(--cp-text-soft);font-size:var(--t-peq)">Corpo em General Sans, 1,5 de entrelinha.</p>
 
       <div class="temas-grade" role="group" aria-label="Escolher tema" style="margin-top:var(--e4)">
-        <button class="chip-tema" type="button" data-tema-btn="brasil"><i style="background:#ffd700"></i>Brasil</button>
-        <button class="chip-tema" type="button" data-tema-btn="light"><i style="background:#b00020"></i>Claro</button>
-        <button class="chip-tema" type="button" data-tema-btn="dark"><i style="background:#4a90d9"></i>Escuro</button>
-        <button class="chip-tema" type="button" data-tema-btn="high-contrast"><i style="background:#000"></i>Alto contraste</button>
-        <button class="chip-tema" type="button" data-tema-btn="pequi"><i style="background:#f2701d"></i>Pequi</button>
-        <button class="chip-tema" type="button" data-tema-btn="cerrado"><i style="background:#ffc300"></i>Cerrado</button>
-        <button class="chip-tema" type="button" data-tema-btn="mata-atlantica"><i style="background:#3a6b35"></i>Mata Atlântica</button>
-        <button class="chip-tema" type="button" data-tema-btn="caatinga"><i style="background:#d97724"></i>Caatinga</button>
-        <button class="chip-tema" type="button" data-tema-btn="pantanal"><i style="background:#0284c7"></i>Pantanal</button>
+        <button class="chip-tema" type="button" data-tema-btn="brasil"><span class="chip-tema__cores"><i style="background:#0b3d2e"></i><i style="background:#ffd700"></i><i style="background:#009c3b"></i></span>Brasil</button>
+        <button class="chip-tema" type="button" data-tema-btn="light"><span class="chip-tema__cores"><i style="background:#f7f8fa"></i><i style="background:#b00020"></i><i style="background:#0e8f6e"></i></span>Claro</button>
+        <button class="chip-tema" type="button" data-tema-btn="dark"><span class="chip-tema__cores"><i style="background:#0b1220"></i><i style="background:#f2666a"></i><i style="background:#2fbf9a"></i></span>Escuro</button>
+        <button class="chip-tema" type="button" data-tema-btn="high-contrast"><span class="chip-tema__cores"><i style="background:#ffffff"></i><i style="background:#990000"></i><i style="background:#006644"></i></span>Alto contraste</button>
+        <button class="chip-tema" type="button" data-tema-btn="pequi"><span class="chip-tema__cores"><i style="background:#0d0b08"></i><i style="background:#f2666a"></i><i style="background:#e4b33c"></i></span>Pequi</button>
+        <button class="chip-tema" type="button" data-tema-btn="cerrado"><span class="chip-tema__cores"><i style="background:#1a1208"></i><i style="background:#f2666a"></i><i style="background:#3a6b35"></i></span>Cerrado</button>
+        <button class="chip-tema" type="button" data-tema-btn="mata-atlantica"><span class="chip-tema__cores"><i style="background:#0a1208"></i><i style="background:#f2666a"></i><i style="background:#ffd700"></i></span>Mata Atlântica</button>
+        <button class="chip-tema" type="button" data-tema-btn="caatinga"><span class="chip-tema__cores"><i style="background:#161007"></i><i style="background:#f2666a"></i><i style="background:#2e8b57"></i></span>Caatinga</button>
+        <button class="chip-tema" type="button" data-tema-btn="pantanal"><span class="chip-tema__cores"><i style="background:#071318"></i><i style="background:#f2666a"></i><i style="background:#10b981"></i></span>Pantanal</button>
       </div>
       <p class="aviso-tema">Tema em uso: <b id="nome-tema">Claro</b></p>
       <label class="interruptor">
@@ -957,6 +1000,64 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
       <p class="folha"><b>Decisão:</b> escolher uma família agora e as outras duas ficam disponíveis para o leitor.</p>
     </div>
   </section>
+
+  <section class="tela" aria-label="Anexo D, fontes">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔤</span>Tipografia</p>
+      <h2 class="titulo sobe" style="--i:1">Fontes: como escolher a letra</h2>
+      <p class="resumo sobe" style="--i:2">
+        Toque num nome para ver o título desta página mudar. As gratuitas vêm do Fontshare.
+      </p>
+
+      <p class="etiqueta" style="margin-top:var(--e4);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Fontshare · grátis</p>
+      <div class="fonte-grade">
+        <div class="fonte-item">
+          <button type="button" data-fonte="satoshi" data-css="https://api.fontshare.com/v2/css?f[]=satoshi@700&display=swap" aria-pressed="false">Satoshi</button>
+          <a href="https://www.fontshare.com/fonts/satoshi" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte="cabinet-grotesk" data-css="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700&display=swap" aria-pressed="false">Cabinet Grotesk</button>
+          <a href="https://www.fontshare.com/fonts/cabinet-grotesk" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte="switzer" data-css="https://api.fontshare.com/v2/css?f[]=switzer@700&display=swap" aria-pressed="false">Switzer</button>
+          <a href="https://www.fontshare.com/fonts/switzer" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte="author" data-css="https://api.fontshare.com/v2/css?f[]=author@700&display=swap" aria-pressed="false">Author</button>
+          <a href="https://www.fontshare.com/fonts/author" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte="gambetta" data-css="https://api.fontshare.com/v2/css?f[]=gambetta@700&display=swap" aria-pressed="false">Gambetta</button>
+          <a href="https://www.fontshare.com/fonts/gambetta" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte="zodiak" data-css="https://api.fontshare.com/v2/css?f[]=zodiak@700&display=swap" aria-pressed="false">Zodiak</button>
+          <a href="https://www.fontshare.com/fonts/zodiak" target="_blank" rel="noopener">abrir</a>
+        </div>
+      </div>
+
+      <p class="etiqueta" style="margin-top:var(--e4);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Brasileiras · licença paga (Plau, do Rio)</p>
+      <div class="fonte-grade">
+        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Grama</span><a href="https://plau.co/fontes/grama" target="_blank" rel="noopener">abrir</a></div>
+        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Pacaembu</span><a href="https://plau.co/fontes/pacaembu" target="_blank" rel="noopener">abrir</a></div>
+        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Histerica</span><a href="https://plau.co/fontes/histerica" target="_blank" rel="noopener">abrir</a></div>
+        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Vinila</span><a href="https://plau.co/fontes/vinila" target="_blank" rel="noopener">abrir</a></div>
+        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Guanabara Sans</span><a href="https://plau.co/fontes/guanabara-sans" target="_blank" rel="noopener">abrir</a></div>
+        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Juma</span><a href="https://plau.co/fontes/juma" target="_blank" rel="noopener">abrir</a></div>
+      </div>
+
+      <div class="amostra-fonte">
+        <p id="texto-fonte">RENAP — o povo escreve a sua história</p>
+        <p>Mesma frase, letra escolhida. <button class="botao secundario" type="button" id="fonte-padrao" style="min-height:32px;font-size:var(--t-min);padding:.3rem .8rem">Voltar para Clash Display</button></p>
+      </div>
+      <p class="folha">
+        <b>Xilogravura:</b> não achei família livre com licença clara hoje. O caminho honesto é licenciar
+        uma brasileira ou encomendar letreiro. Nada aqui foi usado sem licença.
+      </p>
+    </div>
+  </section>
+
 
   <!-- 17 · SIGILO -->
   <section class="tela" aria-label="Sigilo">
@@ -1135,7 +1236,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
         <small>Código aberto (MIT). Os textos são da RENAP.</small>
       </p>
       <p class="folha">
-        <b>Anexos:</b> A efeitos · B sanfona · C busca, robô e rádio · D fontes · E hospedagem.
+        <b>Anexos:</b> A efeitos · B sanfona · C busca, robô e rádio · D hospedagem.
         Versão do briefing: 19/11/2026.
       </p>
     </div>
@@ -1308,68 +1409,11 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   </section>
 
   <!-- 28 · ANEXO D: FONTES -->
-  <section class="tela" aria-label="Anexo D, fontes">
-    <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔤</span>Anexo D · fontes</p>
-      <h2 class="titulo sobe" style="--i:1">Anexo D: fontes</h2>
-      <p class="resumo sobe" style="--i:2">
-        Toque num nome para ver o título desta página mudar. As gratuitas vêm do Fontshare.
-      </p>
-
-      <p class="etiqueta" style="margin-top:var(--e4);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Fontshare · grátis</p>
-      <div class="fonte-grade">
-        <div class="fonte-item">
-          <button type="button" data-fonte="satoshi" data-css="https://api.fontshare.com/v2/css?f[]=satoshi@700&display=swap" aria-pressed="false">Satoshi</button>
-          <a href="https://www.fontshare.com/fonts/satoshi" target="_blank" rel="noopener">abrir</a>
-        </div>
-        <div class="fonte-item">
-          <button type="button" data-fonte="cabinet-grotesk" data-css="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700&display=swap" aria-pressed="false">Cabinet Grotesk</button>
-          <a href="https://www.fontshare.com/fonts/cabinet-grotesk" target="_blank" rel="noopener">abrir</a>
-        </div>
-        <div class="fonte-item">
-          <button type="button" data-fonte="switzer" data-css="https://api.fontshare.com/v2/css?f[]=switzer@700&display=swap" aria-pressed="false">Switzer</button>
-          <a href="https://www.fontshare.com/fonts/switzer" target="_blank" rel="noopener">abrir</a>
-        </div>
-        <div class="fonte-item">
-          <button type="button" data-fonte="author" data-css="https://api.fontshare.com/v2/css?f[]=author@700&display=swap" aria-pressed="false">Author</button>
-          <a href="https://www.fontshare.com/fonts/author" target="_blank" rel="noopener">abrir</a>
-        </div>
-        <div class="fonte-item">
-          <button type="button" data-fonte="gambetta" data-css="https://api.fontshare.com/v2/css?f[]=gambetta@700&display=swap" aria-pressed="false">Gambetta</button>
-          <a href="https://www.fontshare.com/fonts/gambetta" target="_blank" rel="noopener">abrir</a>
-        </div>
-        <div class="fonte-item">
-          <button type="button" data-fonte="zodiak" data-css="https://api.fontshare.com/v2/css?f[]=zodiak@700&display=swap" aria-pressed="false">Zodiak</button>
-          <a href="https://www.fontshare.com/fonts/zodiak" target="_blank" rel="noopener">abrir</a>
-        </div>
-      </div>
-
-      <p class="etiqueta" style="margin-top:var(--e4);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Brasileiras · licença paga (Plau, do Rio)</p>
-      <div class="fonte-grade">
-        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Grama</span><a href="https://plau.co/fontes/grama" target="_blank" rel="noopener">abrir</a></div>
-        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Pacaembu</span><a href="https://plau.co/fontes/pacaembu" target="_blank" rel="noopener">abrir</a></div>
-        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Histerica</span><a href="https://plau.co/fontes/histerica" target="_blank" rel="noopener">abrir</a></div>
-        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Vinila</span><a href="https://plau.co/fontes/vinila" target="_blank" rel="noopener">abrir</a></div>
-        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Guanabara Sans</span><a href="https://plau.co/fontes/guanabara-sans" target="_blank" rel="noopener">abrir</a></div>
-        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Juma</span><a href="https://plau.co/fontes/juma" target="_blank" rel="noopener">abrir</a></div>
-      </div>
-
-      <div class="amostra-fonte">
-        <p id="texto-fonte">RENAP — o povo escreve a sua história</p>
-        <p>Mesma frase, letra escolhida. <button class="botao secundario" type="button" id="fonte-padrao" style="min-height:32px;font-size:var(--t-min);padding:.3rem .8rem">Voltar para Clash Display</button></p>
-      </div>
-      <p class="folha">
-        <b>Xilogravura:</b> não achei família livre com licença clara hoje. O caminho honesto é licenciar
-        uma brasileira ou encomendar letreiro. Nada aqui foi usado sem licença.
-      </p>
-    </div>
-  </section>
-
   <!-- 29 · ANEXO E: HOSPEDAGEM -->
   <section class="tela" aria-label="Anexo E, hospedagem e domínio">
     <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">💸</span>Anexo E · custos de manter</p>
-      <h2 class="titulo sobe" style="--i:1">Anexo E: custos de hospedagem</h2>
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">💸</span>Anexo D · custos de manter</p>
+      <h2 class="titulo sobe" style="--i:1">Anexo D: custos de hospedagem</h2>
       <p class="resumo sobe" style="--i:2">
         Preços de 19/11/2026, em semana de promoção. O valor mais barato de cada casa, por mês.
       </p>
@@ -1409,8 +1453,6 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   <button type="button" id="ultima" aria-label="Ir ao final" title="Ir ao final (End)">⏭</button>
 </nav>
 
-<script src="efeitos/magnet.js" defer></script>
-<script src="componentes/shell.js" defer></script>
 <script>
 /* Deck de tela única. Sem biblioteca própria: teclado, toque e endereço (#5).
    Os efeitos vêm de magnet.js e o robô de shell.js, ambos do design system. */
@@ -1429,6 +1471,42 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 
   function limitar(n) { return Math.max(0, Math.min(telas.length - 1, n)); }
 
+  /* Contador e barra do anexo A: o valor final está no HTML, o JS sobe até
+     ele. Sem movimento, o número já aparece pronto. */
+  function animaNumeros(tela) {
+    var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    tela.querySelectorAll('[data-contador]').forEach(function (el) {
+      var alvo = Number(el.dataset.contador || 0);
+      var casas = Number(el.dataset.casas || 0);
+      var prefixo = el.dataset.prefixo || '';
+      var sufixo = el.dataset.sufixo || '';
+      function escreve(v) {
+        el.textContent = prefixo + v.toLocaleString('pt-BR', {
+          minimumFractionDigits: casas, maximumFractionDigits: casas
+        }) + sufixo;
+      }
+      if (semMovimento) { escreve(alvo); return; }
+      var t0 = 0, dur = 1600;
+      function passo(ts) {
+        if (!t0) t0 = ts;
+        var p = Math.min(1, (ts - t0) / dur);
+        escreve(alvo * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(passo);
+      }
+      escreve(0);
+      requestAnimationFrame(passo);
+    });
+
+    tela.querySelectorAll('.barra__preenchida').forEach(function (b) {
+      var valor = b.style.getPropertyValue('--valor') || '0%';
+      if (semMovimento) { b.style.width = valor; return; }
+      b.style.width = '0%';
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () { b.style.width = valor; });
+      });
+    });
+  }
+
   function mostra(indice, semEndereco) {
     var novo = limitar(indice);
     telas.forEach(function (t, i) {
@@ -1446,6 +1524,8 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     btnPrimeira.disabled = atual === 0;
     btnUltima.disabled = atual === telas.length - 1;
     telas[atual].scrollTop = 0;
+    animaNumeros(telas[atual]);
+
     if (!semEndereco) { history.replaceState(null, '', '#' + (atual + 1)); }
   }
 
@@ -1610,12 +1690,13 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
     document.querySelectorAll('[data-fonte]').forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
   });
 
-  /* Rádio: script injetado para não esperar a folha de estilo do CDN. */
-  (function carregaRadio() {
+  /* Scripts injetados: com `defer` eles esperavam a folha de estilo do CDN e
+     não rodavam. Aqui entram sem bloqueio, depois do DOM pronto. */
+  ['efeitos/magnet.js', 'componentes/shell.js', 'componentes/radio.js?v=4'].forEach(function (src) {
     var s = document.createElement('script');
-    s.src = 'componentes/radio.js?v=4';
+    s.src = src;
     document.body.appendChild(s);
-  })();
+  });
 
   var inicial = parseInt((location.hash || '').replace('#', ''), 10);
   mostra(isNaN(inicial) ? 0 : inicial - 1, true);
