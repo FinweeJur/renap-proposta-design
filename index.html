@@ -617,37 +617,42 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .efeitos-botoes { display: flex; flex-wrap: wrap; gap: var(--e2); margin-top: var(--e4); }
 .efeitos-botoes .botao { display: inline-flex; align-items: center; text-decoration: none; }
 
+/* Fundo em duas camadas: a foto inteira na frente (contain) e a mesma foto
+   desfocada atrás, para as sobras laterais não virarem faixa preta. */
+.tela__fundo {
+  position: fixed; inset: -70px; z-index: 0; pointer-events: none;
+  background-image: var(--fundo, none);
+  background-position: center; background-size: cover; background-repeat: no-repeat;
+  filter: blur(30px) brightness(.3) saturate(.85);
+}
 /* ═══ 11. FOTOS DE FUNDO ══════════════════════════════════════════════════
    A foto ocupa a tela inteira, como antes, mas com véu calibrado: o tema
    continua mandando na cor e a fotografia aparece. A capa e o fecho têm véu
    mais leve que as telas de texto. */
 .tela::before {
-  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none;
   background-image: var(--fundo, none);
-  background-position: left bottom; background-size: cover; background-repeat: no-repeat;
-  filter: brightness(.72) saturate(.9);
-  opacity: var(--fundo-op, .62);
+  background-position: center; background-size: contain; background-repeat: no-repeat;
+  filter: brightness(.7) saturate(.9);
+  opacity: var(--fundo-op, .46);
 }
 .tela::after {
-  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  content: ""; position: fixed; inset: 0; z-index: 2; pointer-events: none;
   background: linear-gradient(100deg,
-    color-mix(in srgb, var(--cp-bg) var(--veu-1, 86%), transparent) 0%,
-    color-mix(in srgb, var(--cp-bg) var(--veu-2, 70%), transparent) 55%,
-    color-mix(in srgb, var(--cp-bg) var(--veu-3, 54%), transparent) 100%);
+    color-mix(in srgb, var(--cp-bg) var(--veu-1, 92%), transparent) 0%,
+    color-mix(in srgb, var(--cp-bg) var(--veu-2, 82%), transparent) 55%,
+    color-mix(in srgb, var(--cp-bg) var(--veu-3, 70%), transparent) 100%);
 }
-.tela .miolo { position: relative; z-index: 1; }
+.tela .miolo { position: relative; z-index: 3; }
 
 /* Capa e fecho: foto maior e mais presente. */
-.tela--capa, .tela--fecho { --fundo-op: .68; }
+.tela--capa, .tela--fecho { --fundo-op: .56; }
 .tela--capa::after, .tela--fecho::after {
   background: linear-gradient(100deg,
-    color-mix(in srgb, var(--cp-bg) 88%, transparent) 0%,
-    color-mix(in srgb, var(--cp-bg) 70%, transparent) 55%,
-    color-mix(in srgb, var(--cp-bg) 50%, transparent) 100%);
+    color-mix(in srgb, var(--cp-bg) 92%, transparent) 0%,
+    color-mix(in srgb, var(--cp-bg) 78%, transparent) 55%,
+    color-mix(in srgb, var(--cp-bg) 62%, transparent) 100%);
 }
-
-/* Tela par: a foto troca de canto. */
-.tela:nth-of-type(even)::before { background-position: right bottom; }
 
 @media print {
   .tela::before, .tela::after { display: none !important; }
@@ -842,6 +847,32 @@ a:hover { text-decoration-thickness: 2px; }
 .tela--densa .linhas { gap: var(--e2); }
 .tela--densa .resumo { margin-top: var(--e3); }
 
+/* Referências: imagem 16/9 e fichas compactas, para a tela caber. */
+.refs--6 img { aspect-ratio: 16 / 9; }
+.refs--6 figcaption { font-size: var(--t-min); line-height: 1.35; }
+.fichas li { font-size: var(--t-min); }
+
+/* Duas colunas de cartão: usada nas telas fundidas. */
+.dupla { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--e3); align-items: start; }
+.dupla .cartao { height: 100%; }
+@media (max-width: 820px) { .dupla { grid-template-columns: 1fr; } }
+
+/* Catálogo do anexo E: nome, licença e link em pastilha. */
+.catalogo {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 6px; margin: var(--e2) 0 0; padding: 0; list-style: none;
+}
+.catalogo li {
+  display: flex; justify-content: space-between; gap: 6px; align-items: baseline;
+  padding: 5px 10px; border-radius: 8px; font-size: var(--t-min);
+  background: color-mix(in srgb, var(--cp-surface) 52%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cp-border) 45%, transparent);
+}
+.catalogo a { color: var(--cp-text); text-decoration: underline; }
+.catalogo span { color: var(--cp-text-soft); }
+.lab--compacto .lab__palco { height: 96px; }
+.fichas a { color: inherit; text-decoration: underline; }
+
 /* Sumário: sete blocos clicáveis, com contagem que vem do próprio deck. */
 .sumario {
   list-style: none; margin: var(--e4) 0 0; padding: 0;
@@ -943,7 +974,7 @@ a:hover { text-decoration-thickness: 2px; }
 }
 
 /* Dica que aparece no hover e no foco: o botão diz para onde leva. */
-[data-dica] { position: relative; }
+:where([data-dica]) { position: relative; }
 [data-dica]::after {
   content: attr(data-dica);
   position: absolute; left: 50%; bottom: calc(100% + 10px);
@@ -1102,13 +1133,14 @@ a:hover { text-decoration-thickness: 2px; }
       <option value="pantanal">Pantanal</option>
     </select>
   </div>
-  <p class="contador" id="contador">1 / 32</p>
+  <p class="contador" id="contador">1 / 27</p>
 </header>
 
 <main class="deck" id="deck">
 
   <!-- 1 · CAPA -->
   <section class="tela tela--capa" data-ativa="true" aria-label="Capa">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo estreito">
       <img class="capa-logo capa-logo--claro" src="assets/logo-renap-claro.png" alt="RENAP — Rede Nacional de Advogados e Advogadas Populares" />
       <img class="capa-logo capa-logo--branco" src="assets/logo-renap-escuro.png" alt="" aria-hidden="true" />
@@ -1123,6 +1155,7 @@ a:hover { text-decoration-thickness: 2px; }
   </section>
 
   <section class="tela" aria-label="Sumário">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧭</span>Sumário</p>
       <h2 class="titulo sobe" style="--i:1">O caminho da apresentação</h2>
@@ -1138,33 +1171,33 @@ a:hover { text-decoration-thickness: 2px; }
           <span class="sumario__emoji" aria-hidden="true">⚙️</span>
           <b>Funções e plataforma</b>
           <span class="sumario__numero" aria-hidden="true">2</span>
-          <span class="sumario__desc">Cadastro, sigilo, funções, API, proteções e acessibilidade.</span>
+          <span class="sumario__desc">Cadastro, sigilo, funções, API e acessibilidade.</span>
         </a></li>
-        <li><a class="sumario__item" href="#14">
+        <li><a class="sumario__item" href="#12">
           <span class="sumario__emoji" aria-hidden="true">💰</span>
           <b>Dinheiro e decisões</b>
           <span class="sumario__numero" aria-hidden="true">3</span>
           <span class="sumario__desc">Quanto temos e as quatro respostas da reunião.</span>
         </a></li>
-        <li><a class="sumario__item" href="#16">
+        <li><a class="sumario__item" href="#14">
           <span class="sumario__emoji" aria-hidden="true">🖼️</span>
           <b>Referências</b>
           <span class="sumario__numero" aria-hidden="true">4</span>
           <span class="sumario__desc">Portais que deram certo, acervos e movimentos.</span>
         </a></li>
-        <li><a class="sumario__item" href="#19">
+        <li><a class="sumario__item" href="#16">
           <span class="sumario__emoji" aria-hidden="true">🎨</span>
           <b>Estilo e identidade</b>
           <span class="sumario__numero" aria-hidden="true">5</span>
           <span class="sumario__desc">Sóbrio ou com movimento, cores, fontes e fotos.</span>
         </a></li>
-        <li><a class="sumario__item" href="#23">
+        <li><a class="sumario__item" href="#20">
           <span class="sumario__emoji" aria-hidden="true">🤝</span>
           <b>Fechamento</b>
           <span class="sumario__numero" aria-hidden="true">6</span>
-          <span class="sumario__desc">Cinco decisões, glossário e o que vem depois.</span>
+          <span class="sumario__desc">Cinco decisões, próximos passos e glossário.</span>
         </a></li>
-        <li><a class="sumario__item" href="#26">
+        <li><a class="sumario__item" href="#22">
           <span class="sumario__emoji" aria-hidden="true">🧪</span>
           <b>Anexos</b>
           <span class="sumario__numero" aria-hidden="true">7</span>
@@ -1178,6 +1211,7 @@ a:hover { text-decoration-thickness: 2px; }
 
   <!-- 2 · PONTOS EM ABERTO -->
   <section class="tela" aria-label="O que o site reúne e o que vem do antigo">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧭</span>O que queremos</p>
       <h2 class="titulo sobe" style="--i:1">O que o site reúne — e o que vem do antigo</h2>
@@ -1206,6 +1240,7 @@ a:hover { text-decoration-thickness: 2px; }
   <!-- 10 · A CARA DO SITE -->
   <!-- 11 · VERBA -->
   <section class="tela" aria-label="Fase 1">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧱</span>Fase 1 · o que entra</p>
       <h2 class="titulo sobe" style="--i:1">Fase 1: seis entregas</h2>
@@ -1223,6 +1258,7 @@ a:hover { text-decoration-thickness: 2px; }
   <!-- 13 · MIGRAÇÃO -->
   <!-- 14 · DOCUMENTOS E MÍDIA -->
   <section class="tela" aria-label="Documentos e mídia">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🗂️</span>Documentos, notícias e arquivos</p>
       <h2 class="titulo sobe" style="--i:1">Documentos: busca, filtro e fonte</h2>
@@ -1237,6 +1273,7 @@ a:hover { text-decoration-thickness: 2px; }
   </section>
 
   <section class="tela" aria-label="Memória e cultura da RENAP">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🕯️</span>Memória e cultura</p>
       <h2 class="titulo sobe" style="--i:1">Memória e cultura da RENAP</h2>
@@ -1308,6 +1345,7 @@ a:hover { text-decoration-thickness: 2px; }
   </section>
 
   <section class="tela" aria-label="Teorias críticas do direito">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">📚</span>Seção nova do site</p>
       <h2 class="titulo sobe" style="--i:1">Teorias críticas do direito</h2>
@@ -1349,6 +1387,7 @@ a:hover { text-decoration-thickness: 2px; }
 
   <!-- 15 · CADASTRO -->
   <section class="tela" aria-label="Cadastro e administrador">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🪪</span>Cadastro e administração</p>
       <h2 class="titulo sobe" style="--i:1">Cadastro e administração</h2>
@@ -1363,119 +1402,77 @@ a:hover { text-decoration-thickness: 2px; }
   </section>
 
   <!-- 16 · TEMAS -->
-  <section class="tela" aria-label="Sigilo">
+  <section class="tela" aria-label="Sigilo e proteções">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔐</span>Sigilo · fase 2</p>
-      <h2 class="titulo sobe" style="--i:1">Sigilo: quatro níveis de acesso</h2>
-      <div class="cartoes duas">
-        <div class="cartao"><span class="etiqueta"><span class="emoji" aria-hidden="true">🌐</span>Público</span><p>Qualquer pessoa vê, sem entrar.</p></div>
-        <div class="cartao"><span class="etiqueta"><span class="emoji" aria-hidden="true">🔒</span>Interno</span><p>Só pessoa logada e aprovada.</p></div>
-        <div class="cartao"><span class="etiqueta"><span class="emoji" aria-hidden="true">👥</span>Restrito</span><p>Só o grupo indicado. Exemplo: Articulação Nacional.</p></div>
-        <div class="cartao"><span class="etiqueta"><span class="emoji" aria-hidden="true">🕵️</span>Sigiloso</span><p>Só o administrador e quem ele autorizar.</p></div>
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔐</span>Sigilo e proteção · fase 2</p>
+      <h2 class="titulo sobe" style="--i:1">Sigilo e proteções do documento</h2>
+      <p class="resumo sobe" style="--i:2">Quatro níveis de acesso e quatro cuidados com o arquivo.</p>
+      <div class="dupla">
+        <div class="cartao">
+          <span class="etiqueta"><span class="emoji" aria-hidden="true">👀</span>Quem vê</span>
+          <ul class="linhas" style="margin-top:var(--e2)">
+            <li><span class="emoji" aria-hidden="true">🌐</span><b>Público:</b> qualquer pessoa vê, sem entrar.</li>
+            <li><span class="emoji" aria-hidden="true">🔒</span><b>Interno:</b> só pessoa logada e aprovada.</li>
+            <li><span class="emoji" aria-hidden="true">👥</span><b>Restrito:</b> só o grupo indicado, como a Articulação Nacional.</li>
+            <li><span class="emoji" aria-hidden="true">🕵️</span><b>Sigiloso:</b> só o administrador e quem ele autorizar.</li>
+          </ul>
+        </div>
+        <div class="cartao">
+          <span class="etiqueta"><span class="emoji" aria-hidden="true">🛡️</span>O que protege</span>
+          <ul class="linhas" style="margin-top:var(--e2)">
+            <li><span class="emoji" aria-hidden="true">💾</span><b>Cópia diária:</b> com restauração testada.</li>
+            <li><span class="emoji" aria-hidden="true">🚫</span><b>Fora da busca:</b> restrito não aparece no Google nem na busca do site.</li>
+            <li><span class="emoji" aria-hidden="true">📋</span><b>Registro:</b> quem viu e quem baixou.</li>
+            <li><span class="emoji" aria-hidden="true">🕵️</span><b>Sem rastreamento:</b> a audiência só é medida no público.</li>
+          </ul>
+        </div>
       </div>
-      <p class="folha"><b>O administrador</b> classifica cada documento e pode mudar depois.</p>
+      <p class="folha"><b>O administrador</b> classifica cada documento e pode mudar o nível depois.</p>
     </div>
   </section>
 
   <!-- 18 · PEDIDOS A ORÇAR -->
-  <section class="tela" aria-label="Possibilidade de funções no site">
+  <section class="tela tela--densa" aria-label="Funções e a chave de publicação">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">⚙️</span>Fase 2 · se couber</p>
-      <h2 class="titulo sobe" style="--i:1">Funções possíveis na fase 2</h2>
-      <p class="resumo sobe" style="--i:2">
-        São funções extras, que entram depois se couber no orçamento.
-        Cada uma vem com preço e prazo à parte.
-      </p>
-      <div class="funcoes" style="margin-top:var(--e4)">
-        <div class="funcao" style="--i:0">
-          <span class="funcao__marca" aria-hidden="true"></span>
-          <div class="funcao__texto">
-            <b><span class="emoji" aria-hidden="true">🔒</span>Área restrita</b>
-            <span>Documento que só o grupo indicado abre. Exemplo: o GT jurídico anexa uma peça antes de protocolar.</span>
-          </div>
+      <h2 class="titulo sobe" style="--i:1">Funções extras e a chave de publicação</h2>
+      <p class="resumo sobe" style="--i:2">Entram depois, se couber no orçamento. Cada uma tem preço e prazo à parte.</p>
+      <div class="dupla">
+        <div class="cartao">
+          <span class="etiqueta"><span class="emoji" aria-hidden="true">🧩</span>Funções possíveis</span>
+          <ul class="linhas" style="margin-top:var(--e2)">
+            <li><span class="emoji" aria-hidden="true">🔒</span><b>Área restrita:</b> documento que só o grupo indicado abre.</li>
+            <li><span class="emoji" aria-hidden="true">📝</span><b>Formulários:</b> ficha preenchida no site, sem baixar arquivo.</li>
+            <li><span class="emoji" aria-hidden="true">🎟️</span><b>Inscrição em eventos:</b> lista de presença com certificado.</li>
+            <li><span class="emoji" aria-hidden="true">🔎</span><b>Busca unificada:</b> uma caixa que procura em tudo.</li>
+            <li><span class="emoji" aria-hidden="true">🔑</span><b>Permissões:</b> quem vê, quem publica e quem aprova.</li>
+            <li><span class="emoji" aria-hidden="true">💬</span><b>Fórum moderado:</b> conversa por assunto, com alguém aprovando.</li>
+          </ul>
         </div>
-        <div class="funcao" style="--i:1">
-          <span class="funcao__marca" aria-hidden="true"></span>
-          <div class="funcao__texto">
-            <b><span class="emoji" aria-hidden="true">📝</span>Formulários</b>
-            <span>Ficha preenchida no site, sem baixar arquivo. Exemplo: pedido de apoio jurídico com nome, cidade e anexo.</span>
-          </div>
-        </div>
-        <div class="funcao" style="--i:2">
-          <span class="funcao__marca" aria-hidden="true"></span>
-          <div class="funcao__texto">
-            <b><span class="emoji" aria-hidden="true">🎟️</span>Inscrição em eventos</b>
-            <span>Lista de presença com comprovante. Exemplo: inscrição no Encontro Nacional, com certificado no fim.</span>
-          </div>
-        </div>
-        <div class="funcao" style="--i:3">
-          <span class="funcao__marca" aria-hidden="true"></span>
-          <div class="funcao__texto">
-            <b><span class="emoji" aria-hidden="true">🔎</span>Busca unificada</b>
-            <span>Uma caixa só, que procura em tudo. Exemplo: digitar “Paraopeba” e ver notícia, documento e foto juntos.</span>
-          </div>
-        </div>
-        <div class="funcao" style="--i:4">
-          <span class="funcao__marca" aria-hidden="true"></span>
-          <div class="funcao__texto">
-            <b><span class="emoji" aria-hidden="true">🔑</span>Permissões</b>
-            <span>Quem vê, quem publica e quem aprova. Exemplo: a pessoa escreve a notícia e a coordenação publica.</span>
-          </div>
-        </div>
-        <div class="funcao" style="--i:5">
-          <span class="funcao__marca" aria-hidden="true"></span>
-          <div class="funcao__texto">
-            <b><span class="emoji" aria-hidden="true">💬</span>Fórum e moderação</b>
-            <span>Conversa por assunto, com alguém aprovando o que entra. Exemplo: o grupo de mineração discute um laudo e o moderador libera.</span>
-          </div>
+        <div class="cartao">
+          <span class="etiqueta"><span class="emoji" aria-hidden="true">🔑</span>Chave de publicação (API)</span>
+          <p>API é a porta entre o site e outro programa, como <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a> ou <a href="https://claude.ai/" target="_blank" rel="noopener">Claude</a>.</p>
+          <ul class="linhas" style="margin-top:var(--e2)">
+            <li><span class="emoji" aria-hidden="true">🔑</span><b>Chave geral:</b> cria, edita e apaga qualquer publicação.</li>
+            <li><span class="emoji" aria-hidden="true">📰</span><b>Chave de notícias:</b> mexe em notícia e em mais nada.</li>
+            <li><span class="emoji" aria-hidden="true">📝</span><b>Registro:</b> quem usou, quando e o quê.</li>
+            <li><span class="emoji" aria-hidden="true">🚫</span><b>Revogar:</b> qualquer chave pode ser cancelada a qualquer momento.</li>
+          </ul>
         </div>
       </div>
-      <p class="folha"><b>Cada linha</b> traz a função e um exemplo. Item sem resposta é tratado como “não faz”.</p>
+      <p class="folha"><b>A chave geral fica com a RENAP.</b> O fornecedor usa só na entrega.</p>
     </div>
   </section>
 
   <!-- 19 · API -->
-  <section class="tela" aria-label="Conexão para publicar, API">
-    <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔑</span>Conexão para publicar · API</p>
-      <h2 class="titulo titulo--longo sobe" style="--i:1">Chave de edição do site com níveis de acesso (API)</h2>
-      <p class="resumo sobe" style="--i:2">
-        API é a porta entre dois programas: o site e outro programa, como <a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a> ou <a href="https://claude.ai/" target="_blank" rel="noopener">Claude</a>.
-      </p>
-      <div class="cartoes duas">
-        <div class="cartao">
-          <h3><span class="emoji" aria-hidden="true">🔑</span>Chave geral</h3>
-          <p>Abre a casa inteira: cria, edita e apaga qualquer publicação.</p>
-        </div>
-        <div class="cartao">
-          <h3><span class="emoji" aria-hidden="true">📰</span>Chave de notícias</h3>
-          <p>Abre uma gaveta só: mexe em notícia e em mais nada.</p>
-        </div>
-      </div>
-      <ul class="linhas" style="margin-top:var(--e4)">
-        <li><span class="emoji" aria-hidden="true">📝</span>Cada vez que uma chave é usada, fica registrado: quem, quando e o quê.</li>
-        <li><span class="emoji" aria-hidden="true">🚫</span>Qualquer chave pode ser cancelada a qualquer momento.</li>
-        <li><span class="emoji" aria-hidden="true">🔑</span>A chave geral fica com a RENAP. O fornecedor usa só na entrega.</li>
-      </ul>
-    </div>
-  </section>
 
   <!-- 20 · PROTEÇÕES -->
-  <section class="tela" aria-label="Proteções">
-    <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🛡️</span>Cuidado com quem lê e com quem administra</p>
-      <h2 class="titulo sobe" style="--i:1">Proteções: cópia, registro e busca</h2>
-      <ul class="linhas sobe" style="--i:2">
-        <li><span class="emoji" aria-hidden="true">💾</span><b>Cópia diária:</b> com restauração testada. Sem isso, um erro apaga história.</li>
-        <li><span class="emoji" aria-hidden="true">🚫</span><b>Restrito fora da busca:</b> não aparece no Google nem na busca do site.</li>
-        <li><span class="emoji" aria-hidden="true">📋</span><b>Registro de acesso:</b> quem viu e quem baixou. Permite responder a um vazamento.</li>
-        <li><span class="emoji" aria-hidden="true">🕵️</span><b>Sem rastreamento:</b> sem autoplay na área restrita. A audiência só é medida no público.</li>
-      </ul>
-    </div>
-  </section>
 
     <!-- 21 · VOZ, ROBÔ E CÓDIGO ABERTO -->
   <section class="tela" aria-label="Acessibilidade comunicacional">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🗣️</span>Três caminhos para a mesma informação</p>
       <h2 class="titulo sobe" style="--i:1">Acessibilidade comunicacional</h2>
@@ -1494,6 +1491,7 @@ a:hover { text-decoration-thickness: 2px; }
   </section>
 <!-- 22 · CINCO DECISÕES -->
   <section class="tela" aria-label="Quanto temos">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">💰</span>Quanto temos para começar</p>
       <h2 class="grande sobe" style="--i:1">R$ 3.440<em>,00</em></h2>
@@ -1508,6 +1506,7 @@ a:hover { text-decoration-thickness: 2px; }
 
   <!-- 12 · FASE 1 -->
   <section class="tela tela--densa" aria-label="Quatro pontos em aberto">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">❓</span>Decisões desta reunião</p>
       <h2 class="titulo sobe" style="--i:1">Quatro decisões da reunião</h2>
@@ -1558,6 +1557,7 @@ a:hover { text-decoration-thickness: 2px; }
 
 <!-- 3 · REFERÊNCIAS 1: MOVIMENTOS -->
     <section class="tela" aria-label="O que os portais de referência têm em comum">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧩</span>Comparação · 12 páginas</p>
       <h2 class="titulo sobe" style="--i:1">O que os 12 portais têm em comum</h2>
@@ -1588,92 +1588,59 @@ a:hover { text-decoration-thickness: 2px; }
   </section>
 
   <!-- 7 · SÓBRIO OU COM EFEITOS -->
-  <section class="tela" aria-label="Acervo, serviço e inspirações.">
+  <section class="tela" aria-label="Referências: acervos, órgãos e movimentos">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖼️</span>Referências · 1 de 2</p>
-      <h2 class="titulo sobe" style="--i:1">Referências: acervo e serviço</h2>
-      <p class="resumo sobe" style="--i:2">Oito páginas: três inspirações, três acervos e dois órgãos públicos.</p>
-      <div class="refs refs--8" style="margin-top:var(--e3)">
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖼️</span>Referências</p>
+      <h2 class="titulo sobe" style="--i:1">Referências: acervos e movimentos</h2>
+      <p class="resumo sobe" style="--i:2">Quinze páginas olhadas: como cada uma organiza documento, busca, menu e capa. Seis ficam aqui; as outras nove, na lista.</p>
+      <div class="refs refs--6">
         <figure>
-                  <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener"><img src="assets/ref/controlepopular.jpg" alt="Página inicial do Controle Popular" loading="lazy" /></a>
-                  <figcaption><b>Controle Popular</b> — home com a mística do dia e fotos que rememoram os biomas brasileiros; reúne dados públicos de forma acessível. <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener">controlepopular.com.br</a></figcaption>
-                </figure>
+          <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener"><img src="assets/ref/controlepopular.jpg" alt="Página inicial do Controle Popular" loading="lazy" /></a>
+          <figcaption><b>Controle Popular</b> — mística do dia e biomas na capa. <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener">controlepopular.com.br</a></figcaption>
+        </figure>
         <figure>
-                  <a href="https://cma.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cma.jpg" alt="Página inicial da CMA" loading="lazy" /></a>
-                  <figcaption><b>CMA</b> — menu com Programas, Publicações, Notícias e Apoie; busca no topo. Cores: amarelo-ocre e vinho; foto de comunidade na capa. <a href="https://cma.org.br/" target="_blank" rel="noopener">cma.org.br</a></figcaption>
-                </figure>
+          <a href="https://cma.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cma.jpg" alt="Página inicial da CMA" loading="lazy" /></a>
+          <figcaption><b>CMA</b> — menu curto, busca no topo, foto de comunidade. <a href="https://cma.org.br/" target="_blank" rel="noopener">cma.org.br</a></figcaption>
+        </figure>
         <figure>
-                  <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener"><img src="assets/ref/lenirlivre.jpg" alt="Página do 30º Encontro Nacional da RENAP, Lenir Correia Livre" loading="lazy" /></a>
-                  <figcaption><b>30º Encontro · Lenir Correia Livre</b> — blocos com título próprio, carta política e programação; cores: vinho, branco e vermelho. <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener">encontrolenirlivre.renap.org.br</a></figcaption>
-                </figure>
+          <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener"><img src="assets/ref/lenirlivre.jpg" alt="Página do 30º Encontro Nacional da RENAP, Lenir Correia Livre" loading="lazy" /></a>
+          <figcaption><b>30º Encontro · Lenir Correia Livre</b> — blocos com título próprio e carta política. <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener">encontrolenirlivre.renap.org.br</a></figcaption>
+        </figure>
         <figure>
-                  <a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener"><img src="assets/ref/terradedireitos.jpg" alt="Banco de Petições do Terra de Direitos" loading="lazy" /></a>
-                  <figcaption><b>Terra de Direitos</b> — menu por eixos de atuação; busca e filtros por tipo, órgão e ação. Cores: azul e branco. <a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener">banco de petições</a></figcaption>
-                </figure>
+          <a href="https://mst.org.br/" target="_blank" rel="noopener"><img src="assets/ref/mst.jpg" alt="Página inicial do MST" loading="lazy" /></a>
+          <figcaption><b>MST</b> — 12 itens, busca e galerias de imagem. <a href="https://mst.org.br/" target="_blank" rel="noopener">mst.org.br</a></figcaption>
+        </figure>
         <figure>
-                  <a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener"><img src="assets/ref/mam.jpg" alt="Biblioteca do MAM Nacional" loading="lazy" /></a>
-                  <figcaption><b>MAM · biblioteca</b> — menu de 5 itens (MAM, Notícias, Internacional, Biblioteca, Contato); biblioteca em três blocos. Cores: vermelho e vinho. <a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
-                </figure>
+          <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cpt.jpg" alt="Página inicial da CPT" loading="lazy" /></a>
+          <figcaption><b>CPT</b> — acervo, biblioteca e Cedoc no mesmo menu. <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener">cptnacional.org.br</a></figcaption>
+        </figure>
         <figure>
-                  <a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener"><img src="assets/ref/democraciapopular.jpg" alt="Biblioteca da Democracia Popular" loading="lazy" /></a>
-                  <figcaption><b>Democracia Popular · biblioteca</b> — menu com Fundação, Linhas de Atuação, Equipe e Apoie; busca; lista de arquivos com capa e data. Cores: vermelho e branco. <a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
-                </figure>
-        <figure>
-                  <a href="https://www.dpu.def.br/" target="_blank" rel="noopener"><img src="assets/ref/dpu.jpg" alt="Página inicial da DPU" loading="lazy" /></a>
-                  <figcaption><b>DPU</b> — menu de 7 itens (Institucional, Unidades, Comunicação, Transparência); busca. Cores: azul e branco. <a href="https://www.dpu.def.br/" target="_blank" rel="noopener">dpu.def.br</a></figcaption>
-                </figure>
-        <figure>
-                  <a href="https://www.renap.org.br/" target="_blank" rel="noopener"><img src="assets/ref/renap.jpg" alt="Site atual da RENAP" loading="lazy" /></a>
-                  <figcaption><b>RENAP hoje</b> — menu de 5 itens (Início, Sobre, Encontro, Publicações, Blog); sem busca. Cores: vinho e bege. <a href="https://www.renap.org.br/" target="_blank" rel="noopener">renap.org.br</a></figcaption>
-                </figure>
+          <a href="https://www.abjd.org.br/" target="_blank" rel="noopener"><img src="assets/ref/abjd.jpg" alt="Página inicial da ABJD" loading="lazy" /></a>
+          <figcaption><b>ABJD</b> — núcleos estaduais, observatório e área do associado. <a href="https://www.abjd.org.br/" target="_blank" rel="noopener">abjd.org.br</a></figcaption>
+        </figure>
       </div>
-      <p class="folha"><b>O que olhar:</b> como cada um organiza documento, busca e capa.</p>
+      <p class="etiqueta" style="margin-top:var(--e3)"><span class="emoji" aria-hidden="true">📎</span>Também olhamos</p>
+      <ul class="fichas" style="margin-top:var(--e2)">
+        <li><a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener">Terra de Direitos</a></li>
+        <li><a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener">MAM · biblioteca</a></li>
+        <li><a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener">Democracia Popular</a></li>
+        <li><a href="https://www.dpu.def.br/" target="_blank" rel="noopener">DPU</a></li>
+        <li><a href="https://www.renap.org.br/" target="_blank" rel="noopener">RENAP hoje</a></li>
+        <li><a href="https://mab.org.br/" target="_blank" rel="noopener">MAB</a></li>
+        <li><a href="https://cimi.org.br/" target="_blank" rel="noopener">CIMI</a></li>
+        <li><a href="https://coletivoveredas.org/" target="_blank" rel="noopener">Coletivo Veredas</a></li>
+        <li><a href="https://www.mpf.mp.br/" target="_blank" rel="noopener">MPF</a></li>
+      </ul>
     </div>
   </section>
 
   <!-- 4 · REFERÊNCIAS 2: ACERVO E BUSCA -->
-    <section class="tela" aria-label="Movimentos e organizações.">
-    <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖼️</span>Referências · 2 de 2</p>
-      <h2 class="titulo sobe" style="--i:1">Referências: movimentos e organizações</h2>
-      <p class="resumo sobe" style="--i:2">Sete páginas de movimento popular e de jurídico.</p>
-      <div class="refs refs--8" style="margin-top:var(--e3)">
-        <figure>
-                  <a href="https://mst.org.br/" target="_blank" rel="noopener"><img src="assets/ref/mst.jpg" alt="Página inicial do MST" loading="lazy" /></a>
-                  <figcaption><b>MST</b> — menu de 12 itens (O MST, Notícias, Mídias, Especiais, Rádios); busca; galerias de imagem. Cores: vermelho vivo e bege claro. <a href="https://mst.org.br/" target="_blank" rel="noopener">mst.org.br</a></figcaption>
-                </figure>
-        <figure>
-                  <a href="https://mab.org.br/" target="_blank" rel="noopener"><img src="assets/ref/mab.jpg" alt="Página inicial do MAB" loading="lazy" /></a>
-                  <figcaption><b>MAB</b> — menu de 9 itens em três idiomas (O MAB, Lutas, Apoie, Notícias); busca. Cores: verde e branco. <a href="https://mab.org.br/" target="_blank" rel="noopener">mab.org.br</a></figcaption>
-                </figure>
-        <figure>
-                  <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cpt.jpg" alt="Página inicial da CPT" loading="lazy" /></a>
-                  <figcaption><b>CPT</b> — menu com Acervo, Biblioteca, Cedoc e Conflitos no campo; busca. Cores: vinho e branco. <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener">cptnacional.org.br</a></figcaption>
-                </figure>
-        <figure>
-                  <a href="https://cimi.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cimi.jpg" alt="Página inicial do CIMI" loading="lazy" /></a>
-                  <figcaption><b>CIMI</b> — menu por temas e por regionais (Amazônia, Goiás, Leste, Maranhão); login e busca. Cores: vinho e branco. <a href="https://cimi.org.br/" target="_blank" rel="noopener">cimi.org.br</a></figcaption>
-                </figure>
-        <figure>
-                  <a href="https://www.abjd.org.br/" target="_blank" rel="noopener"><img src="assets/ref/abjd.jpg" alt="Página inicial da ABJD" loading="lazy" /></a>
-                  <figcaption><b>ABJD</b> — menu com Núcleos Estaduais, Observatório e Área do Associado; busca e inscrição por e-mail. Cores: vermelho, vinho e branco. <a href="https://www.abjd.org.br/" target="_blank" rel="noopener">abjd.org.br</a></figcaption>
-                </figure>
-        <figure>
-                  <a href="https://coletivoveredas.org/" target="_blank" rel="noopener"><img src="assets/ref/veredas.jpg" alt="Página do Coletivo Veredas" loading="lazy" /></a>
-                  <figcaption><b>Coletivo Veredas</b> — menu de 4 itens (Coletivo, Áreas acompanhadas, Equipe, Contato); sem busca. Cores: creme e marrom. <a href="https://coletivoveredas.org/" target="_blank" rel="noopener">coletivoveredas.org</a></figcaption>
-                </figure>
-        <figure>
-                  <a href="https://www.mpf.mp.br/" target="_blank" rel="noopener"><img src="assets/ref/mpf.jpg" alt="Página inicial do MPF" loading="lazy" /></a>
-                  <figcaption><b>MPF</b> — menu institucional mais serviços ao cidadão; busca; área restrita. Cores: azul-escuro e branco. <a href="https://www.mpf.mp.br/" target="_blank" rel="noopener">mpf.mp.br</a></figcaption>
-                </figure>
-      </div>
-      <p class="folha"><b>O que olhar:</b> menu, funções e cores de cada um.</p>
-    </div>
-  </section>
-
+  
   <!-- 5 · OUTRAS INSPIRAÇÕES -->
 <!-- 6 · O QUE OS PORTAIS TÊM EM COMUM -->
   <section class="tela" aria-label="Sóbrio ou com efeitos">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">⚖️</span>A decisão de estilo</p>
       <h2 class="titulo sobe" style="--i:1">Decisão de estilo: sóbrio ou com movimento</h2>
@@ -1700,6 +1667,7 @@ a:hover { text-decoration-thickness: 2px; }
 
   <!-- 8 · GRÁTIS E FÁCIL -->
   <section class="tela" aria-label="Cores e temas">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🎨</span>Cores e identidade</p>
       <h2 class="titulo sobe" style="--i:1">Qual identidade a RENAP quer</h2>
@@ -1753,6 +1721,7 @@ a:hover { text-decoration-thickness: 2px; }
   </section>
 
   <section class="tela" aria-label="Fontes e tipografia">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔤</span>Tipografia</p>
       <h2 class="titulo sobe" style="--i:1">Fontes: como escolher a letra</h2>
@@ -1829,6 +1798,7 @@ a:hover { text-decoration-thickness: 2px; }
   </section>
 
   <section class="tela" aria-label="Fotos e imagens">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖼️</span>Imagens · pedido ao GT</p>
       <h2 class="titulo sobe" style="--i:1">Fotos: o que a RENAP precisa enviar</h2>
@@ -1848,11 +1818,13 @@ a:hover { text-decoration-thickness: 2px; }
 
 
   <!-- 17 · SIGILO -->
-  <section class="tela" aria-label="Cinco decisões">
+  <section class="tela" aria-label="Decisões e próximos passos">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🤝</span>O que precisamos decidir</p>
-      <h2 class="titulo sobe" style="--i:1">Cinco decisões para o começo</h2>
-      <div class="cartoes duas">
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🤝</span>Fechamento</p>
+      <h2 class="titulo sobe" style="--i:1">Cinco decisões e o próximo passo</h2>
+      <p class="resumo sobe" style="--i:2">Com as respostas, a proposta vira plano de trabalho: o que entra, quando fica pronto e quanto custa.</p>
+      <div class="cartoes tres">
         <div class="cartao"><span class="etiqueta">1</span><h3><span class="emoji" aria-hidden="true">💰</span>Orçamento</h3><p>O que entra nos R$ 3.440 e o que fica para a fase 2.</p></div>
         <div class="cartao"><span class="etiqueta">2</span><h3><span class="emoji" aria-hidden="true">📅</span>Prazo</h3><p>Data de cada entrega.</p></div>
         <div class="cartao"><span class="etiqueta">3</span><h3><span class="emoji" aria-hidden="true">✅</span>Aprovação</h3><p>Uma pessoa responde pelo projeto.</p></div>
@@ -1860,11 +1832,18 @@ a:hover { text-decoration-thickness: 2px; }
         <div class="cartao"><span class="etiqueta">5</span><h3><span class="emoji" aria-hidden="true">📄</span>Conteúdo</h3><p>Textos, fotos, PDFs e direito de uso.</p></div>
       </div>
       <p class="folha"><b>Se der para responder só cinco:</b> orçamento, prazo, aprovação, sigilo e conteúdo.</p>
+      <p class="credito" style="margin-top:var(--e4)">GT de Comunicação da RENAP</p>
+      <p class="rodape-codigo">
+        <a class="botao" href="https://github.com/FinweeJur/renap-proposta-design" target="_blank" rel="noopener">Ver o código no GitHub</a>
+        <small>Código aberto (MIT). Os textos são da RENAP.</small>
+      </p>
+      <p class="folha"><b>Anexos:</b> A sanfona · B busca, robô e rádio · C hospedagem · D proposta de home · E efeitos e laboratório · F cursores.</p>
     </div>
   </section>
 
   <!-- 23 · GLOSSÁRIO -->
   <section class="tela" aria-label="Glossário">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">📖</span>Glossário da reunião</p>
       <h2 class="titulo sobe" style="--i:1">Glossário da reunião</h2>
@@ -1880,23 +1859,6 @@ a:hover { text-decoration-thickness: 2px; }
   </section>
 
   <!-- 24 · FECHAMENTO -->
-  <section class="tela tela--fecho" aria-label="Fechamento">
-    <div class="miolo estreito">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🚩</span>Próximo passo</p>
-      <h2 class="titulo sobe" style="--i:1">Próximos passos</h2>
-      <p class="resumo sobe" style="--i:2">
-        Com as respostas, a proposta vira plano de trabalho:
-        o que entra, quando fica pronto e quanto custa.
-      </p>
-      <p class="credito">GT de Comunicação da RENAP</p>
-      <p class="rodape-codigo">
-        <a class="botao" href="https://github.com/FinweeJur/renap-proposta-design" target="_blank" rel="noopener">Ver o código no GitHub</a>
-        <small>Código aberto (MIT). Os textos são da RENAP.</small>
-      </p>
-      <p class="folha">
-        <b>Anexos:</b> A sanfona · B busca, robô e rádio · C hospedagem · D proposta de home · E efeitos sugeridos · F laboratório · G cursores. </p>
-    </div>
-  </section>
 
   <!-- ═════════════════════ ANEXOS ═════════════════════ -->
 
@@ -1904,6 +1866,7 @@ a:hover { text-decoration-thickness: 2px; }
 
   <!-- 26 · ANEXO B: SANFONA -->
   <section class="tela" aria-label="Anexo A, sanfona">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🪗</span>Anexo A · sanfona</p>
       <h2 class="titulo sobe" style="--i:1">Anexo A: sanfona</h2>
@@ -1933,7 +1896,7 @@ a:hover { text-decoration-thickness: 2px; }
             </span>
           </summary>
           <div class="sanfona__corpo">
-            Duas chaves: uma geral, que mexe em tudo, e uma só de notícias. Detalhe na tela da <a href="#11">API</a>.
+            Duas chaves: uma geral, que mexe em tudo, e uma só de notícias. Detalhe na tela da <a href="#10">API</a>.
             Toda ação fica registrada e a chave pode ser revogada.
           </div>
         </details>
@@ -1957,6 +1920,7 @@ a:hover { text-decoration-thickness: 2px; }
 
   <!-- 27 · ANEXO C: BUSCA, ROBÔ E RÁDIO -->
   <section class="tela" aria-label="Anexo B, busca, robô e rádio">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔍</span>Anexo B · busca, robô e rádio</p>
       <h2 class="titulo sobe" style="--i:1">Anexo B: busca, robô e rádio</h2>
@@ -2007,6 +1971,7 @@ a:hover { text-decoration-thickness: 2px; }
   <!-- 28 · ANEXO D: FONTES -->
   <!-- 29 · ANEXO E: HOSPEDAGEM -->
   <section class="tela" aria-label="Anexo C, hospedagem e domínio">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">💸</span>Anexo C · custos de manter</p>
       <h2 class="titulo sobe" style="--i:1">Anexo C: custos de hospedagem</h2>
@@ -2040,6 +2005,7 @@ a:hover { text-decoration-thickness: 2px; }
     </div>
   </section>
   <section class="tela" aria-label="Anexo D, proposta de home">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🏠</span>Anexo D · demonstração</p>
       <h2 class="titulo sobe" style="--i:1">A home proposta, por dentro</h2>
@@ -2080,151 +2046,74 @@ a:hover { text-decoration-thickness: 2px; }
     </div>
   </section>
 
-  <section class="tela" aria-label="Anexo E, efeitos e componentes sugeridos">
+  <section class="tela" aria-label="Anexo E, catálogo e laboratório">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">✨</span>Anexo E · o que eu usaria</p>
-      <h2 class="titulo sobe" style="--i:1">Dez efeitos e componentes gratuitos</h2>
-      <p class="resumo sobe" style="--i:2">
-        Todos com licença aberta e peso baixo. Os cinco primeiros entram na fase 1; os outros, na fase 2.
-      </p>
-      <ul class="efeitos">
-        <li>
-          <div class="efeito__topo"><b>Magic UI</b><span class="efeito__licenca">MIT</span></div>
-          <p>Número que conta, marquee, bento. Bom para a capa e para os painéis.</p>
-          <a href="https://magicui.design/" target="_blank" rel="noopener">abrir o site</a>
-        </li>
-        <li>
-          <div class="efeito__topo"><b>Cult UI</b><span class="efeito__licenca">MIT</span></div>
-          <p>Modal, formulário e borda animada. Cai bem na área restrita.</p>
-          <a href="https://www.cult-ui.com/" target="_blank" rel="noopener">abrir o site</a>
-        </li>
-        <li>
-          <div class="efeito__topo"><b>Origin UI</b><span class="efeito__licenca">MIT</span></div>
-          <p>400 blocos de formulário. Resolve cadastro e filtros sem invenção.</p>
-          <a href="https://originui.com/" target="_blank" rel="noopener">abrir o site</a>
-        </li>
-        <li>
-          <div class="efeito__topo"><b>Uiverse</b><span class="efeito__licenca">MIT</span></div>
-          <p>Botão, loader e toggle em CSS puro. Leve e sem JavaScript.</p>
-          <a href="https://uiverse.io/" target="_blank" rel="noopener">abrir o site</a>
-        </li>
-        <li>
-          <div class="efeito__topo"><b>Motion</b><span class="efeito__licenca">MIT</span></div>
-          <p>Entrada de bloco e transição de página com uma linha.</p>
-          <a href="https://motion.dev/" target="_blank" rel="noopener">abrir o site</a>
-        </li>
-        <li>
-          <div class="efeito__topo"><b>AutoAnimate</b><span class="efeito__licenca">MIT</span></div>
-          <p>A lista de documentos se reordena sozinha ao filtrar.</p>
-          <a href="https://auto-animate.formkit.com/" target="_blank" rel="noopener">abrir o site</a>
-        </li>
-        <li>
-          <div class="efeito__topo"><b>Lottie</b><span class="efeito__licenca">MIT</span></div>
-          <p>Animação de After Effects em arquivo pequeno: estado vazio e carregando.</p>
-          <a href="https://lottiefiles.com/" target="_blank" rel="noopener">abrir o site</a>
-        </li>
-        <li>
-          <div class="efeito__topo"><b>Paper Shaders</b><span class="efeito__licenca">Apache-2.0</span></div>
-          <p>Fundo de capa com shader. Leve, sem 3D e sem WebGL pesado.</p>
-          <a href="https://shaders.paper.design/" target="_blank" rel="noopener">abrir o site</a>
-        </li>
-        <li>
-          <div class="efeito__topo"><b>Anime.js</b><span class="efeito__licenca">MIT</span></div>
-          <p>Contador e barra do anexo A. Alternativa ao que já fazemos na mão.</p>
-          <a href="https://animejs.com/" target="_blank" rel="noopener">abrir o site</a>
-        </li>
-        <li>
-          <div class="efeito__topo"><b>animate.css</b><span class="efeito__licenca">MIT</span></div>
-          <p>Entrada de bloco só com classe. Zero JavaScript, zero peso.</p>
-          <a href="https://animate.style/" target="_blank" rel="noopener">abrir o site</a>
-        </li>
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧪</span>Anexo E · catálogo e laboratório</p>
+      <h2 class="titulo sobe" style="--i:1">Efeitos: catálogo e laboratório</h2>
+      <p class="resumo sobe" style="--i:2">Seis efeitos rodando de verdade. Passe o mouse e toque. Os componentes gratuitos estão na lista.</p>
+      <div class="lab lab--compacto">
+              <div class="lab__item lab--grade">
+                <div class="lab__palco"><span class="lab__selo">fundo</span></div>
+                <p class="lab__nome"><b>Grid Motion</b><span>React Bits · fundo</span></p>
+              </div>
+      
+              <div class="lab__item">
+                <div class="lab__palco lab__palco--centro">
+                  <div class="eletrico" style="width:78%"><div class="eletrico__miolo" style="padding:10px;text-align:center;font-size:12px">borda viva</div></div>
+                </div>
+                <p class="lab__nome"><b>Electro Border</b><span>Lightswind · borda</span></p>
+              </div>
+      
+              <div class="lab__item">
+                <div class="lab__palco lab__palco--centro">
+                  <div class="lab__carta" data-tilt><b>Magic Card</b></div>
+                </div>
+                <p class="lab__nome"><b>Magic Card</b><span>React Bits · cartão</span></p>
+              </div>
+      
+              <div class="lab__item">
+                <div class="lab__palco">
+                  <canvas class="lab__canvas" data-rastro aria-label="Rastro de texto seguindo o ponteiro"></canvas>
+                </div>
+                <p class="lab__nome"><b>Text Trail</b><span>React Bits · ponteiro</span></p>
+              </div>
+      
+              <div class="lab__item">
+                <div class="lab__palco lab--meteoros" aria-hidden="true">
+                  <i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
+                <p class="lab__nome"><b>Meteors</b><span>React Bits · entrada</span></p>
+              </div>
+      
+              <div class="lab__item lab--desfoque">
+                <div class="lab__palco">
+                  <div class="lab__faixa"></div>
+                  <div class="lab__faixa lab__faixa--b"></div>
+                </div>
+                <p class="lab__nome"><b>Gradual Blur</b><span>React Bits · borda suave</span></p>
+              </div>
+            </div>
+      <p class="etiqueta" style="margin-top:var(--e3)"><span class="emoji" aria-hidden="true">📚</span>De onde vêm · licença aberta</p>
+      <ul class="catalogo">
+        <li><a href="https://magicui.design/" target="_blank" rel="noopener">Magic UI</a><span>MIT</span></li>
+        <li><a href="https://www.cult-ui.com/" target="_blank" rel="noopener">Cult UI</a><span>MIT</span></li>
+        <li><a href="https://originui.com/" target="_blank" rel="noopener">Origin UI</a><span>MIT</span></li>
+        <li><a href="https://uiverse.io/" target="_blank" rel="noopener">Uiverse</a><span>MIT</span></li>
+        <li><a href="https://motion.dev/" target="_blank" rel="noopener">Motion</a><span>MIT</span></li>
+        <li><a href="https://auto-animate.formkit.com/" target="_blank" rel="noopener">AutoAnimate</a><span>MIT</span></li>
+        <li><a href="https://lottiefiles.com/" target="_blank" rel="noopener">Lottie</a><span>MIT</span></li>
+        <li><a href="https://shaders.paper.design/" target="_blank" rel="noopener">Paper Shaders</a><span>Apache-2.0</span></li>
+        <li><a href="https://animejs.com/" target="_blank" rel="noopener">Anime.js</a><span>MIT</span></li>
+        <li><a href="https://www.reactbits.dev/" target="_blank" rel="noopener">React Bits</a><span>MIT</span></li>
       </ul>
-      <p class="folha">
-        <b>⛔ Evitaria:</b> Vanta, tsParticles, three.js, Lenis e Remotion. Pesam no celular,
-        quebram âncora ou têm licença que não é livre.
-      </p>
+      <p class="folha"><b>Peso:</b> todos entram como código, não como imagem. O custo é carregamento, e só pesa se exagerar.</p>
     </div>
   </section>
 
-  <section class="tela" aria-label="Anexo F, laboratório de efeitos">
-    <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧪</span>Anexo F · laboratório</p>
-      <h2 class="titulo sobe" style="--i:1">Seis efeitos para testar agora</h2>
-      <p class="resumo sobe" style="--i:2">
-        Versões leves dos componentes do React Bits e do Lightswind. Passe o mouse e toque.
-      </p>
 
-      <div class="lab">
-        <div class="lab__item lab--grade">
-          <div class="lab__palco"><span class="lab__selo">fundo</span></div>
-          <p class="lab__nome"><b>Grid Motion</b><span>React Bits · fundo</span></p>
-        </div>
-
-        <div class="lab__item">
-          <div class="lab__palco lab__palco--centro">
-            <div class="eletrico" style="width:78%"><div class="eletrico__miolo" style="padding:10px;text-align:center;font-size:12px">borda viva</div></div>
-          </div>
-          <p class="lab__nome"><b>Electro Border</b><span>Lightswind · borda</span></p>
-        </div>
-
-        <div class="lab__item">
-          <div class="lab__palco lab__palco--centro">
-            <div class="lab__carta" data-tilt><b>Magic Card</b></div>
-          </div>
-          <p class="lab__nome"><b>Magic Card</b><span>React Bits · cartão</span></p>
-        </div>
-
-        <div class="lab__item">
-          <div class="lab__palco">
-            <canvas class="lab__canvas" data-rastro aria-label="Rastro de texto seguindo o ponteiro"></canvas>
-          </div>
-          <p class="lab__nome"><b>Text Trail</b><span>React Bits · ponteiro</span></p>
-        </div>
-
-        <div class="lab__item">
-          <div class="lab__palco lab--meteoros" aria-hidden="true">
-            <i></i><i></i><i></i><i></i><i></i><i></i>
-          </div>
-          <p class="lab__nome"><b>Meteors</b><span>React Bits · entrada</span></p>
-        </div>
-
-        <div class="lab__item lab--desfoque">
-          <div class="lab__palco">
-            <div class="lab__faixa"></div>
-            <div class="lab__faixa lab__faixa--b"></div>
-          </div>
-          <p class="lab__nome"><b>Gradual Blur</b><span>React Bits · borda suave</span></p>
-        </div>
-      </div>
-
-      <div class="efeitos-botoes">
-        <a class="botao secundario" href="https://reactbits.dev/" target="_blank" rel="noopener">React Bits · galeria</a>
-        <a class="botao secundario" href="https://github.com/DavidHDev/react-bits" target="_blank" rel="noopener">React Bits · código</a>
-        <a class="botao secundario" href="https://lightswind.com/" target="_blank" rel="noopener">Lightswind · galeria</a>
-        <a class="botao secundario" href="https://github.com/codewithMUHILAN/Lightswind-UI-Library" target="_blank" rel="noopener">Lightswind · código</a>
-      </div>
-
-      <details class="sanfona" style="margin-top:var(--e3)">
-        <summary>
-          <span class="sanfona__titulo">Os 25 componentes citados, por origem</span>
-          <span class="sanfona__dica sanfona__dica--abrir">Abrir</span>
-          <span class="sanfona__dica sanfona__dica--fechar">Fechar</span>
-          <span class="sanfona__seta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></span>
-        </summary>
-        <div class="sanfona__corpo">
-          <p><b>React Bits:</b> Dither Veil · Gradual Blur · Electric Logo · Crystalized Ball · Holo Card · Grid Motion · Text Trail Cursor · Magic Card · Meteors · Image Trail · Lens · 3D Bend Carousel · Infinite Drift 2.</p>
-          <p style="margin-top:8px"><b>Lightswind:</b> Scroll Timeline · Woofy Hover Image · Animated Meteors Link · Cube Volume Background · Star Glow Background · Stellar Vortex · Glowing Lines · Timeline Layout · Layout Grid · Slice Cursor · AI Aurora Blob · Electro Border · Expandable Search Bar · Expandable Speed Dial · Globe · Interactive Gradient Card · Invoice Printer.</p>
-          <p style="margin-top:8px"><b>Como achar:</b> abra a galeria e use a busca do site pelo nome. O React Bits Pro é pago.</p>
-        </div>
-      </details>
-      <p class="folha">
-        <b>Como usar:</b> copiar a peça original e trocar as cores pelos tokens.
-        ⚠️ React Bits é MIT + Commons Clause: pode usar no site, não pode vender o componente.
-      </p>
-    </div>
-  </section>
-
-  <section class="tela" aria-label="Anexo G, efeitos de cursor">
+  <section class="tela" aria-label="Anexo F, efeitos de cursor">
+    <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖱️</span>Anexo G · cursor</p>
       <h2 class="titulo sobe" style="--i:1">Dez efeitos de cursor para testar</h2>
@@ -2910,10 +2799,8 @@ a:hover { text-decoration-thickness: 2px; }
     'assets/fundo/foto-05.jpg',
     'assets/fundo/foto-06.jpg',
     'assets/fundo/foto-07.jpg',
-    'assets/fundo/foto-08.jpg',
     'assets/fundo/foto-09.jpg',
     'assets/fundo/foto-10.jpg',
-    'assets/fundo/foto-11.jpg',
     'assets/fundo/foto-12.jpg',
     'assets/fundo/foto-13.jpg',
     'assets/fundo/foto-14.jpg',
@@ -2929,12 +2816,9 @@ a:hover { text-decoration-thickness: 2px; }
     'assets/fundo/foto-24.jpg',
     'assets/fundo/foto-25.jpg',
     'assets/fundo/foto-26.jpg',
-    'assets/fundo/foto-27.jpg',
-    'assets/fundo/foto-28.jpg',
     'assets/fundo/foto-29.jpg',
     'assets/fundo/foto-30.jpg',
-    'assets/fundo/foto-31.jpg',
-    'assets/fundo/foto-32.jpg'
+    'assets/fundo/foto-31.jpg'
   ];
   var cacheFoto = {};
   function pintaFundo(i) {

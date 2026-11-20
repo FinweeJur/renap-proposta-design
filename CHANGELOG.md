@@ -7,19 +7,22 @@ e versionamento [SemVer](https://semver.org/lang/pt-BR/).
 
 ### Adicionado
 
-- Uma foto de fundo por tela: 32 imagens, do encontro de novembro de 2026 na
+- Uma foto de fundo por tela: 27 imagens, do encontro de novembro de 2026 na
   OAB Paraíba e do histórico da RENAP (2018 a 2025), cada tela com a sua.
-- Tela 22, "Fotos: o que a RENAP precisa enviar": movimentos sociais,
-  histórico da RENAP, territórios, flora e fauna, cultura popular e
-  referências brasileiras e latino-americanas das lutas.
+- Tela "Fotos: o que a RENAP precisa enviar": movimentos sociais, histórico da
+  RENAP, territórios, flora e fauna, cultura popular e referências brasileiras
+  e latino-americanas das lutas.
 - Sumário na tela 2: sete blocos numerados, cada um levando à primeira tela.
 - Dicas nos links e botões, dizendo o destino do clique.
 
 ### Alterado
 
+- Cinco fusões: sigilo + proteções; funções + API; acervo + movimentos;
+  cinco decisões + fechamento; catálogo + laboratório. De 32 para 27 telas.
+- Foto inteira (contain), com camada desfocada atrás, sem cortar gente.
+- Foto mais apagada e a cor do tema mais predominante.
 - Cartões do tamanho do texto, com respiro menor entre título, lista e cartão.
 - Fundo carregado só na tela aberta e nas vizinhas, para não baixar 6 MB de uma vez.
-- Imagens exportadas sem EXIF, o que também remove coordenada de GPS.
 
 ## [1.0.0] — 2026-11-20
 
@@ -27,7 +30,7 @@ Primeira versão completa e publicada.
 
 ### Adicionado
 
-- Deck em 32 telas, página única, sem build.
+- Deck em 27 telas, página única, sem build.
 - Nove temas de cor, incluindo o tema Brasil (verde e amarelo).
 - Player de rádio com 52 estações públicas do Controle Popular, filtro por
   região, volume, botão de parar e HLS sob demanda.

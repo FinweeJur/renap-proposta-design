@@ -4,7 +4,7 @@
 
 **Resumo.** Apresentação navegável, em página única, da proposta do novo site da
 Rede Nacional de Advogados e Advogadas Populares (RENAP), feita pelo GT de
-Comunicação. São 32 telas em português simples, com nove temas de cor, player
+Comunicação. São 27 telas em português simples, com nove temas de cor, player
 de rádio com 52 estações públicas, uma proposta de página inicial e um
 laboratório de efeitos para teste.
 
@@ -69,7 +69,7 @@ JavaScript puro.
 ## Estrutura do repositório
 
 ```text
-index.html                 o deck inteiro (32 telas, HTML + CSS + JS)
+index.html                 o deck inteiro (27 telas, HTML + CSS + JS)
 proposta-home.html         demonstração da página inicial
 assets/                    logo em duas cores, fotos de fundo e prints de referência
 assets/fundo/              três fotos usadas como fundo
@@ -130,7 +130,7 @@ Código sob [MIT](LICENSE). Ver também [CITATION.cff](CITATION.cff).
   title  = {Apresentação da proposta do novo site da RENAP},
   author = {{GT de Comunicação da RENAP}},
   year   = {2026},
-  note   = {32 telas, HTML único},
+  note   = {27 telas, HTML único},
   url    = {https://github.com/FinweeJur/renap-proposta-design}
 }
 ```
@@ -139,7 +139,7 @@ Código sob [MIT](LICENSE). Ver também [CITATION.cff](CITATION.cff).
 
 **Summary.** A single-page, navigable presentation of the proposal for the new
 website of RENAP (National Network of Popular Lawyers), produced by the RENAP
-Communication Working Group. It has 32 screens in plain Portuguese, nine colour
+Communication Working Group. It has 27 screens in plain Portuguese, nine colour
 themes, a radio player with 52 public stations, a homepage proposal and an
 effects lab for testing.
 
@@ -194,7 +194,7 @@ dependency: plain HTML, CSS and JavaScript.
 ### Repository layout
 
 ```text
-index.html                 the whole deck (32 screens)
+index.html                 the whole deck (27 screens)
 proposta-home.html         homepage demonstration
 assets/                    logos, background photos, reference prints
 temas/                     tokens for the nine themes plus the RENAP brand layer
