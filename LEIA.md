@@ -35,17 +35,18 @@ e abra <http://127.0.0.1:4323>.
 
 O tema escolhido fica guardado no navegador.
 
-## As 30 telas
+## As 32 telas
 
 **Abertura (2 a 7):** quatro decisões da reunião · referências (duas telas, 15
 prints) · o que os 12 portais têm em comum · decisão de estilo · ferramentas
 gratuitas.
 
-**Proposta (8 a 21):** o que o site reúne e o que vem do antigo · verba ·
-fase 1 · documentos · cadastro · cores e temas · fontes · sigilo · funções ·
-API · proteções · acessibilidade · cinco decisões · glossário · próximos passos.
+**Proposta (8 a 23):** o que o site reúne e o que vem do antigo · verba ·
+fase 1 · documentos · **memória e cultura** · **teorias críticas do direito** ·
+cadastro · cores e temas · fontes · sigilo · funções · API · proteções ·
+acessibilidade · cinco decisões · glossário · próximos passos.
 
-**Anexos (22 a 30):** efeitos · sanfona · busca, robô e rádio · hospedagem ·
+**Anexos (24 a 32):** efeitos · sanfona · busca, robô e rádio · hospedagem ·
 proposta de home · dez efeitos sugeridos · laboratório · cursores.
 
 ## O que é de quem
