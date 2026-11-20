@@ -138,7 +138,7 @@ body[data-tela="1"] .logo-topo { display: none; }
 .tela {
   position: absolute; inset: 0;
   display: flex; flex-direction: column; justify-content: flex-start;
-  padding: calc(58px + var(--e4)) 0 var(--e6) var(--faixa);
+  padding: calc(72px + var(--e5)) 0 calc(var(--e6) + 24px) var(--faixa);
   opacity: 0; visibility: hidden; transform: translateX(26px);
   transition: opacity var(--dur-tela) var(--curva), transform var(--dur-tela) var(--curva),
               visibility 0s linear var(--dur-tela);
@@ -173,8 +173,8 @@ body[data-tela="1"] .logo-topo { display: none; }
 .olho:has(.emoji)::before { display: none; }
 h2.titulo { font-size: var(--t-titulo); max-width: 24ch; }
 h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; line-height: 1.16; }
-.resumo { margin-top: var(--e4); color: var(--cp-text-soft); max-width: 50ch; }
-.linhas { list-style: none; margin: var(--e4) 0 0; padding: 0; display: grid; gap: var(--e3); }
+.resumo { margin-top: var(--e5); color: var(--cp-text-soft); max-width: 50ch; }
+.linhas { list-style: none; margin: var(--e5) 0 0; padding: 0; display: grid; gap: var(--e4); }
 /* Marcador absoluto: o texto pode ter <b> no meio sem virar coluna. */
 .linhas li { position: relative; padding-left: 18px; }
 .linhas li::before {
@@ -183,7 +183,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   background: var(--cp-primary); border-radius: 50%;
 }
 .folha {
-  margin-top: var(--e5); padding-top: var(--e3);
+  margin-top: var(--e6); padding-top: var(--e4);
   border-top: 1px solid var(--cp-border);
   font-size: var(--t-peq); color: var(--cp-text-soft);
 }
@@ -219,13 +219,13 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 }
 .grande em { font-style: normal; font-size: .3em; letter-spacing: 0; color: var(--cp-text-soft); font-family: var(--font-body); font-weight: 600; }
 
-.fichas { display: flex; flex-wrap: wrap; gap: var(--e2); margin: var(--e4) 0 0; padding: 0; list-style: none; }
+.fichas { display: flex; flex-wrap: wrap; gap: var(--e2); margin: var(--e5) 0 0; padding: 0; list-style: none; }
 .fichas li {
   font-size: var(--t-peq); font-weight: 600;
   padding: .45rem .75rem; border-radius: 999px;
   background: var(--cp-surface-2); color: var(--cp-text); border: 1px solid var(--cp-border);
 }
-.cartoes { display: grid; gap: var(--e3); margin-top: var(--e4); }
+.cartoes { display: grid; gap: var(--e4); margin-top: var(--e5); }
 @media (min-width: 640px) { .cartoes.duas { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 900px) { .cartoes.tres { grid-template-columns: repeat(3, 1fr); } }
 .cartao {
@@ -623,20 +623,20 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background-image: var(--fundo, none);
   background-position: center; background-size: cover; background-repeat: no-repeat;
-  filter: brightness(.5) saturate(.8);
-  opacity: var(--fundo-op, .3);
+  filter: brightness(.55) saturate(.9);
+  opacity: var(--fundo-op, .5);
 }
 .tela::after {
   content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background: linear-gradient(100deg,
-    color-mix(in srgb, var(--cp-bg) 94%, transparent) 0%,
-    color-mix(in srgb, var(--cp-bg) 86%, transparent) 60%,
-    color-mix(in srgb, var(--cp-bg) 76%, transparent) 100%);
+    color-mix(in srgb, var(--cp-bg) 88%, transparent) 0%,
+    color-mix(in srgb, var(--cp-bg) 76%, transparent) 60%,
+    color-mix(in srgb, var(--cp-bg) 62%, transparent) 100%);
 }
 .tela .miolo { position: relative; z-index: 1; }
 
 /* Capa e fecho respiram mais a foto; o resto fica discreto. */
-.tela--capa, .tela--fecho { --fundo-op: .55; }
+.tela--capa, .tela--fecho { --fundo-op: .62; }
 .tela--capa::after, .tela--fecho::after {
   background: linear-gradient(100deg,
     color-mix(in srgb, var(--cp-bg) 92%, transparent) 0%,

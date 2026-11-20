@@ -72,3 +72,19 @@ Checklist rápido, em cada largura:
 Bloco **10. RESPIRO E JANELAS PEQUENAS**, antes das regras de impressão:
 larguras mínimas com `minmax(0, 1fr)`, quebra de linha na barra do topo,
 `padding-bottom` reservando o rodapé e as consultas por altura.
+
+## 7. Poucos elementos pedem mais ar
+
+Tela com quatro linhas não deve parecer rascunho encostado no topo.
+
+| Situação | Respiro |
+|---|---|
+| Tela com 1 a 3 blocos | conteúdo centralizado na vertical, com no mínimo 72 px abaixo da barra |
+| Título e resumo | 32 px entre um e outro |
+| Entre linhas de lista | 20 px |
+| Antes do rodapé da tela | 56 px |
+| Entre cartões | 20 px |
+| Antes das fichas (chips) | 32 px |
+
+Regra de bolso: se sobra metade da tela vazia embaixo, o conteúdo está no lugar
+errado — centralize. O texto não preenche espaço; o espaço é parte do desenho.
