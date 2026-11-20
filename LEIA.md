@@ -41,13 +41,12 @@ O tema escolhido fica guardado no navegador.
 prints) · o que os 12 portais têm em comum · decisão de estilo · ferramentas
 gratuitas.
 
-**Proposta (8 a 22):** o que o site reúne · verba · fase 1 · migração ·
-documentos · cadastro · cores e temas · fontes · sigilo · funções possíveis ·
-chave de edição (API) · proteções · acessibilidade comunicacional · cinco
-decisões · glossário · próximos passos.
+**Proposta (8 a 21):** o que o site reúne e o que vem do antigo · verba ·
+fase 1 · documentos · cadastro · cores e temas · fontes · sigilo · funções ·
+API · proteções · acessibilidade · cinco decisões · glossário · próximos passos.
 
-**Anexos (23 a 30):** efeitos · sanfona · busca, robô e rádio · hospedagem ·
-proposta de home · dez efeitos sugeridos · laboratório com seis efeitos.
+**Anexos (22 a 30):** efeitos · sanfona · busca, robô e rádio · hospedagem ·
+proposta de home · dez efeitos sugeridos · laboratório · cursores.
 
 ## O que é de quem
 

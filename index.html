@@ -694,6 +694,78 @@ a:hover { text-decoration-thickness: 2px; }
 .rolagem button:hover { border-color: var(--cp-primary); color: var(--cp-primary); }
 @media (max-width: 560px) { .rolagem { right: 8px; bottom: 76px; } .rolagem button { width: 36px; height: 36px; } }
 
+/* Efeitos de cursor: cada quadro tem o seu, isolado. */
+.cur-circulo, .cur-diferenca {
+  position: absolute; left: 0; top: 0; width: 26px; height: 26px;
+  margin: -13px 0 0 -13px; border-radius: 50%; pointer-events: none;
+  border: 2px solid var(--cp-primary);
+  transform: translate(-100px, -100px);
+  transition: transform .06s linear;
+}
+.cur-diferenca {
+  width: 54px; height: 54px; margin: -27px 0 0 -27px; border: 0;
+  background: var(--cp-primary); mix-blend-mode: difference;
+}
+.cur-alvo {
+  display: inline-block; padding: 8px 14px; border-radius: 999px;
+  border: 1px solid var(--cp-border); background: var(--cp-surface);
+  font-size: var(--t-min); transition: transform .18s var(--curva);
+}
+.cur-emoji { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ctext y='26' font-size='26'%3E%E2%9C%8A%3C/text%3E%3C/svg%3E") 16 16, auto; }
+.cur-luz { background: var(--cp-surface-2); }
+.cur-luz span {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-size: var(--t-min); color: var(--cp-text-soft);
+}
+.cur-luz::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(90px circle at var(--cx, 50%) var(--cy, 50%),
+    color-mix(in srgb, var(--cp-primary) 45%, transparent), transparent 70%);
+  opacity: 0; transition: opacity .2s ease;
+}
+.cur-luz:hover::after { opacity: 1; }
+.cur-etiqueta {
+  position: absolute; left: 0; top: 0; transform: translate(-100px, -100px);
+  font-family: var(--font-display); font-weight: 700; font-size: var(--t-peq);
+  color: var(--cp-primary); pointer-events: none; transition: transform .05s linear;
+}
+.cur-punho, .cur-palavra, .cur-faisca, .cur-onda {
+  position: absolute; pointer-events: none; will-change: transform, opacity;
+}
+.cur-punho { font-size: 18px; animation: cur-cai 1.6s linear forwards; }
+@keyframes cur-cai {
+  from { transform: translateY(-24px); opacity: 0; }
+  10% { opacity: 1; }
+  to { transform: translateY(130px); opacity: 0; }
+}
+.cur-palavra {
+  font-size: var(--t-min); font-weight: 700; color: var(--cp-primary);
+  animation: cur-sobe 1.1s ease-out forwards;
+}
+@keyframes cur-sobe {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-28px); opacity: 0; }
+}
+.cur-faisca {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--cp-primary); animation: cur-faisca .7s ease-out forwards;
+}
+@keyframes cur-faisca {
+  to { transform: translate(var(--dx), var(--dy)) scale(.4); opacity: 0; }
+}
+.cur-onda {
+  width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%;
+  border: 2px solid var(--cp-primary);
+  animation: cur-onda .7s ease-out forwards;
+}
+@keyframes cur-onda {
+  from { transform: scale(.4); opacity: .9; }
+  to { transform: scale(6); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cur-punho, .cur-palavra, .cur-faisca, .cur-onda { animation: none; opacity: 0; }
+}
+
 /* ═══ 7. NAVEGAÇÃO ════════════════════════════════════════════════════════ */
 .nav {
   position: fixed; left: var(--faixa); right: 0; bottom: 0; z-index: 30;
@@ -820,7 +892,7 @@ a:hover { text-decoration-thickness: 2px; }
       <option value="pantanal">Pantanal</option>
     </select>
   </div>
-  <p class="contador" id="contador">1 / 29</p>
+  <p class="contador" id="contador">1 / 28</p>
 </header>
 
 <main class="deck" id="deck">
@@ -1840,6 +1912,71 @@ a:hover { text-decoration-thickness: 2px; }
     </div>
   </section>
 
+  <section class="tela" aria-label="Anexo H, efeitos de cursor">
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖱️</span>Anexo H · cursor</p>
+      <h2 class="titulo sobe" style="--i:1">Dez efeitos de cursor para testar</h2>
+      <p class="resumo sobe" style="--i:2">
+        Cada quadro tem o efeito rodando de verdade. Passe o mouse e clique dentro do quadro.
+      </p>
+
+      <div class="lab">
+        <div class="lab__item">
+          <div class="lab__palco" data-cur="punhos"></div>
+          <p class="lab__nome"><b>Chuva de punhos</b><span>emoji rain ✊</span></p>
+        </div>
+        <div class="lab__item">
+          <div class="lab__palco" data-cur="palavras"></div>
+          <p class="lab__nome"><b>Trail words</b><span>palavras do Lenir</span></p>
+        </div>
+        <div class="lab__item">
+          <div class="lab__palco" data-cur="circulo"><span class="cur-circulo"></span></div>
+          <p class="lab__nome"><b>Círculo magnético</b><span>segue o ponteiro</span></p>
+        </div>
+        <div class="lab__item">
+          <div class="lab__palco cur-luz" data-cur="luz"><span>texto revelado</span></div>
+          <p class="lab__nome"><b>Spotlight</b><span>luz que revela</span></p>
+        </div>
+        <div class="lab__item">
+          <div class="lab__palco" data-cur="faiscas"></div>
+          <p class="lab__nome"><b>Faíscas</b><span>partículas no rastro</span></p>
+        </div>
+        <div class="lab__item">
+          <div class="lab__palco" data-cur="diferenca"><span class="cur-diferenca"></span></div>
+          <p class="lab__nome"><b>Blend difference</b><span>mistura de cor</span></p>
+        </div>
+        <div class="lab__item">
+          <div class="lab__palco lab__palco--centro cur-emoji" data-cur="emoji"><span>passe aqui</span></div>
+          <p class="lab__nome"><b>Cursor emoji</b><span>cursor: punho</span></p>
+        </div>
+        <div class="lab__item">
+          <div class="lab__palco lab__palco--centro" data-cur="magnetico"><span class="cur-alvo">puxe</span></div>
+          <p class="lab__nome"><b>Atração magnética</b><span>o alvo se aproxima</span></p>
+        </div>
+        <div class="lab__item">
+          <div class="lab__palco" data-cur="onda"></div>
+          <p class="lab__nome"><b>Onda no clique</b><span>ripple</span></p>
+        </div>
+        <div class="lab__item">
+          <div class="lab__palco" data-cur="etiqueta"><span class="cur-etiqueta" data-cur-label>LENIR LIVRE</span></div>
+          <p class="lab__nome"><b>Etiqueta</b><span>texto segue o mouse</span></p>
+        </div>
+      </div>
+
+      <div class="efeitos-botoes">
+        <a class="botao secundario" href="https://www.cursor.directory/" target="_blank" rel="noopener">Cursor Gallery</a>
+        <a class="botao secundario" href="https://tholman.com/cursor-effects/" target="_blank" rel="noopener">Cursor Effects</a>
+        <a class="botao secundario" href="https://customcursor.com/" target="_blank" rel="noopener">Custom Cursor</a>
+        <a class="botao secundario" href="https://www.sweezycursors.com/" target="_blank" rel="noopener">Sweezy Cursors</a>
+      </div>
+
+      <p class="folha">
+        <b>Cuidado:</b> cursor próprio não pode ser o único sinal de estado.
+        Em página de leitura, o rastro atrapalha — use só na capa e na campanha.
+      </p>
+    </div>
+  </section>
+
 </main>
 
 
@@ -2185,6 +2322,119 @@ a:hover { text-decoration-thickness: 2px; }
       requestAnimationFrame(desenha);
     })();
   }
+
+
+  /* ── Efeitos de cursor (anexo H) ─────────────────────────────────────── */
+  (function cursores() {
+    var frases = ['LENIR', 'CORREIA', 'LIVRE', 'RENAP', '30º'];
+    var proxima = 0;
+
+    function ponto(alvo, ev) {
+      var r = alvo.getBoundingClientRect();
+      return { x: ev.clientX - r.left, y: ev.clientY - r.top };
+    }
+
+    function cria(alvo, tag, classe, x, y) {
+      var e = document.createElement(tag);
+      e.className = classe;
+      e.style.left = x + 'px';
+      e.style.top = y + 'px';
+      alvo.appendChild(e);
+      return e;
+    }
+
+    /* 1. chuva de punhos */
+    var chuva = document.querySelector('[data-cur="punhos"]');
+    if (chuva) {
+      setInterval(function () {
+        if (chuva.children.length > 8) { return; }
+        var p = cria(chuva, 'span', 'cur-punho', Math.random() * (chuva.clientWidth - 20), 0);
+        p.textContent = '✊';
+        p.addEventListener('animationend', function () { p.remove(); });
+      }, 320);
+    }
+
+    /* 2. trail words */
+    var trilha = document.querySelector('[data-cur="palavras"]');
+    if (trilha) {
+      var ultimo = 0;
+      trilha.addEventListener('pointermove', function (ev) {
+        var agora = Date.now();
+        if (agora - ultimo < 110) { return; }
+        ultimo = agora;
+        var p = ponto(trilha, ev);
+        var w = cria(trilha, 'span', 'cur-palavra', p.x, p.y);
+        w.textContent = frases[proxima % frases.length];
+        proxima++;
+        w.addEventListener('animationend', function () { w.remove(); });
+      });
+    }
+
+    /* 3. círculo e 10. etiqueta seguem o ponteiro */
+    [['circulo', '.cur-circulo'], ['diferenca', '.cur-diferenca'], ['etiqueta', '.cur-etiqueta']].forEach(function (par) {
+      var alvo = document.querySelector('[data-cur="' + par[0] + '"]');
+      if (!alvo) { return; }
+      var marca = alvo.querySelector(par[1]);
+      if (!marca) { return; }
+      alvo.addEventListener('pointermove', function (ev) {
+        var p = ponto(alvo, ev);
+        if (par[0] === 'etiqueta') {
+          marca.textContent = frases[proxima % frases.length];
+        }
+        marca.style.transform = 'translate(' + p.x + 'px,' + p.y + 'px)';
+      });
+      alvo.addEventListener('pointerleave', function () {
+        marca.style.transform = 'translate(-100px,-100px)';
+      });
+    });
+
+    /* 4. spotlight */
+    var luz = document.querySelector('[data-cur="luz"]');
+    if (luz) {
+      luz.addEventListener('pointermove', function (ev) {
+        var p = ponto(luz, ev);
+        luz.style.setProperty('--cx', p.x + 'px');
+        luz.style.setProperty('--cy', p.y + 'px');
+      });
+    }
+
+    /* 5. faíscas */
+    var faisca = document.querySelector('[data-cur="faiscas"]');
+    if (faisca) {
+      faisca.addEventListener('pointermove', function (ev) {
+        var p = ponto(faisca, ev);
+        for (var i = 0; i < 2; i++) {
+          var s = cria(faisca, 'span', 'cur-faisca', p.x, p.y);
+          s.style.setProperty('--dx', (Math.random() * 40 - 20).toFixed(0) + 'px');
+          s.style.setProperty('--dy', (Math.random() * 30 + 10).toFixed(0) + 'px');
+          s.addEventListener('animationend', function () { this.remove(); });
+        }
+      });
+    }
+
+    /* 8. atração magnética */
+    var ima = document.querySelector('[data-cur="magnetico"]');
+    var alvoIma = ima ? ima.querySelector('.cur-alvo') : null;
+    if (ima && alvoIma) {
+      ima.addEventListener('pointermove', function (ev) {
+        var p = ponto(ima, ev);
+        var cx = ima.clientWidth / 2, cy = ima.clientHeight / 2;
+        alvoIma.style.transform = 'translate(' + ((p.x - cx) * 0.25).toFixed(1) + 'px,' +
+          ((p.y - cy) * 0.25).toFixed(1) + 'px)';
+      });
+      ima.addEventListener('pointerleave', function () { alvoIma.style.transform = ''; });
+    }
+
+    /* 9. onda no clique */
+    var onda = document.querySelector('[data-cur="onda"]');
+    if (onda) {
+      onda.addEventListener('click', function (ev) {
+        var p = ponto(onda, ev);
+        var o = cria(onda, 'span', 'cur-onda', p.x, p.y);
+        o.addEventListener('animationend', function () { o.remove(); });
+      });
+    }
+  })();
 
   /* Scripts injetados: com `defer` eles esperavam a folha de estilo do CDN e
      não rodavam. Aqui entram sem bloqueio, depois do DOM pronto. */
