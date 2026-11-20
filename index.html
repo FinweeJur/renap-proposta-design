@@ -17,8 +17,7 @@
   corpo em General Sans, logo no canto, raia de bioma na borda.
   A própria apresentação demonstra o que promete: tema, sanfona, busca, robô.
 -->
-<link rel="stylesheet" href="fontes/fontshare.css" />
-<link rel="stylesheet" id="fontes-teste" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,700&f[]=cabinet-grotesk@400,700&f[]=switzer@400,700&f[]=author@400,700&f[]=gambetta@400,700&f[]=zodiak@400,700&display=swap" />
+<link rel="stylesheet" href="fontes/fontshare.css?v=3" />
 <link rel="stylesheet" href="temas/temas.css" />
 <link rel="stylesheet" href="temas/renap.css?v=2" />
 <link rel="stylesheet" href="componentes/select.css" />
@@ -633,7 +632,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .tela::before {
   content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none;
   background-image: var(--fundo, none);
-  background-position: right 38%;
+  background-position: right 25%;
   background-size: cover; background-repeat: no-repeat;
   filter: brightness(.78) saturate(.95);
   opacity: var(--fundo-op, .58);
@@ -660,7 +659,130 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 }
 
 @media print {
-  .tela::before, .tela::after { display: none !important; }
+  /* Casca de apresentação não entra no papel. */
+  .topo, .setas, .radio-flut, .barra-inferior, .rolagem, .pular,
+  .casca__codigo, .progresso, .fundo, .dica { display: none !important; }
+
+  html, body {
+    background: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .deck { position: static; }
+
+  /* Cada tela vira uma seção de texto, sem altura fixa. */
+  .tela {
+    position: static !important;
+    inset: auto !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    padding: 0 0 14mm 0 !important;
+    margin: 0 0 10mm 0 !important;
+    border-bottom: 1px solid #d8cfc4;
+    break-inside: auto;
+    page-break-inside: auto;
+    overflow: visible !important;
+  }
+  .tela::before, .tela::after, .tela__fundo { display: none !important; }
+
+  .miolo {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #1b1410 !important;
+  }
+
+  .titulo {
+    font-size: 20pt !important;
+    line-height: 1.15 !important;
+    color: #1b1410 !important;
+    margin-bottom: 4mm !important;
+    break-after: avoid;
+  }
+  .olho {
+    color: #8a2019 !important;
+    font-size: 8pt !important;
+    letter-spacing: .16em !important;
+    margin-bottom: 2mm !important;
+  }
+  .resumo, .folha, .cartao p, .linhas li, .cartao li, p, li, td, th, small {
+    color: #2b221b !important;
+    font-size: 10.5pt !important;
+    line-height: 1.5 !important;
+  }
+  .folha { border-top: 0 !important; margin-top: 4mm !important; padding-top: 0 !important; }
+
+  /* Cartões viram blocos de texto, um atrás do outro. */
+  .cartoes, .dupla, .refs, .lab, .grade-demo, .funcoes, .temas-grade, .fonte-grade,
+  .catalogo, .contas, .sumario {
+    display: block !important;
+    margin: 4mm 0 0 !important;
+    gap: 0 !important;
+  }
+  .cartao, .funcao, .demo, .lab__item, .amostra-fonte, .sumario__item {
+    background: #fdfbf7 !important;
+    border: 1px solid #e2d8cc !important;
+    border-radius: 3mm !important;
+    padding: 3mm 4mm !important;
+    margin: 0 0 3mm !important;
+    break-inside: avoid;
+    backdrop-filter: none !important;
+  }
+  .cartao h3, .demo h3 { color: #1b1410 !important; font-size: 11.5pt !important; }
+  .etiqueta { color: #8a2019 !important; }
+
+  /* Referências: imagem pequena ao lado do texto. */
+  .refs figure { margin: 0 0 4mm !important; break-inside: avoid; }
+  .refs img { width: 62mm !important; height: auto !important; border-radius: 2mm; }
+  .refs figcaption { font-size: 9.5pt !important; }
+
+  .fichas { display: block !important; }
+  .fichas li {
+    display: inline-block !important;
+    background: #f3ece2 !important;
+    border: 1px solid #e0d6c9 !important;
+    border-radius: 999px !important;
+    padding: 1mm 3mm !important;
+    margin: 0 2mm 2mm 0 !important;
+    font-size: 8.5pt !important;
+  }
+
+  .contas li, .catalogo li, .sumario__item {
+    display: block !important;
+    border: 1px solid #e2d8cc !important;
+    border-radius: 2mm !important;
+    padding: 2mm 3mm !important;
+    margin: 0 0 2mm !important;
+  }
+
+  /* Tabela de custos legível em preto e branco. */
+  .tabela table { width: 100% !important; border-collapse: collapse !important; }
+  .tabela th, .tabela td {
+    border-bottom: 1px solid #ddd2c5 !important;
+    padding: 2mm 2mm !important;
+    text-align: left !important;
+    color: #2b221b !important;
+    font-size: 9pt !important;
+  }
+  .tabela caption { color: #5a4c40 !important; font-size: 8.5pt !important; text-align: left; }
+  .tabela tbody tr { display: table-row !important; }
+  .tabela td::before { content: none !important; }
+
+  /* Elementos de demonstração: só o rótulo. */
+  .lab__palco, .demo__palco, .amostra-controles, .interruptor, .chip-tema__cores { display: none !important; }
+  .lab__nome span { color: #6b5c4d !important; }
+
+  .sumario__emoji, .sumario__numero { margin-right: 2mm; color: #8a2019 !important; }
+  .sumario__desc { display: block; color: #5a4c40 !important; }
+
+  a { color: #8a2019 !important; text-decoration: none; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 7.5pt; color: #7a6a5b; }
+
+  .tela--capa { page-break-after: always; }
+  .credito, .rodape-codigo { margin-top: 4mm !important; }
 }
 
 /* Controles do texto corrido: fonte, peso e espaçamento. */
@@ -851,6 +973,17 @@ a:hover { text-decoration-thickness: 2px; }
 .tela--densa .cartao .etiqueta { margin-bottom: .15rem; }
 .tela--densa .linhas { gap: var(--e2); }
 .tela--densa .resumo { margin-top: var(--e3); }
+
+/* Amostra de fonte: o alfabeto grande mostra a diferença entre as famílias. */
+.fonte-item button {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: var(--e2); padding: .45rem .8rem; min-height: 52px;
+}
+.fonte-nome { font-size: .95rem; font-weight: 600; }
+.fonte-alfa {
+  font-size: 1.35rem; font-weight: 500; letter-spacing: .01em;
+  white-space: nowrap; opacity: .95;
+}
 
 /* Referências: imagem 16/9 e fichas compactas, para a tela caber. */
 .refs--6 img { aspect-ratio: 16 / 9; }
@@ -1754,50 +1887,56 @@ a:hover { text-decoration-thickness: 2px; }
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🔤</span>Tipografia</p>
       <h2 class="titulo sobe" style="--i:1">Fontes: como escolher a letra</h2>
       <p class="resumo sobe" style="--i:2">
-        Toque num nome para ver o título desta página mudar. As gratuitas vêm do Fontshare.
+        Toque num nome para ver o título desta página mudar. Todas são gratuitas, do Fontshare e do Google Fonts.
       </p>
 
-      <p class="etiqueta" style="margin-top:var(--e2);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Fontshare · grátis</p>
+      <p class="etiqueta" style="margin-top:var(--e2);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Grátis · Fontshare e Google Fonts</p>
       <div class="fonte-grade">
         <div class="fonte-item">
-          <button type="button" data-fonte="satoshi" data-css="" style="font-family:'Satoshi', var(--font-display)" aria-pressed="false">satoshi · SATOSHI · Satoshi</button>
+          <button type="button" data-fonte="clash-display" data-familia="Clash Display" style="font-family:'Clash Display', var(--font-display)"><span class="fonte-nome">clash display</span><span class="fonte-alfa" aria-hidden="true">Aa Rr Gg 123</span></button>
+          <a href="https://www.fontshare.com/fonts/clash-display" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte="general-sans" data-familia="General Sans" style="font-family:'General Sans', var(--font-display)"><span class="fonte-nome">General Sans</span><span class="fonte-alfa" aria-hidden="true">Aa Rr Gg 123</span></button>
+          <a href="https://www.fontshare.com/fonts/general-sans" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte="satoshi" data-familia="Satoshi" style="font-family:'Satoshi', var(--font-display)"><span class="fonte-nome">satoshi</span><span class="fonte-alfa" aria-hidden="true">Aa Rr Gg 123</span></button>
           <a href="https://www.fontshare.com/fonts/satoshi" target="_blank" rel="noopener">abrir</a>
         </div>
         <div class="fonte-item">
-          <button type="button" data-fonte="cabinet-grotesk" data-css="" style="font-family:'Cabinet Grotesk', var(--font-display)" aria-pressed="false">cabinet grotesk · CABINET GROTESK · Cabinet Grotesk</button>
-          <a href="https://www.fontshare.com/fonts/cabinet-grotesk" target="_blank" rel="noopener">abrir</a>
+          <button type="button" data-fonte="fraunces" data-familia="Fraunces" style="font-family:'Fraunces', var(--font-display)"><span class="fonte-nome">fraunces</span><span class="fonte-alfa" aria-hidden="true">Aa Rr Gg 123</span></button>
+          <a href="https://fonts.google.com/specimen/Fraunces" target="_blank" rel="noopener">abrir</a>
         </div>
         <div class="fonte-item">
-          <button type="button" data-fonte="switzer" data-css="" style="font-family:'Switzer', var(--font-display)" aria-pressed="false">switzer · SWITZER · Switzer</button>
-          <a href="https://www.fontshare.com/fonts/switzer" target="_blank" rel="noopener">abrir</a>
+          <button type="button" data-fonte="space-grotesk" data-familia="Space Grotesk" style="font-family:'Space Grotesk', var(--font-display)"><span class="fonte-nome">space grotesk</span><span class="fonte-alfa" aria-hidden="true">Aa Rr Gg 123</span></button>
+          <a href="https://fonts.google.com/specimen/Space+Grotesk" target="_blank" rel="noopener">abrir</a>
         </div>
         <div class="fonte-item">
-          <button type="button" data-fonte="author" data-css="" style="font-family:'Author', var(--font-display)" aria-pressed="false">author · AUTHOR · Author</button>
-          <a href="https://www.fontshare.com/fonts/author" target="_blank" rel="noopener">abrir</a>
-        </div>
-        <div class="fonte-item">
-          <button type="button" data-fonte="gambetta" data-css="" style="font-family:'Gambetta', var(--font-display)" aria-pressed="false">gambetta · GAMBETTA · Gambetta</button>
-          <a href="https://www.fontshare.com/fonts/gambetta" target="_blank" rel="noopener">abrir</a>
-        </div>
-        <div class="fonte-item">
-          <button type="button" data-fonte="zodiak" data-css="" style="font-family:'Zodiak', var(--font-display)" aria-pressed="false">zodiak · ZODIAK · Zodiak</button>
-          <a href="https://www.fontshare.com/fonts/zodiak" target="_blank" rel="noopener">abrir</a>
+          <button type="button" data-fonte="bricolage" data-familia="Bricolage Grotesque" style="font-family:'Bricolage Grotesque', var(--font-display)"><span class="fonte-nome">bricolage grotesque</span><span class="fonte-alfa" aria-hidden="true">Aa Rr Gg 123</span></button>
+          <a href="https://fonts.google.com/specimen/Bricolage+Grotesque" target="_blank" rel="noopener">abrir</a>
         </div>
       </div>
 
       <p class="etiqueta" style="margin-top:var(--e2);font-size:var(--t-min);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cp-text-soft)">Fonte do texto corrido</p>
       <div class="fonte-grade">
-        <div class="fonte-item"><button type="button" data-fonte-texto="General Sans" data-css="" style="font-family:'General Sans', var(--font-body)" aria-pressed="false">general sans · GENERAL SANS · General Sans</button></div>
-        <div class="fonte-item"><button type="button" data-fonte-texto="Switzer" data-css="" style="font-family:'Switzer', var(--font-body)" aria-pressed="false">switzer · SWITZER · Switzer</button></div>
-        <div class="fonte-item"><button type="button" data-fonte-texto="Satoshi" data-css="" style="font-family:'Satoshi', var(--font-body)" aria-pressed="false">satoshi · SATOSHI · Satoshi</button></div>
-        <div class="fonte-item"><button type="button" data-fonte-texto="Author" data-css="" style="font-family:'Author', var(--font-body)" aria-pressed="false">author · AUTHOR · Author</button></div>
+        <div class="fonte-item">
+          <button type="button" data-fonte-texto="general-sans" data-familia="General Sans" style="font-family:'General Sans', var(--font-body)"><span class="fonte-nome">General Sans</span><span class="fonte-alfa" aria-hidden="true">Aa Rr Gg 123</span></button>
+          <a href="https://www.fontshare.com/fonts/general-sans" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte-texto="satoshi" data-familia="Satoshi" style="font-family:'Satoshi', var(--font-body)"><span class="fonte-nome">satoshi</span><span class="fonte-alfa" aria-hidden="true">Aa Rr Gg 123</span></button>
+          <a href="https://www.fontshare.com/fonts/satoshi" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte-texto="space-grotesk" data-familia="Space Grotesk" style="font-family:'Space Grotesk', var(--font-body)"><span class="fonte-nome">space grotesk</span><span class="fonte-alfa" aria-hidden="true">Aa Rr Gg 123</span></button>
+          <a href="https://fonts.google.com/specimen/Space+Grotesk" target="_blank" rel="noopener">abrir</a>
+        </div>
+        <div class="fonte-item">
+          <button type="button" data-fonte-texto="fraunces" data-familia="Fraunces" style="font-family:'Fraunces', var(--font-body)"><span class="fonte-nome">fraunces</span><span class="fonte-alfa" aria-hidden="true">Aa Rr Gg 123</span></button>
+          <a href="https://fonts.google.com/specimen/Fraunces" target="_blank" rel="noopener">abrir</a>
+        </div>
       </div>
-
-        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Pacaembu</span><a href="https://plau.co/fontes/pacaembu" target="_blank" rel="noopener">abrir</a></div>
-        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Histerica</span><a href="https://plau.co/fontes/histerica" target="_blank" rel="noopener">abrir</a></div>
-        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Vinila</span><a href="https://plau.co/fontes/vinila" target="_blank" rel="noopener">abrir</a></div>
-        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Guanabara Sans</span><a href="https://plau.co/fontes/guanabara-sans" target="_blank" rel="noopener">abrir</a></div>
-        <div class="fonte-item"><span style="flex:1;font-size:var(--t-peq)">Juma</span><a href="https://plau.co/fontes/juma" target="_blank" rel="noopener">abrir</a></div>
       </div>
 
       <div class="amostra-fonte">
@@ -2473,7 +2612,7 @@ a:hover { text-decoration-thickness: 2px; }
       var familia = b.dataset.fonte;
       carregaFonte(familia, b.dataset.css);
       familiaAtual = familia;
-      var nomeBonito = b.textContent.trim();
+      var nomeBonito = b.dataset.familia || b.dataset.fonte;
       /* O nome do Fontshare vira família CSS: tudo em minúsculas, com espaço. */
       document.documentElement.style.setProperty('--font-display', '"' + nomeBonito + '", "Clash Display", sans-serif');
       document.querySelectorAll('[data-fonte]').forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
@@ -2483,7 +2622,7 @@ a:hover { text-decoration-thickness: 2px; }
   /* Texto corrido: fonte, peso e espaçamento. */
   document.querySelectorAll('[data-fonte-texto]').forEach(function (b) {
     b.addEventListener('click', function () {
-      var familia = b.dataset.fonteTexto;
+      var familia = b.dataset.familia || b.dataset.fonteTexto;
       if (b.dataset.css) { carregaFonte(familia.toLowerCase().replace(/\s+/g, '-'), b.dataset.css); }
       document.documentElement.style.setProperty('--font-body', '"' + familia + '", "General Sans", sans-serif');
       document.querySelectorAll('[data-fonte-texto]').forEach(function (o) {

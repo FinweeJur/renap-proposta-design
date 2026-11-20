@@ -1,24 +1,124 @@
-/* ═══ FONTES — FONTSHARE ══════════════════════════════════════════════════
-   O portal usa Clash Display (títulos) e General Sans (texto), as duas do
-   Fontshare. Aqui a referência é a API pública, para o design system abrir
-   sem baixar arquivo:
-
-     https://www.fontshare.com/fonts/clash-display
-     https://www.fontshare.com/fonts/general-sans
-
-   Em produção, prefira AUTO-HOSPEDAR os .woff2 (o portal faz isso): some uma
-   dependência de CDN e o layout não muda se a API trocar de versão.
-
-   Ordem de carregamento: este arquivo antes de `temas/temas.css`, para o
-   `body` já nascer com a fonte certa.
+/* ═══ FONTES — ARQUIVOS DO PRÓPRIO REPOSITÓRIO ═════════════════════════════
+   Famílias gratuitas, servidas de `fontes/`: Clash Display, General Sans e
+   Satoshi (Fontshare); Fraunces, Space Grotesk e Bricolage Grotesque (Google
+   Fonts). Antes vinham por API; o navegador não aplicava e a página caía na
+   fonte padrão. Servir daqui também tira uma dependência de CDN.
    ══════════════════════════════════════════════════════════════════════════ */
 
-@import url("https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=general-sans@400,500,600,700&display=swap");
+@font-face {
+  font-family: "Clash Display";
+  src: url("clash-display-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Clash Display";
+  src: url("clash-display-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Clash Display";
+  src: url("clash-display-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Clash Display";
+  src: url("clash-display-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "General Sans";
+  src: url("general-sans-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("general-sans-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("general-sans-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("general-sans-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("satoshi.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("fraunces-400.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("fraunces-700.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("space-grotesk-400.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("space-grotesk-700.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("bricolage-400.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("bricolage-700.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --font-display: "Clash Display", "General Sans", system-ui, sans-serif;
   --font-body: "General Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  /* Números de tabela: mesma família, com algarismos tabulares. */
   --font-tabular: "General Sans", ui-monospace, "SFMono-Regular", monospace;
 }
 
