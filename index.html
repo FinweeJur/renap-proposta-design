@@ -624,6 +624,7 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
   background-image: var(--fundo, none);
   background-position: center; background-size: cover; background-repeat: no-repeat;
   filter: blur(30px) brightness(.3) saturate(.85);
+  display: none;
 }
 /* ═══ 11. FOTOS DE FUNDO ══════════════════════════════════════════════════
    A foto ocupa a tela inteira, como antes, mas com véu calibrado: o tema
@@ -632,21 +633,32 @@ h2.titulo--longo { font-size: clamp(1.25rem, 3.5vw, 1.9rem); max-width: 30ch; li
 .tela::before {
   content: ""; position: fixed; inset: 0; z-index: 1; pointer-events: none;
   background-image: var(--fundo, none);
-  background-position: center; background-size: contain; background-repeat: no-repeat;
-  filter: brightness(.7) saturate(.9);
-  opacity: var(--fundo-op, .46);
+  background-position: right bottom; background-size: contain; background-repeat: no-repeat;
+  filter: brightness(1) saturate(1);
+  opacity: var(--fundo-op, .9);
+  width: min(58vw, 760px); height: min(70vh, 600px);
+  left: auto; right: 0; top: auto; bottom: 0;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, rgba(0,0,0,.18) 8%, rgba(0,0,0,.5) 20%, rgba(0,0,0,.82) 32%, #000 46%),
+    linear-gradient(to top, #000 38%, rgba(0,0,0,.75) 66%, rgba(0,0,0,.32) 88%, transparent 100%),
+    radial-gradient(155% 125% at 100% 100%, #000 58%, transparent 100%);
+  mask-image:
+    linear-gradient(to right, transparent 0%, rgba(0,0,0,.18) 8%, rgba(0,0,0,.5) 20%, rgba(0,0,0,.82) 32%, #000 46%),
+    linear-gradient(to top, #000 38%, rgba(0,0,0,.75) 66%, rgba(0,0,0,.32) 88%, transparent 100%),
+    radial-gradient(155% 125% at 100% 100%, #000 58%, transparent 100%);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
 }
 .tela::after {
   content: ""; position: fixed; inset: 0; z-index: 2; pointer-events: none;
   background: linear-gradient(100deg,
-    color-mix(in srgb, var(--cp-bg) var(--veu-1, 92%), transparent) 0%,
-    color-mix(in srgb, var(--cp-bg) var(--veu-2, 82%), transparent) 55%,
-    color-mix(in srgb, var(--cp-bg) var(--veu-3, 70%), transparent) 100%);
+    color-mix(in srgb, var(--cp-bg) var(--veu-1, 88%), transparent) 0%,
+    color-mix(in srgb, var(--cp-bg) var(--veu-2, 74%), transparent) 55%,
+    color-mix(in srgb, var(--cp-bg) var(--veu-3, 60%), transparent) 100%);
 }
 .tela .miolo { position: relative; z-index: 3; }
 
 /* Capa e fecho: foto maior e mais presente. */
-.tela--capa, .tela--fecho { --fundo-op: .56; }
+.tela--capa, .tela--fecho { --fundo-op: .86; }
 .tela--capa::after, .tela--fecho::after {
   background: linear-gradient(100deg,
     color-mix(in srgb, var(--cp-bg) 92%, transparent) 0%,
@@ -886,9 +898,9 @@ a:hover { text-decoration-thickness: 2px; }
   column-gap: var(--e2); row-gap: 2px;
   padding: var(--e3) var(--e4); border-radius: 12px;
   border: 1px solid color-mix(in srgb, var(--cp-border) 45%, transparent);
-  background: color-mix(in srgb, var(--cp-surface) 52%, transparent);
-  backdrop-filter: blur(10px) saturate(1.1);
-  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  background: color-mix(in srgb, var(--cp-surface) 40%, transparent);
+  backdrop-filter: blur(12px) saturate(1.15);
+  -webkit-backdrop-filter: blur(12px) saturate(1.15);
   color: var(--cp-text); text-decoration: none;
   transition: border-color .16s var(--curva), transform .16s var(--curva);
 }
@@ -961,10 +973,10 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* Cartões translúcidos: vidro leve sobre a foto, sem perder legibilidade. */
 .cartao, .demo, .lab__item, .funcao, .amostra-fonte, .rp__controles, .rp__lista-area {
-  background: color-mix(in srgb, var(--cp-surface) 52%, transparent);
-  backdrop-filter: blur(10px) saturate(1.1);
-  -webkit-backdrop-filter: blur(10px) saturate(1.1);
-  border-color: color-mix(in srgb, var(--cp-border) 45%, transparent);
+  background: color-mix(in srgb, var(--cp-surface) 40%, transparent);
+  backdrop-filter: blur(12px) saturate(1.15);
+  -webkit-backdrop-filter: blur(12px) saturate(1.15);
+  border-color: color-mix(in srgb, var(--cp-border) 38%, transparent);
 }
 .efeitos li { background: color-mix(in srgb, var(--cp-surface) 50%, transparent); backdrop-filter: blur(10px); }
 @media print {
@@ -1556,7 +1568,78 @@ a:hover { text-decoration-thickness: 2px; }
   </section>
 
 <!-- 3 · REFERÊNCIAS 1: MOVIMENTOS -->
-    <section class="tela" aria-label="O que os portais de referência têm em comum">
+    <section class="tela" aria-label="Referências: acervos, órgãos e movimentos">
+    <div class="tela__fundo" aria-hidden="true"></div>
+    <div class="miolo">
+      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖼️</span>Referências</p>
+      <h2 class="titulo sobe" style="--i:1">Referências: acervos, órgãos e movimentos</h2>
+      <p class="resumo sobe" style="--i:2">Quinze páginas olhadas: como cada uma organiza documento, busca, menu e capa. Role para ver todas.</p>
+      <div class="refs refs--6">
+        <figure>
+          <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener"><img src="assets/ref/controlepopular.jpg" alt="Página inicial do Controle Popular" loading="lazy" /></a>
+          <figcaption><b>Controle Popular</b> — home com a mística do dia e fotos que rememoram os biomas brasileiros; reúne dados públicos de forma acessível. <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener">controlepopular.com.br</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://cma.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cma.jpg" alt="Página inicial da CMA" loading="lazy" /></a>
+          <figcaption><b>CMA</b> — menu com Programas, Publicações, Notícias e Apoie; busca no topo. Cores: amarelo-ocre e vinho; foto de comunidade na capa. <a href="https://cma.org.br/" target="_blank" rel="noopener">cma.org.br</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener"><img src="assets/ref/lenirlivre.jpg" alt="Página do 30º Encontro Nacional da RENAP, Lenir Correia Livre" loading="lazy" /></a>
+          <figcaption><b>30º Encontro · Lenir Correia Livre</b> — blocos com título próprio, carta política e programação; cores: vinho, branco e vermelho. <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener">encontrolenirlivre.renap.org.br</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener"><img src="assets/ref/terradedireitos.jpg" alt="Banco de Petições do Terra de Direitos" loading="lazy" /></a>
+          <figcaption><b>Terra de Direitos</b> — menu por eixos de atuação; busca e filtros por tipo, órgão e ação. Cores: azul e branco. <a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener">banco de petições</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener"><img src="assets/ref/mam.jpg" alt="Biblioteca do MAM Nacional" loading="lazy" /></a>
+          <figcaption><b>MAM · biblioteca</b> — menu de 5 itens (MAM, Notícias, Internacional, Biblioteca, Contato); biblioteca em três blocos. Cores: vermelho e vinho. <a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener"><img src="assets/ref/democraciapopular.jpg" alt="Biblioteca da Democracia Popular" loading="lazy" /></a>
+          <figcaption><b>Democracia Popular · biblioteca</b> — menu com Fundação, Linhas de Atuação, Equipe e Apoie; busca; lista de arquivos com capa e data. Cores: vermelho e branco. <a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener">biblioteca</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://www.dpu.def.br/" target="_blank" rel="noopener"><img src="assets/ref/dpu.jpg" alt="Página inicial da DPU" loading="lazy" /></a>
+          <figcaption><b>DPU</b> — menu de 7 itens (Institucional, Unidades, Comunicação, Transparência); busca. Cores: azul e branco. <a href="https://www.dpu.def.br/" target="_blank" rel="noopener">dpu.def.br</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://www.renap.org.br/" target="_blank" rel="noopener"><img src="assets/ref/renap.jpg" alt="Site atual da RENAP" loading="lazy" /></a>
+          <figcaption><b>RENAP hoje</b> — menu de 5 itens (Início, Sobre, Encontro, Publicações, Blog); sem busca. Cores: vinho e bege. <a href="https://www.renap.org.br/" target="_blank" rel="noopener">renap.org.br</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://mst.org.br/" target="_blank" rel="noopener"><img src="assets/ref/mst.jpg" alt="Página inicial do MST" loading="lazy" /></a>
+          <figcaption><b>MST</b> — menu de 12 itens (O MST, Notícias, Mídias, Especiais, Rádios); busca; galerias de imagem. Cores: vermelho vivo e bege claro. <a href="https://mst.org.br/" target="_blank" rel="noopener">mst.org.br</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://mab.org.br/" target="_blank" rel="noopener"><img src="assets/ref/mab.jpg" alt="Página inicial do MAB" loading="lazy" /></a>
+          <figcaption><b>MAB</b> — menu de 9 itens em três idiomas (O MAB, Lutas, Apoie, Notícias); busca. Cores: verde e branco. <a href="https://mab.org.br/" target="_blank" rel="noopener">mab.org.br</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cpt.jpg" alt="Página inicial da CPT" loading="lazy" /></a>
+          <figcaption><b>CPT</b> — menu com Acervo, Biblioteca, Cedoc e Conflitos no campo; busca. Cores: vinho e branco. <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener">cptnacional.org.br</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://cimi.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cimi.jpg" alt="Página inicial do CIMI" loading="lazy" /></a>
+          <figcaption><b>CIMI</b> — menu por temas e por regionais (Amazônia, Goiás, Leste, Maranhão); login e busca. Cores: vinho e branco. <a href="https://cimi.org.br/" target="_blank" rel="noopener">cimi.org.br</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://www.abjd.org.br/" target="_blank" rel="noopener"><img src="assets/ref/abjd.jpg" alt="Página inicial da ABJD" loading="lazy" /></a>
+          <figcaption><b>ABJD</b> — menu com Núcleos Estaduais, Observatório e Área do Associado; busca e inscrição por e-mail. Cores: vermelho, vinho e branco. <a href="https://www.abjd.org.br/" target="_blank" rel="noopener">abjd.org.br</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://coletivoveredas.org/" target="_blank" rel="noopener"><img src="assets/ref/veredas.jpg" alt="Página do Coletivo Veredas" loading="lazy" /></a>
+          <figcaption><b>Coletivo Veredas</b> — menu de 4 itens (Coletivo, Áreas acompanhadas, Equipe, Contato); sem busca. Cores: creme e marrom. <a href="https://coletivoveredas.org/" target="_blank" rel="noopener">coletivoveredas.org</a></figcaption>
+        </figure>
+        <figure>
+          <a href="https://www.mpf.mp.br/" target="_blank" rel="noopener"><img src="assets/ref/mpf.jpg" alt="Página inicial do MPF" loading="lazy" /></a>
+          <figcaption><b>MPF</b> — menu institucional mais serviços ao cidadão; busca; área restrita. Cores: azul-escuro e branco. <a href="https://www.mpf.mp.br/" target="_blank" rel="noopener">mpf.mp.br</a></figcaption>
+        </figure>
+      </div>
+      <p class="folha"><b>O que olhar:</b> como cada um organiza documento, busca, menu e capa.</p>
+    </div>
+  </section>
+  <section class="tela" aria-label="O que os portais de referência têm em comum">
     <div class="tela__fundo" aria-hidden="true"></div>
     <div class="miolo">
       <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🧩</span>Comparação · 12 páginas</p>
@@ -1584,54 +1667,6 @@ a:hover { text-decoration-thickness: 2px; }
         </div>
       </div>
       <p class="folha"><b>Medido nas 12 telas:</b> menu e contato em todas; busca em 10; acervo com nome próprio em 5; troca de tema em nenhuma.</p>
-    </div>
-  </section>
-
-  <!-- 7 · SÓBRIO OU COM EFEITOS -->
-  <section class="tela" aria-label="Referências: acervos, órgãos e movimentos">
-    <div class="tela__fundo" aria-hidden="true"></div>
-    <div class="miolo">
-      <p class="olho sobe" style="--i:0"><span class="emoji" aria-hidden="true">🖼️</span>Referências</p>
-      <h2 class="titulo sobe" style="--i:1">Referências: acervos e movimentos</h2>
-      <p class="resumo sobe" style="--i:2">Quinze páginas olhadas: como cada uma organiza documento, busca, menu e capa. Seis ficam aqui; as outras nove, na lista.</p>
-      <div class="refs refs--6">
-        <figure>
-          <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener"><img src="assets/ref/controlepopular.jpg" alt="Página inicial do Controle Popular" loading="lazy" /></a>
-          <figcaption><b>Controle Popular</b> — mística do dia e biomas na capa. <a href="https://www.controlepopular.com.br/" target="_blank" rel="noopener">controlepopular.com.br</a></figcaption>
-        </figure>
-        <figure>
-          <a href="https://cma.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cma.jpg" alt="Página inicial da CMA" loading="lazy" /></a>
-          <figcaption><b>CMA</b> — menu curto, busca no topo, foto de comunidade. <a href="https://cma.org.br/" target="_blank" rel="noopener">cma.org.br</a></figcaption>
-        </figure>
-        <figure>
-          <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener"><img src="assets/ref/lenirlivre.jpg" alt="Página do 30º Encontro Nacional da RENAP, Lenir Correia Livre" loading="lazy" /></a>
-          <figcaption><b>30º Encontro · Lenir Correia Livre</b> — blocos com título próprio e carta política. <a href="https://encontrolenirlivre.renap.org.br/" target="_blank" rel="noopener">encontrolenirlivre.renap.org.br</a></figcaption>
-        </figure>
-        <figure>
-          <a href="https://mst.org.br/" target="_blank" rel="noopener"><img src="assets/ref/mst.jpg" alt="Página inicial do MST" loading="lazy" /></a>
-          <figcaption><b>MST</b> — 12 itens, busca e galerias de imagem. <a href="https://mst.org.br/" target="_blank" rel="noopener">mst.org.br</a></figcaption>
-        </figure>
-        <figure>
-          <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener"><img src="assets/ref/cpt.jpg" alt="Página inicial da CPT" loading="lazy" /></a>
-          <figcaption><b>CPT</b> — acervo, biblioteca e Cedoc no mesmo menu. <a href="https://www.cptnacional.org.br/" target="_blank" rel="noopener">cptnacional.org.br</a></figcaption>
-        </figure>
-        <figure>
-          <a href="https://www.abjd.org.br/" target="_blank" rel="noopener"><img src="assets/ref/abjd.jpg" alt="Página inicial da ABJD" loading="lazy" /></a>
-          <figcaption><b>ABJD</b> — núcleos estaduais, observatório e área do associado. <a href="https://www.abjd.org.br/" target="_blank" rel="noopener">abjd.org.br</a></figcaption>
-        </figure>
-      </div>
-      <p class="etiqueta" style="margin-top:var(--e3)"><span class="emoji" aria-hidden="true">📎</span>Também olhamos</p>
-      <ul class="fichas" style="margin-top:var(--e2)">
-        <li><a href="https://terradedireitos.org.br/biblioteca/banco-de-peticoes" target="_blank" rel="noopener">Terra de Direitos</a></li>
-        <li><a href="https://www.mamnacional.org.br/biblioteca/" target="_blank" rel="noopener">MAM · biblioteca</a></li>
-        <li><a href="https://democraciapopular.org.br/biblioteca/" target="_blank" rel="noopener">Democracia Popular</a></li>
-        <li><a href="https://www.dpu.def.br/" target="_blank" rel="noopener">DPU</a></li>
-        <li><a href="https://www.renap.org.br/" target="_blank" rel="noopener">RENAP hoje</a></li>
-        <li><a href="https://mab.org.br/" target="_blank" rel="noopener">MAB</a></li>
-        <li><a href="https://cimi.org.br/" target="_blank" rel="noopener">CIMI</a></li>
-        <li><a href="https://coletivoveredas.org/" target="_blank" rel="noopener">Coletivo Veredas</a></li>
-        <li><a href="https://www.mpf.mp.br/" target="_blank" rel="noopener">MPF</a></li>
-      </ul>
     </div>
   </section>
 
@@ -1985,19 +2020,19 @@ a:hover { text-decoration-thickness: 2px; }
             <tr><th>Onde</th><th>Plano</th><th>Mais barato</th><th>Observação</th></tr>
           </thead>
           <tbody>
-            <tr><td><span class="emoji" aria-hidden="true">☁️</span> Guara Cloud (BR)</td><td data-rotulo="Plano">Starter</td><td data-rotulo="Mais barato" class="barato">R$ 19,99/mês</td><td data-rotulo="Observação">20 GiB, 3 dias de teste grátis</td></tr>
-            <tr><td><span class="emoji" aria-hidden="true">👑</span> KingHost (BR)</td><td data-rotulo="Plano">Hospedagem I</td><td data-rotulo="Mais barato" class="barato">R$ 5,99/mês</td><td data-rotulo="Observação">no ciclo de 2 anos; tabela R$ 29,90</td></tr>
-            <tr><td><span class="emoji" aria-hidden="true">🐊</span> HostGator (BR)</td><td data-rotulo="Plano">Plano P</td><td data-rotulo="Mais barato" class="barato">R$ 10,09/mês</td><td data-rotulo="Observação">servidores no Brasil; ciclo longo</td></tr>
-            <tr><td><span class="emoji" aria-hidden="true">🚀</span> Hostinger</td><td data-rotulo="Plano">entrada</td><td data-rotulo="Mais barato" class="barato">R$ 5,99/mês</td><td data-rotulo="Observação">promoção; renovação R$ 29,99</td></tr>
+            <tr><td><span class="emoji" aria-hidden="true">☁️</span> <a href="https://guaracloud.com/" target="_blank" rel="noopener">Guara Cloud</a> (BR)</td><td data-rotulo="Plano">Starter</td><td data-rotulo="Mais barato" class="barato">R$ 19,99/mês</td><td data-rotulo="Observação">20 GiB, 3 dias de teste grátis</td></tr>
+            <tr><td><span class="emoji" aria-hidden="true">👑</span> <a href="https://www.king.host/" target="_blank" rel="noopener">KingHost</a> (BR)</td><td data-rotulo="Plano">Hospedagem I</td><td data-rotulo="Mais barato" class="barato">R$ 5,99/mês</td><td data-rotulo="Observação">no ciclo de 2 anos; tabela R$ 29,90</td></tr>
+            <tr><td><span class="emoji" aria-hidden="true">🐊</span> <a href="https://www.hostgator.com.br/" target="_blank" rel="noopener">HostGator</a> (BR)</td><td data-rotulo="Plano">Plano P</td><td data-rotulo="Mais barato" class="barato">R$ 10,09/mês</td><td data-rotulo="Observação">servidores no Brasil; ciclo longo</td></tr>
+            <tr><td><span class="emoji" aria-hidden="true">🚀</span> <a href="https://www.hostinger.com.br/" target="_blank" rel="noopener">Hostinger</a></td><td data-rotulo="Plano">entrada</td><td data-rotulo="Mais barato" class="barato">R$ 5,99/mês</td><td data-rotulo="Observação">promoção; renovação R$ 29,99</td></tr>
             <tr><td><span class="emoji" aria-hidden="true">🧩</span> <a href="https://www.wix.com/" target="_blank" rel="noopener">Wix</a> (conta da RENAP)</td><td data-rotulo="Plano">Inicial</td><td data-rotulo="Mais barato">R$ 15/mês</td><td data-rotulo="Observação">2 GB; 50% no 1º ciclo anual, sem impostos</td></tr>
-            <tr><td><span class="emoji" aria-hidden="true">🧩</span> Wix (conta da RENAP)</td><td data-rotulo="Plano">Profissional</td><td data-rotulo="Mais barato">R$ 170/mês</td><td data-rotulo="Observação">100 colaboradores; armazenamento ilimitado</td></tr>
-            <tr><td><span class="emoji" aria-hidden="true">⚡</span> Cloudflare Pages</td><td data-rotulo="Plano">estático</td><td data-rotulo="Mais barato" class="barato">R$ 0</td><td data-rotulo="Observação">serve esta apresentação</td></tr>
+            <tr><td><span class="emoji" aria-hidden="true">🧩</span> <a href="https://www.wix.com/" target="_blank" rel="noopener">Wix</a> (conta da RENAP)</td><td data-rotulo="Plano">Profissional</td><td data-rotulo="Mais barato">R$ 170/mês</td><td data-rotulo="Observação">100 colaboradores; armazenamento ilimitado</td></tr>
+            <tr><td><span class="emoji" aria-hidden="true">⚡</span> <a href="https://pages.cloudflare.com/" target="_blank" rel="noopener">Cloudflare Pages</a></td><td data-rotulo="Plano">estático</td><td data-rotulo="Mais barato" class="barato">R$ 0</td><td data-rotulo="Observação">serve esta apresentação</td></tr>
             <tr><td><span class="emoji" aria-hidden="true">🌐</span> Domínio .org.br</td><td data-rotulo="Plano">renap.org.br</td><td data-rotulo="Mais barato">tabela <a href="https://registro.br/" target="_blank" rel="noopener">Registro.br</a></td><td data-rotulo="Observação">já registrado; renovação anual</td></tr>
           </tbody>
         </table>
       </div>
       <p class="nota-custo">
-        <b>WordPress</b> não tem linha: o programa é grátis, o custo é a hospedagem acima. <b>Wix:</b> valores do painel da própria RENAP, com 50% no primeiro ciclo anual e impostos fora.
+        <b><a href="https://br.wordpress.org/" target="_blank" rel="noopener">WordPress</a></b> não tem linha: o programa é grátis, o custo é a hospedagem acima. <b><a href="https://www.wix.com/" target="_blank" rel="noopener">Wix</a>:</b> valores do painel da própria RENAP, com 50% no primeiro ciclo anual e impostos fora.
         <b>Domínio:</b> o <a href="https://registro.br/" target="_blank" rel="noopener">Registro.br</a> não abriu a tabela para leitura automatizada hoje —
         confirme o valor no painel e eu atualizo aqui.
       </p>
